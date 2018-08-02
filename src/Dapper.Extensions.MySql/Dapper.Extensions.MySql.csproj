@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageProjectUrl>https://github.com/ww198643/Dapper.Extensions</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Dapper extensions for MySql.</Description>
+    <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
+    <Authors>Kakous</Authors>
+    <Company>Kakous</Company>
+    <Version>1.0.1</Version>
+    <PackageTags>Dapper,Extensions,DataBase,MySql</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

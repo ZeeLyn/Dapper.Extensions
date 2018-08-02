@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/ww198643/Dapper.Extensions</PackageProjectUrl>
+    <Description>Dapper extensions for ODBC.</Description>
+    <PackageTags>Dapper,Extensions,DataBase,ODBC</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
+    <Authors>Kakous</Authors>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

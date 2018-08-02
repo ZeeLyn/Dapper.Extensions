@@ -42,8 +42,8 @@ namespace Example
 				var container = c.Resolve<IComponentContext>();
 				return named => container.ResolveNamed<IDapper>(named);
 			});
-			builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").PropertiesAutowired().InstancePerLifetimeScope();
-			builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").PropertiesAutowired().InstancePerLifetimeScope();
+			builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
+			builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
 			builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
 				.Where(t => t.Name.EndsWith("Controller"))
 				.PropertiesAutowired().InstancePerLifetimeScope();
