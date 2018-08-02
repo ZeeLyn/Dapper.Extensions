@@ -174,3 +174,7 @@ crashlytics-build.properties
 /DmtMax.Data.Cloud/.vs/DmtMax.Data.Cloud
 /DmtMax.Data.Cloud/src/DmtMax.Data.Cloud.DataCollectApi/Xml
 /.gitattributes
+*.ide-wal
+*.ide-shm
+.vs/Dapper.Extensions/v15/Server/sqlite3/db.lock
+.vs/Dapper.Extensions/v15/Server/sqlite3/storage.ide
