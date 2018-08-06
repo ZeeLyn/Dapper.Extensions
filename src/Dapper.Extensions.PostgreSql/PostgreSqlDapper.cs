@@ -17,7 +17,7 @@ namespace Dapper.Extensions.PostgreSql
 			var connstring = DbConnectionManager.GetConnectionString(connectionName);
 			IDbConnection conn = NpgsqlFactory.Instance.CreateConnection();
 			if (conn == null)
-				throw new ArgumentNullException(nameof(IDbConnection), "获取数据库连接对象失败");
+				throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
 			conn.ConnectionString = connstring;
 			conn.Open();
 			return conn;
@@ -27,9 +27,9 @@ namespace Dapper.Extensions.PostgreSql
 		public override async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);
@@ -63,9 +63,9 @@ namespace Dapper.Extensions.PostgreSql
 		public override async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);
@@ -99,9 +99,9 @@ namespace Dapper.Extensions.PostgreSql
 		public override PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);
@@ -135,9 +135,9 @@ namespace Dapper.Extensions.PostgreSql
 		public override PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);

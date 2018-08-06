@@ -121,9 +121,9 @@ namespace Dapper.Extensions
 		public virtual async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);
@@ -158,9 +158,9 @@ namespace Dapper.Extensions
 			int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);
@@ -194,9 +194,9 @@ namespace Dapper.Extensions
 		public virtual PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);
@@ -232,9 +232,9 @@ namespace Dapper.Extensions
 			int? commandTimeout = null)
 		{
 			if (pageindex < 1)
-				throw new ArgumentException("pageindex不能小于1");
+				throw new ArgumentException("The pageindex cannot be less then 1.");
 			if (pagesize < 1)
-				throw new ArgumentException("pagesize不能小于1");
+				throw new ArgumentException("The pagesize cannot be less then 1.");
 			var pars = new DynamicParameters();
 			if (param != null)
 				pars.AddDynamicParams(param);

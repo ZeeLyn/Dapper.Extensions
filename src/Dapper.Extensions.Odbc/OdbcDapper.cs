@@ -15,7 +15,7 @@ namespace Dapper.Extensions.Odbc
 			var connstring = DbConnectionManager.GetConnectionString(connectionName);
 			IDbConnection conn = OdbcFactory.Instance.CreateConnection();
 			if (conn == null)
-				throw new ArgumentNullException(nameof(IDbConnection), "获取数据库连接对象失败");
+				throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
 			conn.ConnectionString = connstring;
 			conn.Open();
 			return conn;
