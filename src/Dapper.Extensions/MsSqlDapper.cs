@@ -10,7 +10,7 @@ namespace Dapper.Extensions
 		public MsSqlDapper(string connectionName) : base(connectionName)
 		{
 		}
-		protected internal override IDbConnection CreateConnection(string connectionName)
+		protected override IDbConnection CreateConnection(string connectionName)
 		{
 			var connstring = DbConnectionManager.GetConnectionString(connectionName);
 			IDbConnection conn = SqlClientFactory.Instance.CreateConnection();

@@ -8,118 +8,117 @@ namespace Dapper.Extensions
 {
 	public abstract class DbDapper : IDapper
 	{
-		protected internal Lazy<IDbConnection> _conn { get; }
+		protected internal Lazy<IDbConnection> Conn { get; }
 
-		protected internal IDbTransaction _transaction { get; set; }
+		protected internal IDbTransaction Transaction { get; set; }
 
-
-		protected internal abstract IDbConnection CreateConnection(string connectionName);
+		protected abstract IDbConnection CreateConnection(string connectionName);
 
 		protected DbDapper(string connectionName)
 		{
-			_conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
+			Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
 		}
 
-		public override async Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null)
 		{
-			return (await _conn.Value.QueryAsync<T>(sql, param, _transaction, commandTimeout)).AsList();
+			return (await Conn.Value.QueryAsync<T>(sql, param, Transaction, commandTimeout)).AsList();
 		}
 
-		public override List<T> Query<T>(string sql, object param = null, int? commandTimeout = null)
+		public virtual List<T> Query<T>(string sql, object param = null, int? commandTimeout = null)
 		{
-			return _conn.Value.Query<T>(sql, param, _transaction, commandTimeout: commandTimeout).AsList();
+			return Conn.Value.Query<T>(sql, param, Transaction, commandTimeout: commandTimeout).AsList();
 		}
 
-		public override async Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null)
 		{
-			return (await _conn.Value.QueryAsync<dynamic>(sql, param, _transaction, commandTimeout)).AsList();
+			return (await Conn.Value.QueryAsync<dynamic>(sql, param, Transaction, commandTimeout)).AsList();
 		}
 
-		public override List<dynamic> Query(string sql, object param = null, int? commandTimeout = null)
+		public virtual List<dynamic> Query(string sql, object param = null, int? commandTimeout = null)
 		{
-			return _conn.Value.Query<dynamic>(sql, param, _transaction, commandTimeout: commandTimeout).AsList();
+			return Conn.Value.Query<dynamic>(sql, param, Transaction, commandTimeout: commandTimeout).AsList();
 		}
 
-		public override async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null)
 		{
-			return await _conn.Value.QueryFirstOrDefaultAsync<T>(sql, param, _transaction, commandTimeout);
+			return await Conn.Value.QueryFirstOrDefaultAsync<T>(sql, param, Transaction, commandTimeout);
 		}
 
-		public override T QueryFirstOrDefault<T>(string sql, object param = null, int? commandTimeout = null)
+		public virtual T QueryFirstOrDefault<T>(string sql, object param = null, int? commandTimeout = null)
 		{
-			return _conn.Value.QueryFirstOrDefault<T>(sql, param, _transaction, commandTimeout);
+			return Conn.Value.QueryFirstOrDefault<T>(sql, param, Transaction, commandTimeout);
 		}
 
-		public override async Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null)
 		{
-			return await _conn.Value.QueryFirstOrDefaultAsync<dynamic>(sql, param, _transaction, commandTimeout);
+			return await Conn.Value.QueryFirstOrDefaultAsync<dynamic>(sql, param, Transaction, commandTimeout);
 		}
 
-		public override dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null)
+		public virtual dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null)
 		{
-			return _conn.Value.QueryFirstOrDefault<dynamic>(sql, param, _transaction, commandTimeout);
+			return Conn.Value.QueryFirstOrDefault<dynamic>(sql, param, Transaction, commandTimeout);
 		}
 
-		public override async Task QueryMultipleAsync(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null)
+		public virtual async Task QueryMultipleAsync(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null)
 		{
-			using (var multi = await _conn.Value.QueryMultipleAsync(sql, param, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
 			{
 				reader(multi);
 				multi.Dispose();
 			}
 		}
 
-		public override void QueryMultiple(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null)
+		public virtual void QueryMultiple(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null)
 		{
-			using (var multi = _conn.Value.QueryMultiple(sql, param, _transaction, commandTimeout))
+			using (var multi = Conn.Value.QueryMultiple(sql, param, Transaction, commandTimeout))
 			{
 				reader(multi);
 				multi.Dispose();
 			}
 		}
 
-		public override async Task<Tuple<List<T1>, List<T2>>> QueryMultipleAsync<T1, T2>(string sql,
+		public virtual async Task<Tuple<List<T1>, List<T2>>> QueryMultipleAsync<T1, T2>(string sql,
 			object param = null, int? commandTimeout = null)
 		{
-			using (var multi = await _conn.Value.QueryMultipleAsync(sql, param, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
 			{
 				return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList());
 			}
 		}
 
-		public override async Task<Tuple<List<T1>, List<T2>, List<T3>>> QueryMultipleAsync<T1, T2, T3>(
+		public virtual async Task<Tuple<List<T1>, List<T2>, List<T3>>> QueryMultipleAsync<T1, T2, T3>(
 			string sql,
 			object param = null, int? commandTimeout = null)
 		{
-			using (var multi = await _conn.Value.QueryMultipleAsync(sql, param, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
 			{
 				return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList(),
 					(await multi.ReadAsync<T3>()).AsList());
 			}
 		}
 
-		public override async Task<Tuple<List<T1>, List<T2>, List<T3>, List<T4>>> QueryMultipleAsync<T1, T2, T3, T4>(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<Tuple<List<T1>, List<T2>, List<T3>, List<T4>>> QueryMultipleAsync<T1, T2, T3, T4>(string sql, object param = null, int? commandTimeout = null)
 		{
-			using (var multi = await _conn.Value.QueryMultipleAsync(sql, param, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
 			{
 				return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList(),
 					(await multi.ReadAsync<T3>()).AsList(), (await multi.ReadAsync<T4>()).AsList());
 			}
 		}
 
-		public override async Task<Tuple<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>>> QueryMultipleAsync
+		public virtual async Task<Tuple<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>>> QueryMultipleAsync
 			<T1, T2, T3, T4, T5>(
 				string sql,
 				object param = null, int? commandTimeout = null)
 		{
-			using (var multi = await _conn.Value.QueryMultipleAsync(sql, param, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
 			{
 				return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList(),
 					(await multi.ReadAsync<T3>()).AsList(), (await multi.ReadAsync<T4>()).AsList(), (await multi.ReadAsync<T5>()).AsList());
 			}
 		}
 
-		public override async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
+		public virtual async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
 				throw new ArgumentException("pageindex不能小于1");
@@ -135,7 +134,7 @@ namespace Dapper.Extensions
 				TakeEnd = pageindex * pagesize
 			});
 
-			using (var multi = await _conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 				var count = (await multi.ReadAsync<int>()).FirstOrDefault();
 				var data = (await multi.ReadAsync<T>()).AsList();
@@ -155,7 +154,7 @@ namespace Dapper.Extensions
 			}
 		}
 
-		public override async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pagesize, object param = null,
+		public virtual async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pagesize, object param = null,
 			int? commandTimeout = null)
 		{
 			if (pageindex < 1)
@@ -172,7 +171,7 @@ namespace Dapper.Extensions
 				TakeEnd = pageindex * pagesize
 			});
 
-			using (var multi = await _conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 				var count = (await multi.ReadAsync<int>()).FirstOrDefault();
 				var data = (await multi.ReadAsync()).AsList();
@@ -192,7 +191,7 @@ namespace Dapper.Extensions
 			}
 		}
 
-		public override PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
+		public virtual PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
 		{
 			if (pageindex < 1)
 				throw new ArgumentException("pageindex不能小于1");
@@ -208,7 +207,7 @@ namespace Dapper.Extensions
 				TakeEnd = pageindex * pagesize
 			});
 
-			using (var multi = _conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = Conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 
 				var count = multi.Read<int>().FirstOrDefault();
@@ -229,7 +228,7 @@ namespace Dapper.Extensions
 			}
 		}
 
-		public override PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pagesize, object param = null,
+		public virtual PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pagesize, object param = null,
 			int? commandTimeout = null)
 		{
 			if (pageindex < 1)
@@ -246,7 +245,7 @@ namespace Dapper.Extensions
 				TakeEnd = pageindex * pagesize
 			});
 
-			using (var multi = _conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = Conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 
 				var count = multi.Read<int>().FirstOrDefault();
@@ -267,53 +266,53 @@ namespace Dapper.Extensions
 			}
 		}
 
-		public override async Task<int> ExecuteAsync(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<int> ExecuteAsync(string sql, object param = null, int? commandTimeout = null)
 		{
-			return await _conn.Value.ExecuteAsync(sql, param, _transaction, commandTimeout);
+			return await Conn.Value.ExecuteAsync(sql, param, Transaction, commandTimeout);
 		}
 
-		public override int Execute(string sql, object param = null, int? commandTimeout = null)
+		public virtual int Execute(string sql, object param = null, int? commandTimeout = null)
 		{
-			return _conn.Value.Execute(sql, param, _transaction, commandTimeout);
+			return Conn.Value.Execute(sql, param, Transaction, commandTimeout);
 		}
 
 
-		public override async Task<T> ExecuteScalarAsync<T>(string sql, object param = null, int? commandTimeout = null)
+		public virtual async Task<T> ExecuteScalarAsync<T>(string sql, object param = null, int? commandTimeout = null)
 		{
-			return await _conn.Value.ExecuteScalarAsync<T>(sql, param, _transaction, commandTimeout);
+			return await Conn.Value.ExecuteScalarAsync<T>(sql, param, Transaction, commandTimeout);
 		}
 
-		public override T ExecuteScalar<T>(string sql, object param = null, int? commandTimeout = null)
+		public virtual T ExecuteScalar<T>(string sql, object param = null, int? commandTimeout = null)
 		{
-			return _conn.Value.ExecuteScalar<T>(sql, param, _transaction, commandTimeout);
+			return Conn.Value.ExecuteScalar<T>(sql, param, Transaction, commandTimeout);
 		}
 
-		public override IDbTransaction BeginTransaction()
+		public virtual IDbTransaction BeginTransaction()
 		{
-			return _transaction = _conn.Value.BeginTransaction();
+			return Transaction = Conn.Value.BeginTransaction();
 		}
 
-		public override IDbTransaction BeginTransaction(IsolationLevel level)
+		public virtual IDbTransaction BeginTransaction(IsolationLevel level)
 		{
-			return _transaction = _conn.Value.BeginTransaction(level);
+			return Transaction = Conn.Value.BeginTransaction(level);
 		}
 
-		public override void CommitTransaction()
+		public virtual void CommitTransaction()
 		{
-			_transaction.Commit();
+			Transaction.Commit();
 		}
 
-		public override void RollbackTransaction()
+		public virtual void RollbackTransaction()
 		{
-			_transaction.Rollback();
+			Transaction.Rollback();
 		}
 
-		public override void Dispose()
+		public virtual void Dispose()
 		{
-			_transaction?.Dispose();
-			if (!_conn.IsValueCreated) return;
-			_conn?.Value?.Close();
-			_conn?.Value?.Dispose();
+			Transaction?.Dispose();
+			if (!Conn.IsValueCreated) return;
+			Conn?.Value?.Close();
+			Conn?.Value?.Dispose();
 		}
 	}
 }
