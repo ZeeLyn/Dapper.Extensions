@@ -15,6 +15,8 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 			});
 			builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
 			builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
+			builder.RegisterType<OdbcDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
+			builder.RegisterType<PostgreSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
 			builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
 				.Where(t => t.Name.EndsWith("Controller"))
 				.PropertiesAutowired().InstancePerLifetimeScope();
