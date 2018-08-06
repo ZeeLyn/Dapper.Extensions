@@ -38,7 +38,7 @@ namespace Dapper.Extensions.MySql
 				Take = pagesize
 			});
 
-			using (var multi = await _conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 				var count = (await multi.ReadAsync<long>()).FirstOrDefault();
 				var data = (await multi.ReadAsync<T>()).AsList();
@@ -74,7 +74,7 @@ namespace Dapper.Extensions.MySql
 				Take = pagesize
 			});
 
-			using (var multi = await _conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = await Conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 				var count = (await multi.ReadAsync<long>()).FirstOrDefault();
 				var data = (await multi.ReadAsync()).AsList();
@@ -110,7 +110,7 @@ namespace Dapper.Extensions.MySql
 				Take = pagesize
 			});
 
-			using (var multi = _conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = Conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 
 				var count = multi.Read<long>().FirstOrDefault();
@@ -146,7 +146,7 @@ namespace Dapper.Extensions.MySql
 				Take = pagesize
 			});
 
-			using (var multi = _conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, _transaction, commandTimeout))
+			using (var multi = Conn.Value.QueryMultiple($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
 			{
 
 				var count = multi.Read<long>().FirstOrDefault();

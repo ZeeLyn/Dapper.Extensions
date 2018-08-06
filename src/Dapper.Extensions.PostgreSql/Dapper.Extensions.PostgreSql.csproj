@@ -8,7 +8,7 @@
     <RepositoryUrl />
     <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <PackageTags>Dapper,Extensions,DataBase,PostgreSql</PackageTags>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Kakous</Authors>
   </PropertyGroup>
 
