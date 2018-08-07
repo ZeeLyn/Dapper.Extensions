@@ -21,8 +21,9 @@ namespace Example.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
+			Repo.BeginTransaction();
 			var result = await Repo.QueryFirstOrDefaultAsync("select * from h5 ;");
-
+			Repo.CommitTransaction();
 			return Ok(result);
 		}
 	}

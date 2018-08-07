@@ -8,9 +8,9 @@ namespace Dapper.Extensions
 {
 	public abstract class DbDapper : IDapper
 	{
-		protected internal Lazy<IDbConnection> Conn { get; }
+		public Lazy<IDbConnection> Conn { get; }
 
-		protected internal IDbTransaction Transaction { get; set; }
+		public IDbTransaction Transaction { get; private set; }
 
 		protected abstract IDbConnection CreateConnection(string connectionName);
 

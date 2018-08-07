@@ -7,6 +7,10 @@ namespace Dapper.Extensions
 {
 	public interface IDapper : IDisposable
 	{
+		Lazy<IDbConnection> Conn { get; }
+
+		IDbTransaction Transaction { get; }
+
 		/// <summary>
 		/// 查询返回列表
 		/// </summary>
