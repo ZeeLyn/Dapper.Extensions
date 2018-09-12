@@ -8,8 +8,9 @@
     <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <Authors>Kakous</Authors>
     <Company>Kakous</Company>
-    <Version>1.0.2</Version>
+    <Version>1.1.0</Version>
     <PackageTags>Dapper,Extensions,DataBase,MySql</PackageTags>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

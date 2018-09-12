@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions
 {
@@ -10,6 +11,8 @@ namespace Dapper.Extensions
 		Lazy<IDbConnection> Conn { get; }
 
 		IDbTransaction Transaction { get; }
+
+		IConfiguration Configuration { get; set; }
 
 		/// <summary>
 		/// 查询返回列表

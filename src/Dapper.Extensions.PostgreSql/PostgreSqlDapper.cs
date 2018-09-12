@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Npgsql;
 
 namespace Dapper.Extensions.PostgreSql
@@ -14,11 +15,13 @@ namespace Dapper.Extensions.PostgreSql
 
 		protected override IDbConnection CreateConnection(string connectionName)
 		{
-			var connstring = DbConnectionManager.GetConnectionString(connectionName);
+			var connString = Configuration.GetConnectionString(connectionName);
+			if (string.IsNullOrWhiteSpace(connString))
+				throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
 			IDbConnection conn = NpgsqlFactory.Instance.CreateConnection();
 			if (conn == null)
 				throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
-			conn.ConnectionString = connstring;
+			conn.ConnectionString = connString;
 			conn.Open();
 			return conn;
 		}

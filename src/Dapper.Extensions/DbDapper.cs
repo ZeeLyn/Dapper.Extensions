@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions
 {
@@ -11,6 +12,8 @@ namespace Dapper.Extensions
 		public Lazy<IDbConnection> Conn { get; }
 
 		public IDbTransaction Transaction { get; private set; }
+
+		public IConfiguration Configuration { get; set; }
 
 		protected abstract IDbConnection CreateConnection(string connectionName);
 

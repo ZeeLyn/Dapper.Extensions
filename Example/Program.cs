@@ -10,15 +10,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Example
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			CreateWebHostBuilder(args).Build().Run();
+		}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+			WebHost.CreateDefaultBuilder(args).ConfigureAppConfiguration((cxt, builder) => { builder.AddJsonFile("appsettings.json", false, true); }).UseStartup<Startup>();
+	}
 }

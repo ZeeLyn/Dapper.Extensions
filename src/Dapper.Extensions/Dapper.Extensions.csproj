@@ -7,15 +7,15 @@
     <PackageId>Dapper.Extensions.NetCore</PackageId>
     <Description>Dapper extensions.</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <Version>1.0.2</Version>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <Authors>Kakous</Authors>
     <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AppSettings.Loader" Version="2.0.1" />
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
   </ItemGroup>
 
 </Project>
