@@ -1,5 +1,10 @@
 # Dapper.Extensions - Dapper-based extension library,Support circuit breaker based on Polly and AspectCore.
 
+## Components
+* [Dapper](https://github.com/StackExchange/Dapper)
+* [AspectCore](https://github.com/dotnetcore/AspectCore-Framework)
+* [Polly](https://github.com/App-vNext/Polly/)
+
 ## Usage
 ```cssharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
