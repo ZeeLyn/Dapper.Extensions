@@ -46,3 +46,37 @@ public class ValuesController : ControllerBase
 		}
 	}
 ```
+
+
+## Circuit breaker
+
+### Use Autofac
+```cssharp
+public IServiceProvider ConfigureServices(IServiceCollection services)
+		{
+
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+
+			var builder = new ContainerBuilder();
+			builder.Populate(services);
+			builder.Register<Func<string, IDapper>>(c =>
+			{
+				var container = c.Resolve<IComponentContext>();
+				return named => container.ResolveNamed<IDapper>(named);
+			});
+			builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").PropertiesAutowired().InstancePerLifetimeScope();
+			builder.AddDapperCircuitBreaker();
+			ApplicationContainer = builder.Build();
+			return new AutofacServiceProvider(ApplicationContainer);
+		}
+```
+
+
+### Use DependencyInjection
+```cssharp
+public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+			services.AddDapperCircuitBreaker();
+		}
+```
