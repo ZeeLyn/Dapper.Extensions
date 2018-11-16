@@ -5,6 +5,23 @@
 * [AspectCore](https://github.com/dotnetcore/AspectCore-Framework)
 * [Polly](https://github.com/App-vNext/Polly/)
 
+## Installing via NuGet
+
+Install-Package Dapper.Extensions.NetCore
+
+Install-Package Dapper.Extensions.MySql
+
+Install-Package Dapper.Extensions.PostgreSql
+
+Install-Package Dapper.Extensions.Odbc
+
+Install-Package Dapper.Extensions.CircuitBreaker
+
+Install-Package Dapper.Extensions.CircuitBreaker.Autofac
+
+Install-Package Dapper.Extensions.CircuitBreaker.DependencyInjection
+
+
 ## Usage
 ```cssharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
