@@ -1,4 +1,6 @@
-# Dapper.Extensions - Dapper-based extension library,Support circuit breaker based on Polly and AspectCore.
+# Dapper.Extensions
+Dapper-based extension library,support circuit breaker based on Polly and AspectCore.No intrusion into the project code.
+
 
 ## Components
 * [Dapper](https://github.com/StackExchange/Dapper)
