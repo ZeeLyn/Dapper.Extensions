@@ -1,5 +1,6 @@
-# Dapper.Extensions
+# Dapper.Extensions - Dapper-based extension library,Support circuit breaker based on Polly and AspectCore.
 
+## Usage
 ```cssharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
