@@ -1,30 +1,5 @@
 # Dapper.Extensions
-Dapper-based extension library,support circuit breaker based on Polly and AspectCore.No intrusion into the project code.
 
-
-## Components
-* [Dapper](https://github.com/StackExchange/Dapper)
-* [AspectCore](https://github.com/dotnetcore/AspectCore-Framework)
-* [Polly](https://github.com/App-vNext/Polly/)
-
-## Installing via NuGet
-
-Install-Package Dapper.Extensions.NetCore
-
-Install-Package Dapper.Extensions.MySql
-
-Install-Package Dapper.Extensions.PostgreSql
-
-Install-Package Dapper.Extensions.Odbc
-
-Install-Package Dapper.Extensions.CircuitBreaker
-
-Install-Package Dapper.Extensions.CircuitBreaker.Autofac
-
-Install-Package Dapper.Extensions.CircuitBreaker.DependencyInjection
-
-
-## Usage
 ```cssharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
@@ -69,38 +44,4 @@ public class ValuesController : ControllerBase
 			return Ok(result);
 		}
 	}
-```
-
-
-## Circuit breaker
-
-### Use Autofac
-```cssharp
-public IServiceProvider ConfigureServices(IServiceCollection services)
-		{
-
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-
-			var builder = new ContainerBuilder();
-			builder.Populate(services);
-			builder.Register<Func<string, IDapper>>(c =>
-			{
-				var container = c.Resolve<IComponentContext>();
-				return named => container.ResolveNamed<IDapper>(named);
-			});
-			builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").PropertiesAutowired().InstancePerLifetimeScope();
-			builder.AddDapperCircuitBreaker();
-			ApplicationContainer = builder.Build();
-			return new AutofacServiceProvider(ApplicationContainer);
-		}
-```
-
-
-### Use DependencyInjection
-```cssharp
-public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-			services.AddDapperCircuitBreaker();
-		}
 ```
