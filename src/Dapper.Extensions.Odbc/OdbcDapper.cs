@@ -5,23 +5,23 @@ using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions.Odbc
 {
-	public class OdbcDapper : DbDapper
-	{
-		public OdbcDapper(string connectionName) : base(connectionName)
-		{
-		}
+    public class OdbcDapper : DbDapper
+    {
+        public OdbcDapper(IConfiguration configuration, string connectionName = "DefaultConnection") : base(configuration, connectionName)
+        {
+        }
 
-		protected override IDbConnection CreateConnection(string connectionName)
-		{
-			var connString = Configuration.GetConnectionString(connectionName);
-			if (string.IsNullOrWhiteSpace(connString))
-				throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
-			IDbConnection conn = OdbcFactory.Instance.CreateConnection();
-			if (conn == null)
-				throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
-			conn.ConnectionString = connString;
-			conn.Open();
-			return conn;
-		}
-	}
+        protected override IDbConnection CreateConnection(string connectionName)
+        {
+            var connString = Configuration.GetConnectionString(connectionName);
+            if (string.IsNullOrWhiteSpace(connString))
+                throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
+            IDbConnection conn = OdbcFactory.Instance.CreateConnection();
+            if (conn == null)
+                throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
+            conn.ConnectionString = connString;
+            conn.Open();
+            return conn;
+        }
+    }
 }

@@ -8,13 +8,13 @@
     <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <Authors>Kakous</Authors>
     <Company>Kakous</Company>
-    <Version>1.1.0</Version>
+    <Version>1.2.1</Version>
     <PackageTags>Dapper,Extensions,DataBase,MySql</PackageTags>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.12" />
+    <PackageReference Include="MySqlConnector" Version="0.49.3" />
   </ItemGroup>
 
   <ItemGroup>
