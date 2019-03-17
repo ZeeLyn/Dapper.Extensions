@@ -178,3 +178,4 @@ crashlytics-build.properties
 *.ide-shm
 .vs/Dapper.Extensions/v15/Server/sqlite3/db.lock
 .vs/Dapper.Extensions/v15/Server/sqlite3/storage.ide
+.vs/Dapper.Extensions/DesignTimeBuild/.dtbcache
