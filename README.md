@@ -1,5 +1,5 @@
 # Dapper.Extensions
-A dapper extension library. Support MySql,SQL Server,PostgreSql and ODBC.
+A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC.
 
 # Packages & Status
 Packages | NuGet
@@ -8,6 +8,7 @@ Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper
 Dapper.Extensions.MySql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySql)](https://www.nuget.org/packages/DDapper.Extensions.MySql)
 Dapper.Extensions.PostgreSql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSql)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSql)
 Dapper.Extensions.Odbc|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Odbc)](https://www.nuget.org/packages/Dapper.Extensions.Odbc)
+Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)
 
 
 

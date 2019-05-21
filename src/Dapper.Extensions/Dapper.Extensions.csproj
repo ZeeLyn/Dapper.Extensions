@@ -1,16 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/ww198643/Dapper.Extensions</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
     <PackageId>Dapper.Extensions.NetCore</PackageId>
-    <Description>Dapper extensions.</Description>
-    <PackageIconUrl>https://raw.githubusercontent.com/ww198643/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <Version>1.2.1</Version>
+    <Description>Dapper.Extensions</Description>
+    <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
+    <Version>1.2.2</Version>
     <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <Authors>Kakous</Authors>
-    <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server</PackageTags>
+    <Authors>Owen</Authors>
+    <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
