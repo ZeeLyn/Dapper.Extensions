@@ -2,19 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
-    <Description>Dapper.Extensions</Description>
     <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <Authors>Owen</Authors>
-    <Version>1.2.2</Version>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <RepositoryUrl></RepositoryUrl>
+    <Description>Dapper.Extensions</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.2.2</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>Owen</Authors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.Odbc" Version="4.5.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.110" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper.Extensions;
 using Dapper.Extensions.MySql;
+using Dapper.Extensions.SQLite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,11 @@ namespace Example
                 return named => container.ResolveNamed<IDapper>(named);
             });
             builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
+
             builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
+
+            builder.RegisterType<SQLiteDapper>().Named<IDapper>("sqlite-conn").WithParameter("connectionName", "sqlite").InstancePerLifetimeScope();
+
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .Where(t => t.Name.EndsWith("Controller"))
                 .PropertiesAutowired().InstancePerLifetimeScope();

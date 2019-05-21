@@ -19,6 +19,7 @@
     <ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySql.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSql.csproj" />
+    <ProjectReference Include="..\src\Dapper.Extensions.SQLite\Dapper.Extensions.SQLite.csproj" />
   </ItemGroup>
 
 </Project>
