@@ -6,7 +6,7 @@
     <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <RepositoryUrl></RepositoryUrl>
-    <Description>Dapper.Extensions</Description>
+    <Description>Dapper extensions</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>1.2.2</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>

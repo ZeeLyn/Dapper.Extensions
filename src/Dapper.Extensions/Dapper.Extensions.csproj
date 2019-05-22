@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
     <PackageId>Dapper.Extensions.NetCore</PackageId>
-    <Description>Dapper.Extensions</Description>
+    <Description>Dapper extensions</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <Version>1.2.2</Version>
     <AssemblyVersion>1.2.1.0</AssemblyVersion>
