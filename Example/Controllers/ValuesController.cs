@@ -18,7 +18,6 @@ namespace Example.Controllers
 
         public ValuesController(IResolveNamed resolve)
         {
-
             SQLiteRepo = resolve.ResolveDapper("sqlite-conn");
         }
         // GET api/values
