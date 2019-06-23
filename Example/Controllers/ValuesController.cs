@@ -15,10 +15,11 @@ namespace Example.Controllers
 
         private IDapper SQLiteRepo { get; }
 
-        public ValuesController(Func<string, IDapper> res)
+
+        public ValuesController(IResolveNamed resolve)
         {
-            //Repo = res("mysql-conn");
-            SQLiteRepo = res("sqlite-conn");
+
+            SQLiteRepo = resolve.ResolveDapper("sqlite-conn");
         }
         // GET api/values
         [HttpGet]

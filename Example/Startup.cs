@@ -9,6 +9,8 @@ using Autofac.Extensions.DependencyInjection;
 using Dapper.Extensions;
 using Dapper.Extensions.MySql;
 using Dapper.Extensions.SQLite;
+using Dapper.Extensions.PostgreSql;
+using Dapper.Extensions.Odbc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 
 namespace Example
 {
@@ -34,7 +37,6 @@ namespace Example
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.Register<Func<string, IDapper>>(c =>
@@ -42,11 +44,18 @@ namespace Example
                 var container = c.Resolve<IComponentContext>();
                 return named => container.ResolveNamed<IDapper>(named);
             });
-            builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
 
-            builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
+            builder.AddDapperForMySQL("mysql", "mysql-conn");
+            //// OR
+            //builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
 
-            builder.RegisterType<SQLiteDapper>().Named<IDapper>("sqlite-conn").WithParameter("connectionName", "sqlite").InstancePerLifetimeScope();
+            builder.AddDapperForMSSQL("mssql", "msql-conn");
+            //// OR
+            //builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
+
+            builder.AddDapperForSQLite("sqlite", "sqlite-conn");
+            //// OR
+            //builder.RegisterType<SQLiteDapper>().Named<IDapper>("sqlite-conn").WithParameter("connectionName", "sqlite").InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .Where(t => t.Name.EndsWith("Controller"))
