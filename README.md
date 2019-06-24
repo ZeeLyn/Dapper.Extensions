@@ -11,11 +11,7 @@ Dapper.Extensions.Odbc|[![NuGet package](https://buildstats.info/nuget/Dapper.Ex
 Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)
 
 
-
-# Registration database configuration
-
-
-## For Dependency Injection
+# For Dependency Injection
 
 Note:Dependency injection only supports a single database. If you need to use multiple databases, use autofac.
 
@@ -47,7 +43,7 @@ public class ValuesController : ControllerBase
 		}
 	}
 ```
-## For Autofac
+# For Autofac
 
 ```csharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
