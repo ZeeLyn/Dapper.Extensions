@@ -37,11 +37,12 @@ namespace Example
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-            services.AddDapperForSQLite();
-            services.AddDapperForPostgreSQL();
-            services.AddDapperForODBC();
-            services.AddDapperForMySQL();
-            services.AddDapperForMSSQL();
+
+            //services.AddDapperForSQLite();
+            //services.AddDapperForPostgreSQL();
+            //services.AddDapperForODBC();
+            //services.AddDapperForMySQL();
+            //services.AddDapperForMSSQL();
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
