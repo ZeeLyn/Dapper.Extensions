@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dapper.Extensions;
+﻿using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Example.Controllers
 {
@@ -13,12 +10,13 @@ namespace Example.Controllers
     {
         //private IDapper Repo { get;  }
 
-        private IDapper SQLiteRepo { get; }
+        private IDapper SQLiteRepo1 { get; }
 
-
+        private IDapper SQLiteRepo2 { get; }
         public ValuesController(IResolveNamed resolve)
         {
-            SQLiteRepo = resolve.ResolveDapper("sqlite-conn");
+            SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
+            SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
         }
         // GET api/values
         [HttpGet]
@@ -29,8 +27,9 @@ namespace Example.Controllers
             //Repo.CommitTransaction();
             //return Ok(result);
 
-           var r= await SQLiteRepo.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
-           return Ok(r);
+            var r1 = await SQLiteRepo1.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
+            var r2 = await SQLiteRepo2.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
+            return Ok(new { r1, r2 });
         }
     }
 }

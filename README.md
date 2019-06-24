@@ -12,8 +12,44 @@ Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.
 
 
 
-# Usage
-```cssharp
+# Registration database configuration
+
+
+## For Dependency Injection
+
+Note:Dependency injection only supports a single database. If you need to use multiple databases, use autofac.
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+		{
+
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+			services.AddDapperForSQLite();
+		}
+```
+
+```csharp
+public class ValuesController : ControllerBase
+	{
+		private IDapper Repo { get;}
+
+		public ValuesController(IDapper repo)
+		{
+			Repo = repo;
+		}
+
+		// GET api/values
+		[HttpGet]
+		public async Task<IActionResult> Get()
+		{
+			var result = await Repo.QueryAsync("select * from tab;");
+			return Ok(result);
+		}
+	}
+```
+## For Autofac
+
+```csharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
 
@@ -21,15 +57,10 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 
 			var builder = new ContainerBuilder();
 			builder.Populate(services);
-			builder.Register<Func<string, IDapper>>(c =>
-			{
-				var container = c.Resolve<IComponentContext>();
-				return named => container.ResolveNamed<IDapper>(named);
-			});
-			builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
-			builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
-			builder.RegisterType<OdbcDapper>().Named<IDapper>("obdc-conn").WithParameter("connectionName", "odbc").InstancePerLifetimeScope();
-			builder.RegisterType<PostgreSqlDapper>().Named<IDapper>("postgre-conn").WithParameter("connectionName", "postgresql").InstancePerLifetimeScope();
+
+			builder.AddDapperForMSSQL("mssql", "msql-conn");
+			builder.AddDapperForSQLite("sqlite1", "sqlite1-conn").AddDapperForSQLite("sqlite2", "sqlite2-conn");
+
 			builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
 				.Where(t => t.Name.EndsWith("Controller"))
 				.PropertiesAutowired().InstancePerLifetimeScope();
@@ -39,22 +70,24 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 ```
 
 
-```cssharp
+```csharp
 public class ValuesController : ControllerBase
 	{
-		public IDapper Repo { get; set; }
+		private IDapper SQLiteRepo1 { get; }
+        private IDapper SQLiteRepo2 { get; }
 
-		public ValuesController(Func<string, IDapper> res)
-		{
-			Repo = res("mysql-conn");
-		}
+        public ValuesController(IResolveNamed resolve)
+        {
+            SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
+            SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
+        }
 		// GET api/values
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var result = await Repo.QueryPageAsync("select count(*) from tab", "select * from tab limit @Skip,@Take;", 1, 10);
-
-			return Ok(result);
+			var r1 = await SQLiteRepo1.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
+            var r2 = await SQLiteRepo2.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
+            return Ok(new { r1, r2 });
 		}
 	}
 ```

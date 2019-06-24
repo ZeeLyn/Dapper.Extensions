@@ -18,7 +18,7 @@ namespace Dapper.Extensions
         }
         public T Resolve<T>(string name)
         {
-           return _context.ResolveNamed<T>(name);
+            return _context.ResolveNamed<T>(name);
         }
 
         public IDapper ResolveDapper(string name)

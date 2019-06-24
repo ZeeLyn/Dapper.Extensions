@@ -4,7 +4,7 @@ namespace Dapper.Extensions.PostgreSql
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddDapperForPostgre(this IServiceCollection services)
+        public static IServiceCollection AddDapperForPostgreSQL(this IServiceCollection services)
         {
             return services.AddScoped<IDapper, PostgreSqlDapper>();
         }

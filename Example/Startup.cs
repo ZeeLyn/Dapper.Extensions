@@ -37,6 +37,12 @@ namespace Example
         {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+            services.AddDapperForSQLite();
+            services.AddDapperForPostgreSQL();
+            services.AddDapperForODBC();
+            services.AddDapperForMySQL();
+            services.AddDapperForMSSQL();
+
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.Register<Func<string, IDapper>>(c =>
@@ -53,7 +59,7 @@ namespace Example
             //// OR
             //builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
 
-            builder.AddDapperForSQLite("sqlite", "sqlite-conn");
+            builder.AddDapperForSQLite("sqlite1", "sqlite1-conn").AddDapperForSQLite("sqlite2", "sqlite2-conn");
             //// OR
             //builder.RegisterType<SQLiteDapper>().Named<IDapper>("sqlite-conn").WithParameter("connectionName", "sqlite").InstancePerLifetimeScope();
 

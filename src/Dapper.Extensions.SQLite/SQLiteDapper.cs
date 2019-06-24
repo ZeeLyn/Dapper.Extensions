@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions.SQLite
 {
-    public class SQLiteDapper: DbDapper
+    public class SQLiteDapper : DbDapper
     {
         public SQLiteDapper(IConfiguration configuration, string connectionName = "DefaultConnection") : base(configuration, connectionName)
         {
