@@ -8,7 +8,7 @@
     <RepositoryUrl></RepositoryUrl>
     <Description>Dapper extensions</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.2.2</Version>
+    <Version>2.0.0</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Owen</Authors>
   </PropertyGroup>

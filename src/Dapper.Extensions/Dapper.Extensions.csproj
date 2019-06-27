@@ -7,7 +7,7 @@
     <PackageId>Dapper.Extensions.NetCore</PackageId>
     <Description>Dapper extensions</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <Version>1.2.2</Version>
+    <Version>2.0.0</Version>
     <AssemblyVersion>1.2.1.0</AssemblyVersion>
     <Authors>Owen</Authors>
     <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite</PackageTags>

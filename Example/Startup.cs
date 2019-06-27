@@ -18,7 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using Autofac.Features.AttributeFilters;
 
 namespace Example
 {
@@ -52,21 +52,21 @@ namespace Example
                 return named => container.ResolveNamed<IDapper>(named);
             });
 
-            builder.AddDapperForMySQL("mysql", "mysql-conn");
+            builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
             //// OR
             //builder.RegisterType<MySqlDapper>().Named<IDapper>("mysql-conn").WithParameter("connectionName", "mysql").InstancePerLifetimeScope();
 
-            builder.AddDapperForMSSQL("mssql", "msql-conn");
+            builder.AddDapperForMSSQL("MSSqlConnection", "msql-conn");
             //// OR
             //builder.RegisterType<MsSqlDapper>().Named<IDapper>("msql-conn").WithParameter("connectionName", "mssql").InstancePerLifetimeScope();
 
-            builder.AddDapperForSQLite("sqlite1", "sqlite1-conn").AddDapperForSQLite("sqlite2", "sqlite2-conn");
+            builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
             //// OR
             //builder.RegisterType<SQLiteDapper>().Named<IDapper>("sqlite-conn").WithParameter("connectionName", "sqlite").InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .Where(t => t.Name.EndsWith("Controller"))
-                .PropertiesAutowired().InstancePerLifetimeScope();
+                .PropertiesAutowired().WithAttributeFiltering().InstancePerLifetimeScope();
             ApplicationContainer = builder.Build();
             return new AutofacServiceProvider(ApplicationContainer);
         }
