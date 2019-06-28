@@ -14,7 +14,7 @@ Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.
 
 # Database connection string configuration
 
-The default connection name is: DefaultConnection
+The default connection name is 'DefaultConnection'
 
 ```json
 {
