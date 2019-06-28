@@ -70,8 +70,8 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 		var builder = new ContainerBuilder();
 		builder.Populate(services);
 
-		builder.AddDapperForMSSQL("mssql", "msql-conn");
-		builder.AddDapperForSQLite("sqlite1", "sqlite1-conn").AddDapperForSQLite("sqlite2", "sqlite2-conn");
+		builder.AddDapperForMSSQL("MySqlConnection", "msql-conn");
+		builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
 		builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
 			.Where(t => t.Name.EndsWith("Controller"))
