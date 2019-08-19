@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Autofac.Features.AttributeFilters;
+using Dapper.Extensions.Caching.Redis;
 
 namespace Example
 {
@@ -43,6 +44,11 @@ namespace Example
             //services.AddDapperForODBC();
             //services.AddDapperForMySQL();
             //services.AddDapperForMSSQL();
+
+            services.AddDapperCachingForRedis(new RedisConfiguration
+            {
+                ConnectionString = "localhost:6379,password=nihao123#@!"
+            });
 
             var builder = new ContainerBuilder();
             builder.Populate(services);

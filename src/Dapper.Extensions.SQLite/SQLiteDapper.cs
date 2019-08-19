@@ -9,7 +9,7 @@ namespace Dapper.Extensions.SQLite
 {
     public class SQLiteDapper : DbDapper
     {
-        public SQLiteDapper(IConfiguration configuration, string connectionName = "DefaultConnection") : base(configuration, connectionName)
+        public SQLiteDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
         {
         }
 

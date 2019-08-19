@@ -7,7 +7,7 @@ namespace Dapper.Extensions.Odbc
 {
     public class OdbcDapper : DbDapper
     {
-        public OdbcDapper(IConfiguration configuration, string connectionName = "DefaultConnection") : base(configuration, connectionName)
+        public OdbcDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
         {
         }
 

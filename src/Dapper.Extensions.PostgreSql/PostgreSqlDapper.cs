@@ -9,7 +9,7 @@ namespace Dapper.Extensions.PostgreSql
 {
     public class PostgreSqlDapper : DbDapper
     {
-        public PostgreSqlDapper(IConfiguration configuration, string connectionName = "DefaultConnection") : base(configuration, connectionName)
+        public PostgreSqlDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
         {
         }
 

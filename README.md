@@ -2,9 +2,9 @@
 A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC.
 
 # Packages & Status
-Packages | NuGet
----------|------
-Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)
+Packages | NuGet|Remark
+---------|------|----
+Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)|Abstract class and implementation of microsoft sql server
 Dapper.Extensions.MySql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySql)](https://www.nuget.org/packages/DDapper.Extensions.MySql)
 Dapper.Extensions.PostgreSql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSql)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSql)
 Dapper.Extensions.Odbc|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Odbc)](https://www.nuget.org/packages/Dapper.Extensions.Odbc)
@@ -27,7 +27,7 @@ The default connection name is 'DefaultConnection'
 }
 ```
 
-# For Dependency Injection
+# Use Dependency Injection
 
 Note:Dependency injection only supports a single database and the default connection name is 'DefaultConnection'. If you need to use multiple databases, use autofac.
 
@@ -59,7 +59,7 @@ public class ValuesController : ControllerBase
 	}
 }
 ```
-# For Autofac
+# Use Autofac
 
 ```csharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -123,9 +123,29 @@ public class ValuesController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> Get()
 	{
-		var r1 = await Repo1.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
-		var r2 = await Repo3.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
+		var r1 = await Repo1.QueryAsync("select * from COMPANY;");
+		var r2 = await Repo3.QueryAsync("select * from COMPANY;");
 		return Ok(new { r1, r2 });
 	}
 }
 ```
+
+# About paging query
+ The paging method has four SQL variables built in: @Skip, @Take, @TakeStart, @TakeEnd. 
+
+ ### MySQL usage example
+ ```SQL
+ select * from tab order by id desc limit @Skip, @Take; 
+ ```
+
+ ### MSSQL usage example
+ 
+ SQL Server 2005
+ ```SQL
+ select * from (select ROW_NUMBER() over(order by id desc) as row_num,id,title from tab) tab1 where row_num between @TakeStart and @TakeEnd;
+ ```
+
+ SQL Server 2012
+ ```SQL
+ select * from tab offset @Skip rows fetch next @Take rows only;
+ ```

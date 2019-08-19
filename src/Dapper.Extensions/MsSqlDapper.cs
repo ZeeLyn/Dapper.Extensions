@@ -8,7 +8,7 @@ namespace Dapper.Extensions
     public class MsSqlDapper : DbDapper
     {
 
-        public MsSqlDapper(IConfiguration configuration, string connectionName = "DefaultConnection") : base(configuration, connectionName)
+        public MsSqlDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
         {
         }
         protected override IDbConnection CreateConnection(string connectionName)

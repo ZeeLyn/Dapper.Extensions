@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Dapper.Extensions.Caching;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions
 {
@@ -11,36 +13,44 @@ namespace Dapper.Extensions
     {
         public Lazy<IDbConnection> Conn { get; }
 
-        public IDbTransaction Transaction { get; private set; }
+        protected internal IDbTransaction Transaction { get; set; }
 
-        protected IConfiguration Configuration { get; }
+        protected internal IConfiguration Configuration { get; }
 
         protected abstract IDbConnection CreateConnection(string connectionName);
 
-        protected DbDapper(IConfiguration configuration, string connectionName = "DefaultConnection")
+        private ICacheProvider Cache { get; }
+
+        private ICacheKeyBuilder CacheKeyBuilder { get; }
+
+        protected DbDapper(IConfiguration configuration, IServiceProvider cache, string connectionName = "DefaultConnection")
         {
             Configuration = configuration;
+            Cache = cache.GetService<ICacheProvider>();
+            CacheKeyBuilder = cache.GetService<ICacheKeyBuilder>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
         }
 
         public virtual async Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null)
         {
-            return (await Conn.Value.QueryAsync<T>(sql, param, Transaction, commandTimeout)).AsList();
+            return (await Conn.Value.QueryAsync<T>(sql, param, Transaction, commandTimeout)).ToList();
         }
 
         public virtual List<T> Query<T>(string sql, object param = null, int? commandTimeout = null)
         {
-            return Conn.Value.Query<T>(sql, param, Transaction, commandTimeout: commandTimeout).AsList();
+            return CacheManager(() => Conn.Value.Query<T>(sql, param, Transaction, commandTimeout: commandTimeout).ToList(), sql, param);
         }
 
         public virtual async Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null)
         {
-            return (await Conn.Value.QueryAsync<dynamic>(sql, param, Transaction, commandTimeout)).AsList();
+            return await CacheManagerAsync(async () => (await Conn.Value.QueryAsync(sql, param, Transaction, commandTimeout)).ToList(), sql, param);
         }
 
         public virtual List<dynamic> Query(string sql, object param = null, int? commandTimeout = null)
         {
-            return Conn.Value.Query<dynamic>(sql, param, Transaction, commandTimeout: commandTimeout).AsList();
+            var result = Conn.Value.Query(sql, param, Transaction, commandTimeout: commandTimeout).ToList();
+            Cache.TrySet("1", result);
+            return result;
         }
 
         public virtual async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null)
@@ -55,12 +65,32 @@ namespace Dapper.Extensions
 
         public virtual async Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null)
         {
-            return await Conn.Value.QueryFirstOrDefaultAsync<dynamic>(sql, param, Transaction, commandTimeout);
+            return await Conn.Value.QueryFirstOrDefaultAsync(sql, param, Transaction, commandTimeout);
         }
 
         public virtual dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null)
         {
-            return Conn.Value.QueryFirstOrDefault<dynamic>(sql, param, Transaction, commandTimeout);
+            return Conn.Value.QueryFirstOrDefault(sql, param, Transaction, commandTimeout);
+        }
+
+        public dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null)
+        {
+            return Conn.Value.QuerySingleOrDefault(sql, param, Transaction, commandTimeout);
+        }
+
+        public async Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null)
+        {
+            return await Conn.Value.QuerySingleOrDefaultAsync(sql, param, Transaction, commandTimeout);
+        }
+
+        public T QuerySingleOrDefault<T>(string sql, object param = null, int? commandTimeout = null)
+        {
+            return Conn.Value.QuerySingleOrDefault<T>(sql, param, Transaction, commandTimeout);
+        }
+
+        public async Task<T> QuerySingleOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null)
+        {
+            return await Conn.Value.QuerySingleOrDefaultAsync<T>(sql, param, Transaction, commandTimeout);
         }
 
         public virtual async Task QueryMultipleAsync(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null)
@@ -86,7 +116,7 @@ namespace Dapper.Extensions
         {
             using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
             {
-                return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList());
+                return Tuple.Create((await multi.ReadAsync<T1>()).ToList(), (await multi.ReadAsync<T2>()).ToList());
             }
         }
 
@@ -96,8 +126,8 @@ namespace Dapper.Extensions
         {
             using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
             {
-                return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList(),
-                    (await multi.ReadAsync<T3>()).AsList());
+                return Tuple.Create((await multi.ReadAsync<T1>()).ToList(), (await multi.ReadAsync<T2>()).ToList(),
+                    (await multi.ReadAsync<T3>()).ToList());
             }
         }
 
@@ -105,8 +135,8 @@ namespace Dapper.Extensions
         {
             using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
             {
-                return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList(),
-                    (await multi.ReadAsync<T3>()).AsList(), (await multi.ReadAsync<T4>()).AsList());
+                return Tuple.Create((await multi.ReadAsync<T1>()).ToList(), (await multi.ReadAsync<T2>()).ToList(),
+                    (await multi.ReadAsync<T3>()).ToList(), (await multi.ReadAsync<T4>()).ToList());
             }
         }
 
@@ -117,9 +147,19 @@ namespace Dapper.Extensions
         {
             using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
             {
-                return Tuple.Create((await multi.ReadAsync<T1>()).AsList(), (await multi.ReadAsync<T2>()).AsList(),
-                    (await multi.ReadAsync<T3>()).AsList(), (await multi.ReadAsync<T4>()).AsList(), (await multi.ReadAsync<T5>()).AsList());
+                return Tuple.Create((await multi.ReadAsync<T1>()).ToList(), (await multi.ReadAsync<T2>()).ToList(),
+                    (await multi.ReadAsync<T3>()).ToList(), (await multi.ReadAsync<T4>()).ToList(), (await multi.ReadAsync<T5>()).ToList());
             }
+        }
+
+        public IDataReader ExecuteReader(string sql, object param = null, int? commandTimeout = null)
+        {
+            return Conn.Value.ExecuteReader(sql, param, Transaction, commandTimeout);
+        }
+
+        public async Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null)
+        {
+            return await Conn.Value.ExecuteReaderAsync(sql, param, Transaction, commandTimeout);
         }
 
         public virtual async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null)
@@ -141,7 +181,7 @@ namespace Dapper.Extensions
             using (var multi = await Conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
             {
                 var count = (await multi.ReadAsync<int>()).FirstOrDefault();
-                var data = (await multi.ReadAsync<T>()).AsList();
+                var data = (await multi.ReadAsync<T>()).ToList();
                 var result = new PageResult<T>
                 {
                     TotalCount = count,
@@ -178,7 +218,7 @@ namespace Dapper.Extensions
             using (var multi = await Conn.Value.QueryMultipleAsync($"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}", pars, Transaction, commandTimeout))
             {
                 var count = (await multi.ReadAsync<int>()).FirstOrDefault();
-                var data = (await multi.ReadAsync()).AsList();
+                var data = (await multi.ReadAsync()).ToList();
                 var result = new PageResult<dynamic>
                 {
                     TotalCount = count,
@@ -215,7 +255,7 @@ namespace Dapper.Extensions
             {
 
                 var count = multi.Read<int>().FirstOrDefault();
-                var data = multi.Read<T>().AsList();
+                var data = multi.Read<T>().ToList();
                 var result = new PageResult<T>
                 {
                     TotalCount = count,
@@ -253,7 +293,7 @@ namespace Dapper.Extensions
             {
 
                 var count = multi.Read<int>().FirstOrDefault();
-                var data = multi.Read().AsList();
+                var data = multi.Read().ToList();
                 var result = new PageResult<dynamic>
                 {
                     TotalCount = count,
@@ -300,15 +340,44 @@ namespace Dapper.Extensions
         {
             return Transaction = Conn.Value.BeginTransaction(level);
         }
+        #region Cahce method
+        protected internal T CacheManager<T>(Func<T> execQuery, string sql, object param)
+        {
+            if (Cache == null)
+                return execQuery();
+
+            var key = CacheKeyBuilder.Generate(sql, param);
+            var cache = Cache.TryGet<T>(key);
+            if (cache != null)
+                return cache.Value;
+            var result = execQuery();
+            Cache.TrySet(key, result);
+            return result;
+        }
+
+        protected internal async Task<T> CacheManagerAsync<T>(Func<Task<T>> execQuery, string sql, object param)
+        {
+            if (Cache == null)
+                return await execQuery();
+
+            var key = CacheKeyBuilder.Generate(sql, param);
+            var cache = Cache.TryGet<T>(key);
+            if (cache != null)
+                return cache.Value;
+            var result = await execQuery();
+            Cache.TrySet(key, result);
+            return result;
+        }
+        #endregion
 
         public virtual void CommitTransaction()
         {
-            Transaction.Commit();
+            Transaction?.Commit();
         }
 
         public virtual void RollbackTransaction()
         {
-            Transaction.Rollback();
+            Transaction?.Rollback();
         }
 
         public virtual void Dispose()
@@ -318,5 +387,6 @@ namespace Dapper.Extensions
             Conn?.Value?.Close();
             Conn?.Value?.Dispose();
         }
+
     }
 }

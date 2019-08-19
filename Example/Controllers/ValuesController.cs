@@ -33,9 +33,24 @@ namespace Example.Controllers
             //Repo.CommitTransaction();
             //return Ok(result);
 
-            var r1 = await Repo1.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
-            var r2 = await Repo2.QueryAsync("select * from COMPANY LIMIT 1 OFFSET 0");
-            return Ok(new { r1, r2 });
+            var r1 = await Repo1.QueryAsync("select * from COMPANY where id=1 LIMIT 1 OFFSET 0");
+            //var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
+            return Ok(new { r1 });
+        }
+
+        public async Task<IActionResult> Transaction()
+        {
+            using (Repo1.BeginTransaction())
+            {
+                var result = await Repo1.QueryFirstOrDefaultAsync("select * from COMPANY where id=1;");
+                if (result != null)
+                {
+                    await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;", new { name = "updated" });
+                    Repo1.CommitTransaction();
+                }
+                return Ok();
+            }
+
         }
     }
 }
