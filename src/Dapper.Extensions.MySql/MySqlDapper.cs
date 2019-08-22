@@ -9,7 +9,7 @@ namespace Dapper.Extensions.MySql
 {
     public class MySqlDapper : DbDapper
     {
-        public MySqlDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
+        public MySqlDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
         {
         }
         protected override IDbConnection CreateConnection(string connectionName)

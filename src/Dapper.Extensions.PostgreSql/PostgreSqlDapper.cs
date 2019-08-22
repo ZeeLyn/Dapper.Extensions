@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
@@ -9,7 +7,7 @@ namespace Dapper.Extensions.PostgreSql
 {
     public class PostgreSqlDapper : DbDapper
     {
-        public PostgreSqlDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
+        public PostgreSqlDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
         {
         }
 

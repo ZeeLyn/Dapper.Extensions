@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions.SQLite
 {
     public class SQLiteDapper : DbDapper
     {
-        public SQLiteDapper(IConfiguration configuration, IServiceProvider service, string connectionName = "DefaultConnection") : base(configuration, service, connectionName)
+        public SQLiteDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
         {
         }
 

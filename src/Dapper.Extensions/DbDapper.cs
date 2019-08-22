@@ -25,9 +25,9 @@ namespace Dapper.Extensions
 
         protected internal CacheConfiguration CacheConfiguration { get; }
 
-        protected DbDapper(IConfiguration configuration, IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
+        protected DbDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
         {
-            Configuration = configuration;
+            Configuration = serviceProvider.GetRequiredService<IConfiguration>();
             Cache = serviceProvider.GetService<ICacheProvider>();
             CacheConfiguration = serviceProvider.GetService<CacheConfiguration>();
             CacheKeyBuilder = serviceProvider.GetService<ICacheKeyBuilder>();
