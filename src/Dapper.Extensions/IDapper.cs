@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Dapper.Extensions.Caching;
 
 namespace Dapper.Extensions
 {
@@ -16,8 +17,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null);
+        Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
@@ -26,8 +30,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        List<T> Query<T>(string sql, object param = null, int? commandTimeout = null);
+        List<T> Query<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Return a sequence of dynamic objects with properties matching the columns.
@@ -35,8 +42,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null);
+        Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Return a sequence of dynamic objects with properties matching the columns.
@@ -44,8 +54,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        List<dynamic> Query(string sql, object param = null, int? commandTimeout = null);
+        List<dynamic> Query(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a single-row query, returning the data typed as T.
@@ -54,8 +67,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null);
+        Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a single-row query, returning the data typed as T.
@@ -64,8 +80,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        T QueryFirstOrDefault<T>(string sql, object param = null, int? commandTimeout = null);
+        T QueryFirstOrDefault<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a single-row query asynchronously,return a dynamic object with properties matching the columns.
@@ -73,8 +92,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null);
+        Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a single-row query ,return a dynamic object with properties matching the columns.
@@ -82,8 +104,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null);
+        dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Return a dynamic object with properties matching the columns.
@@ -91,8 +116,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null);
+        dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a single-row query asynchronously.
@@ -100,8 +128,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null);
+        Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
@@ -109,8 +140,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        T QuerySingleOrDefault<T>(string sql, object param = null, int? commandTimeout = null);
+        T QuerySingleOrDefault<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
@@ -120,7 +154,7 @@ namespace Dapper.Extensions
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<T> QuerySingleOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null);
+        Task<T> QuerySingleOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
@@ -150,8 +184,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<Tuple<List<T1>, List<T2>>> QueryMultipleAsync<T1, T2>(string sql, object param = null, int? commandTimeout = null);
+        Task<(List<T1> Result1, List<T2> Result2)> QueryMultipleAsync<T1, T2>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -162,9 +199,12 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<Tuple<List<T1>, List<T2>, List<T3>>> QueryMultipleAsync<T1, T2, T3>(string sql,
-               object param = null, int? commandTimeout = null);
+        Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3)> QueryMultipleAsync<T1, T2, T3>(string sql,
+               object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -176,9 +216,12 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<Tuple<List<T1>, List<T2>, List<T3>, List<T4>>> QueryMultipleAsync
-               <T1, T2, T3, T4>(string sql, object param = null, int? commandTimeout = null);
+        Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3, List<T4> Result4)> QueryMultipleAsync
+               <T1, T2, T3, T4>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -191,8 +234,11 @@ namespace Dapper.Extensions
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<Tuple<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>>> QueryMultipleAsync<T1, T2, T3, T4, T5>(string sql, object param = null, int? commandTimeout = null);
+        Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3, List<T4> Result4, List<T5> Result5)> QueryMultipleAsync<T1, T2, T3, T4, T5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         ///  Execute parameterized SQL and return an System.Data.IDataReader.
@@ -220,11 +266,14 @@ namespace Dapper.Extensions
         /// <param name="countSql"></param>
         /// <param name="dataSql"></param>
         /// <param name="pageindex"></param>
-        /// <param name="pagesize"></param>
+        /// <param name="pageSize"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null);
+        Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Paging query.
@@ -233,11 +282,14 @@ namespace Dapper.Extensions
         /// <param name="countSql"></param>
         /// <param name="dataSql"></param>
         /// <param name="pageindex"></param>
-        /// <param name="pagesize"></param>
+        /// <param name="pageSize"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null);
+        Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
 
         /// <summary>
@@ -248,11 +300,14 @@ namespace Dapper.Extensions
         /// <param name="countSql"></param>
         /// <param name="dataSql"></param>
         /// <param name="pageindex"></param>
-        /// <param name="pagesize"></param>
+        /// <param name="pageSize"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null);
+        PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Paging query.
@@ -261,11 +316,14 @@ namespace Dapper.Extensions
         /// <param name="countSql"></param>
         /// <param name="dataSql"></param>
         /// <param name="pageindex"></param>
-        /// <param name="pagesize"></param>
+        /// <param name="pageSize"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pagesize, object param = null, int? commandTimeout = null);
+        PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command asynchronously.

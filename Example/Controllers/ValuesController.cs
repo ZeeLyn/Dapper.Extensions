@@ -1,7 +1,9 @@
-﻿using Autofac.Features.AttributeFilters;
+﻿using System;
+using Autofac.Features.AttributeFilters;
 using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Example.Controllers
 {
@@ -33,7 +35,7 @@ namespace Example.Controllers
             //Repo.CommitTransaction();
             //return Ok(result);
 
-            var r1 = await Repo1.QueryAsync("select * from COMPANY where id=1 LIMIT 1 OFFSET 0");
+            var r1 = await Repo1.QueryAsync<object>("select * from COMPANY where id=1 LIMIT 1 OFFSET 0", cacheExpire: TimeSpan.FromSeconds(10), cacheKey: "mykey");
             //var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
             return Ok(new { r1 });
         }

@@ -4,7 +4,11 @@ namespace Dapper.Extensions.Caching
 {
     public class CacheOptions
     {
-        public bool Enable { get; set; }
+        public CacheOptions(string key = "", TimeSpan? expire = null)
+        {
+            Key = key;
+            Expire = expire;
+        }
 
         /// <summary>
         /// Cache key
