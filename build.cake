@@ -33,11 +33,12 @@ Teardown(ctx =>
 ///////////////////////////////////////////////////////////////////////////////
 
 Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file)=>{
+   Information("Update Version:"+file);
    XmlPoke(file,"/Project/PropertyGroup/Version",version);
    XmlPoke(file,"/Project/PropertyGroup/GeneratePackageOnBuild","false");
    XmlPoke(file,"/Project/PropertyGroup/Description","Dapper extensions");
    XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/1100100/Dapper.Extensions");
-   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite");
+   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite,ODBC,Cahce,Caching,Redis");
    XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg");
    XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
    XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");
