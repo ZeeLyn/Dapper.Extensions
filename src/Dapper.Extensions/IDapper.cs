@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Dapper.Extensions
 {
-    public interface IDapper : IDisposable
+    public interface IDapper
     {
         Lazy<IDbConnection> Conn { get; }
 
@@ -385,8 +385,6 @@ namespace Dapper.Extensions
         /// Rollback transaction.
         /// </summary>
         void RollbackTransaction();
-
-        void Dispose();
 
     }
 }

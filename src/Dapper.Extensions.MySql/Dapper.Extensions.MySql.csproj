@@ -9,8 +9,9 @@
     <Authors>Owen</Authors>
     <Company>Kakous</Company>
     <Version>2.0.0</Version>
-    <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite,ODBC,Cahce,Caching,Redis</PackageTags>
+    <PackageTags>Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>Dapper.Extensions.MySQL</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

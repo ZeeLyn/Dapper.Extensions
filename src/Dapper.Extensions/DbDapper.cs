@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dapper.Extensions
 {
-    public abstract class DbDapper : IDapper
+    public abstract class DbDapper : IDapper, IDisposable
     {
         public Lazy<IDbConnection> Conn { get; }
 
