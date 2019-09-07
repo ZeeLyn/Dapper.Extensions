@@ -364,6 +364,8 @@ namespace Dapper.Extensions
         {
             return Transaction = Conn.Value.BeginTransaction(level);
         }
+
+
         #region Cache methods
 
         protected internal bool IsEnableCache(bool? enable)

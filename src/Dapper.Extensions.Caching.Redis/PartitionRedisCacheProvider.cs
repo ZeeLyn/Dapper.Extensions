@@ -15,18 +15,11 @@ namespace Dapper.Extensions.Caching.Redis
 
         public bool TrySet<TResult>(string key, TResult result, TimeSpan? expired = null)
         {
-            try
-            {
-                if (expired.HasValue)
-                    Cache.SetString(key, Serializer.Serialize(new CacheValue<TResult>(result)), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = expired.Value });
-                else
-                    Cache.SetObject(key, Serializer.Serialize(new CacheValue<TResult>(result)));
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (expired.HasValue)
+                Cache.SetString(key, Serializer.Serialize(new CacheValue<TResult>(result)), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = expired.Value });
+            else
+                Cache.SetObject(key, Serializer.Serialize(new CacheValue<TResult>(result)));
+            return true;
         }
 
         public CacheValue<TResult> TryGet<TResult>(string key)
