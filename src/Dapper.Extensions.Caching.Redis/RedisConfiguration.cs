@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Dapper.Extensions.Caching.Redis
 {
@@ -9,7 +10,7 @@ namespace Dapper.Extensions.Caching.Redis
 
     public class PartitionRedisConfiguration : CacheConfiguration
     {
-        public string[] Connections { get; set; }
+        public IEnumerable<string> Connections { get; set; }
 
         public Func<string, string[], string> PartitionPolicy { get; set; }
     }

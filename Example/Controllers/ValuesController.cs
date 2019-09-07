@@ -40,6 +40,7 @@ namespace Example.Controllers
             return Ok(new { r1 });
         }
 
+        [HttpGet("Transaction")]
         public async Task<IActionResult> Transaction()
         {
             using (Repo1.BeginTransaction())
@@ -54,5 +55,12 @@ namespace Example.Controllers
             }
 
         }
+
+        [HttpGet("generateid")]
+        public IActionResult GenerateId()
+        {
+            return Ok(SnowflakeUtils.GenerateId());
+        }
+
     }
 }

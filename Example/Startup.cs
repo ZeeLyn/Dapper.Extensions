@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AppSettings.Loader.MVC;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper.Extensions;
@@ -39,16 +38,24 @@ namespace Example
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
+            SnowflakeUtils.Initialize(1, 1);
+
+            #region Dependency Injection For Dapper
             //services.AddDapperForSQLite();
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
             //services.AddDapperForMySQL();
             //services.AddDapperForMSSQL();
+            #endregion
 
-            services.AddDapperCachingForRedis(new RedisConfiguration
+
+            #region Dependency Injection For Caching
+            services.AddDapperCachingInRedis(new RedisConfiguration
             {
                 ConnectionString = "localhost:6379,password=nihao123#@!"
             });
+
+            #endregion
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -57,6 +64,8 @@ namespace Example
                 var container = c.Resolve<IComponentContext>();
                 return named => container.ResolveNamed<IDapper>(named);
             });
+
+            #region Autofac For Dapper
 
             builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
             //// OR
@@ -69,6 +78,16 @@ namespace Example
             builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
             //// OR
             //builder.RegisterType<SQLiteDapper>().Named<IDapper>("sqlite-conn").WithParameter("connectionName", "sqlite").InstancePerLifetimeScope();
+            #endregion
+
+            #region Autofac For Caching
+
+            builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
+            {
+                Connections = new[] { "localhost:6379,password=nihao123#@!" }
+            });
+
+            #endregion
 
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
                 .Where(t => t.Name.EndsWith("Controller"))

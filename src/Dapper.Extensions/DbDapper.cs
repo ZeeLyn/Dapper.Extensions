@@ -379,12 +379,10 @@ namespace Dapper.Extensions
         {
             if (!IsEnableCache(enableCache))
                 return execQuery();
-            if (CacheConfiguration == null)
-                return execQuery();
             if (string.IsNullOrWhiteSpace(cacheKey))
                 cacheKey = CacheKeyBuilder.Generate(sql, param, true, pageIndex, pageSize);
             var cache = Cache.TryGet<T>(cacheKey);
-            if (cache != null)
+            if (cache.HasKey)
                 return cache.Value;
             var result = execQuery();
             Cache.TrySet(cacheKey, result, expire);
@@ -395,12 +393,10 @@ namespace Dapper.Extensions
         {
             if (!IsEnableCache(enableCache))
                 return await execQuery();
-            if (CacheConfiguration == null)
-                return await execQuery();
             if (string.IsNullOrWhiteSpace(cacheKey))
                 cacheKey = CacheKeyBuilder.Generate(sql, param, true, pageIndex, pageSize);
             var cache = Cache.TryGet<T>(cacheKey);
-            if (cache != null)
+            if (cache.HasKey)
                 return cache.Value;
             var result = await execQuery();
             Cache.TrySet(cacheKey, result, expire);

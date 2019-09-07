@@ -12,7 +12,7 @@ namespace Dapper.Extensions.Caching.Redis
                 p.ServiceType == typeof(TServiceType) && p.ImplementationType == typeof(TImplementationType));
         }
 
-        public static IServiceCollection AddDapperCachingForRedis(this IServiceCollection service, RedisConfiguration config)
+        public static IServiceCollection AddDapperCachingInRedis(this IServiceCollection service, RedisConfiguration config)
         {
             if (!service.Exist<ICacheKeyBuilder, DefaultCacheKeyBuilder>())
             {
@@ -29,13 +29,43 @@ namespace Dapper.Extensions.Caching.Redis
             return service;
         }
 
-        public static IServiceCollection AddDapperCachingForPartitionRedis(this IServiceCollection service, PartitionRedisConfiguration config)
+        public static IServiceCollection AddDapperCachingInRedis<TCacheKeyBuilder>(this IServiceCollection service, RedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
+        {
+            if (!service.Exist<ICacheKeyBuilder, TCacheKeyBuilder>())
+            {
+                service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
+                service.AddSingleton(new CacheConfiguration
+                {
+                    Enable = config.Enable,
+                    Expire = config.Expire
+                });
+                RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
+            }
+            service.AddSingleton<ICacheProvider, RedisCacheProvider>();
+            service.AddSingleton<IDataSerializer, DataSerializer>();
+            return service;
+        }
+
+        public static IServiceCollection AddDapperCachingInPartitionRedis(this IServiceCollection service, PartitionRedisConfiguration config)
         {
             if (!service.Exist<ICacheKeyBuilder, DefaultCacheKeyBuilder>())
             {
                 service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
                 service.AddSingleton(config);
-                RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections), config.Connections));
+                RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()), config.Connections.ToArray()));
+            }
+            service.AddSingleton<ICacheProvider, PartitionRedisCacheProvider>();
+            service.AddSingleton<IDataSerializer, DataSerializer>();
+            return service;
+        }
+
+        public static IServiceCollection AddDapperCachingInPartitionRedis<TCacheKeyBuilder>(this IServiceCollection service, PartitionRedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
+        {
+            if (!service.Exist<ICacheKeyBuilder, TCacheKeyBuilder>())
+            {
+                service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
+                service.AddSingleton(config);
+                RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()), config.Connections.ToArray()));
             }
             service.AddSingleton<ICacheProvider, PartitionRedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();

@@ -18,7 +18,10 @@ namespace Dapper.Extensions.Caching.Redis
 
         public CacheValue<TResult> TryGet<TResult>(string key)
         {
-            return RedisHelper.Get<CacheValue<TResult>>(key);
+            var val = RedisHelper.Get(key);
+            if (string.IsNullOrWhiteSpace(val))
+                return new CacheValue<TResult>(default, false);
+            return Serializer.Deserialize<CacheValue<TResult>>(val);
         }
     }
 }

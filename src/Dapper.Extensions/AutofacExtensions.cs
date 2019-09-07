@@ -6,7 +6,7 @@ namespace Dapper.Extensions
     {
         public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", object serviceKey = null) where TDbProvider : IDapper
         {
-            container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(ResolveKeyed)).InstancePerLifetimeScope();
+            container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
             if (serviceKey == null)
                 container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
             else
