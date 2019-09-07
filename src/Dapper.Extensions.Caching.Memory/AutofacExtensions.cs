@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Dapper.Extensions.Caching.Memory
@@ -7,6 +8,8 @@ namespace Dapper.Extensions.Caching.Memory
     {
         public static ContainerBuilder AddDapperCachingInMemory(this ContainerBuilder service, MemoryConfiguration config)
         {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             service.RegisterType<DefaultCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
             service.RegisterInstance(new CacheConfiguration
             {
@@ -20,6 +23,8 @@ namespace Dapper.Extensions.Caching.Memory
 
         public static ContainerBuilder AddDapperCachingInMemory<TCacheKeyBuilder>(this ContainerBuilder service, MemoryConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
         {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             service.RegisterType<TCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
             service.RegisterInstance(new CacheConfiguration
             {

@@ -9,6 +9,8 @@ namespace Dapper.Extensions.Caching.Redis
     {
         public static IServiceCollection AddDapperCachingInRedis(this IServiceCollection service, RedisConfiguration config)
         {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
             service.AddSingleton(new CacheConfiguration
             {
@@ -23,6 +25,8 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static IServiceCollection AddDapperCachingInRedis<TCacheKeyBuilder>(this IServiceCollection service, RedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
         {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
             service.AddSingleton(new CacheConfiguration
             {
@@ -37,6 +41,8 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static IServiceCollection AddDapperCachingInPartitionRedis(this IServiceCollection service, PartitionRedisConfiguration config)
         {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             if (config.Connections.Count() < 2)
                 throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
@@ -56,6 +62,8 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static IServiceCollection AddDapperCachingInPartitionRedis<TCacheKeyBuilder>(this IServiceCollection service, PartitionRedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
         {
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
             if (config.Connections.Count() < 2)
                 throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
