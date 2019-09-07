@@ -8,7 +8,7 @@ namespace Dapper.Extensions
     {
         private static IdWorker Worker { get; set; }
 
-        public static void Initialize(long workerId, long datacenterId, long sequence = 0L)
+        public static void Initialization(long workerId, long datacenterId, long sequence = 0L)
         {
             Worker = new IdWorker(workerId, datacenterId, sequence);
         }

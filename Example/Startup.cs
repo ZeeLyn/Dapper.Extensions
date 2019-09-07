@@ -38,7 +38,7 @@ namespace Example
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
-            SnowflakeUtils.Initialize(1, 1);
+            SnowflakeUtils.Initialization(1, 1);
 
             #region Dependency Injection For Dapper
             //services.AddDapperForSQLite();
