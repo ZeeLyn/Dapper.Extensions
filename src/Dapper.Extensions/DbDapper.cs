@@ -374,7 +374,7 @@ namespace Dapper.Extensions
                 return false;
             if (enable.HasValue)
                 return enable.Value;
-            return CacheConfiguration.Enable;
+            return CacheConfiguration.AllMethodsEnableCache;
         }
 
         protected internal T CacheManager<T>(bool? enableCache, Func<T> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)

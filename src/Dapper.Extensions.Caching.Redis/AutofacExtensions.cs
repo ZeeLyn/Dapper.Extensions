@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Autofac;
 using CSRedis;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 
 namespace Dapper.Extensions.Caching.Redis
 {
@@ -11,7 +14,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterType<DefaultCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
             service.RegisterInstance(new CacheConfiguration
             {
-                Enable = config.Enable,
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire
             }).SingleInstance();
             RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
@@ -25,7 +28,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterType<TCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
             service.RegisterInstance(new CacheConfiguration
             {
-                Enable = config.Enable,
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire
             }).SingleInstance();
             RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
@@ -36,9 +39,19 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static ContainerBuilder AddDapperCachingInPartitionRedis(this ContainerBuilder service, PartitionRedisConfiguration config)
         {
+            if (config.Connections.Count() < 2)
+                throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.RegisterType<DefaultCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
-            service.RegisterInstance(config).SingleInstance();
-            RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()), config.Connections.ToArray()));
+            service.RegisterInstance(new CacheConfiguration
+            {
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
+                Expire = config.Expire
+            }).SingleInstance();
+            RedisHelper.Initialization(config.PartitionPolicy != null
+                ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
+                    config.Connections.ToArray())
+                : new CSRedisClient(null, config.Connections.ToArray()));
+            service.RegisterInstance(new CSRedisCache(RedisHelper.Instance)).As<IDistributedCache>().SingleInstance();
             service.RegisterType<PartitionRedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;
@@ -46,9 +59,19 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static ContainerBuilder AddDapperCachingInPartitionRedis<TCacheKeyBuilder>(this ContainerBuilder service, PartitionRedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
         {
+            if (config.Connections.Count() < 2)
+                throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.RegisterType<TCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
-            service.RegisterInstance(config).SingleInstance();
-            RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()), config.Connections.ToArray()));
+            service.RegisterInstance(new CacheConfiguration
+            {
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
+                Expire = config.Expire
+            }).SingleInstance();
+            RedisHelper.Initialization(config.PartitionPolicy != null
+                ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
+                    config.Connections.ToArray())
+                : new CSRedisClient(null, config.Connections.ToArray()));
+            service.RegisterInstance(new CSRedisCache(RedisHelper.Instance)).As<IDistributedCache>().SingleInstance();
             service.RegisterType<PartitionRedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;

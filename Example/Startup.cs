@@ -50,10 +50,11 @@ namespace Example
 
 
             #region Dependency Injection For Caching
-            services.AddDapperCachingInRedis(new RedisConfiguration
-            {
-                ConnectionString = "localhost:6379,password=nihao123#@!"
-            });
+            //services.AddDapperCachingInRedis(new RedisConfiguration
+            //{
+            //    AllMethodsEnableCache = false,
+            //    ConnectionString = "localhost:6379,password=nihao123#@!"
+            //});
 
             #endregion
 
@@ -84,7 +85,7 @@ namespace Example
 
             builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
             {
-                Connections = new[] { "localhost:6379,password=nihao123#@!" }
+                Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
             });
 
             #endregion

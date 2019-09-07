@@ -5,9 +5,9 @@ namespace Dapper.Extensions.Caching
     public class CacheConfiguration
     {
         /// <summary>
-        /// If this option is enabled, all query methods will enable caching.
+        /// If this option is enabled, all query methods will enable caching, the default is enabled.
         /// </summary>
-        public bool Enable { get; set; } = true;
+        public bool AllMethodsEnableCache { get; set; } = true;
 
         public TimeSpan? Expire { get; set; }
     }

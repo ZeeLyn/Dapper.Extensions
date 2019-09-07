@@ -1,4 +1,5 @@
-﻿using CSRedis;
+﻿using System;
+using CSRedis;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 
@@ -11,7 +12,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
             service.AddSingleton(new CacheConfiguration
             {
-                Enable = config.Enable,
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire
             });
             RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
@@ -25,7 +26,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
             service.AddSingleton(new CacheConfiguration
             {
-                Enable = config.Enable,
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire
             });
             RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
@@ -36,9 +37,18 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static IServiceCollection AddDapperCachingInPartitionRedis(this IServiceCollection service, PartitionRedisConfiguration config)
         {
+            if (config.Connections.Count() < 2)
+                throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
-            service.AddSingleton(config);
-            RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()), config.Connections.ToArray()));
+            service.AddSingleton(new CacheConfiguration
+            {
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
+                Expire = config.Expire
+            });
+            RedisHelper.Initialization(config.PartitionPolicy != null
+                ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
+                    config.Connections.ToArray())
+                : new CSRedisClient(null, config.Connections.ToArray()));
             service.AddSingleton<ICacheProvider, PartitionRedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
             return service;
@@ -46,9 +56,18 @@ namespace Dapper.Extensions.Caching.Redis
 
         public static IServiceCollection AddDapperCachingInPartitionRedis<TCacheKeyBuilder>(this IServiceCollection service, PartitionRedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
         {
+            if (config.Connections.Count() < 2)
+                throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
-            service.AddSingleton(config);
-            RedisHelper.Initialization(new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()), config.Connections.ToArray()));
+            service.AddSingleton(new CacheConfiguration
+            {
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
+                Expire = config.Expire
+            });
+            RedisHelper.Initialization(config.PartitionPolicy != null
+                ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
+                    config.Connections.ToArray())
+                : new CSRedisClient(null, config.Connections.ToArray()));
             service.AddSingleton<ICacheProvider, PartitionRedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
             return service;

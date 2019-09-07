@@ -10,7 +10,7 @@ namespace Dapper.Extensions.Caching.Memory
             service.RegisterType<DefaultCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
             service.RegisterInstance(new CacheConfiguration
             {
-                Enable = config.Enable,
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire
             }).SingleInstance();
             service.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
@@ -23,7 +23,7 @@ namespace Dapper.Extensions.Caching.Memory
             service.RegisterType<TCacheKeyBuilder>().As<ICacheKeyBuilder>().SingleInstance();
             service.RegisterInstance(new CacheConfiguration
             {
-                Enable = config.Enable,
+                AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire
             }).SingleInstance();
             service.RegisterType<MemoryCache>().As<IMemoryCache>().SingleInstance();
