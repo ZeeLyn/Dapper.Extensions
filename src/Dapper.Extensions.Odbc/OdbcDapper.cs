@@ -38,7 +38,9 @@ namespace Dapper.Extensions.Odbc
             pars.AddDynamicParams(new
             {
                 TakeStart = (pageindex - 1) * pageSize + 1,
-                TakeEnd = pageindex * pageSize
+                TakeEnd = pageindex * pageSize,
+                Skip = (pageindex - 1) * pageSize,
+                Take = pageSize
             });
 
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
@@ -79,7 +81,9 @@ namespace Dapper.Extensions.Odbc
             pars.AddDynamicParams(new
             {
                 TakeStart = (pageindex - 1) * pageSize + 1,
-                TakeEnd = pageindex * pageSize
+                TakeEnd = pageindex * pageSize,
+                Skip = (pageindex - 1) * pageSize,
+                Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return await CacheManagerAsync(enableCache, async () =>
@@ -119,7 +123,9 @@ namespace Dapper.Extensions.Odbc
             pars.AddDynamicParams(new
             {
                 TakeStart = (pageindex - 1) * pageSize + 1,
-                TakeEnd = pageindex * pageSize
+                TakeEnd = pageindex * pageSize,
+                Skip = (pageindex - 1) * pageSize,
+                Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return CacheManager(enableCache, () =>
@@ -159,7 +165,9 @@ namespace Dapper.Extensions.Odbc
             pars.AddDynamicParams(new
             {
                 TakeStart = (pageindex - 1) * pageSize + 1,
-                TakeEnd = pageindex * pageSize
+                TakeEnd = pageindex * pageSize,
+                Skip = (pageindex - 1) * pageSize,
+                Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return CacheManager(enableCache, () =>

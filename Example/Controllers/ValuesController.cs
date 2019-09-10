@@ -35,9 +35,11 @@ namespace Example.Controllers
             //Repo.CommitTransaction();
             //return Ok(result);
 
-            var r1 = await Repo1.QueryAsync<object>("select * from COMPANY where id=1 LIMIT 1 OFFSET 0", enableCache: true, cacheExpire: TimeSpan.FromSeconds(100), cacheKey: "mykey");
+            var r1 = await Repo1.QueryAsync<object>("select * from COMPANY where id=1 LIMIT 1 OFFSET 0", enableCache: true, cacheExpire: TimeSpan.FromSeconds(100));
+            int pageindex = 1;
+            var page = await Repo1.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}");
             //var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
-            return Ok(new { r1 });
+            return Ok(new { r1, page });
         }
 
         [HttpGet("Transaction")]

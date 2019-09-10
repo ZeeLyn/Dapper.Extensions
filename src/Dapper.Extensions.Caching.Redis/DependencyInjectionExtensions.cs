@@ -2,6 +2,8 @@
 using CSRedis;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
 
 namespace Dapper.Extensions.Caching.Redis
 {
@@ -55,6 +57,7 @@ namespace Dapper.Extensions.Caching.Redis
                 ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
                     config.Connections.ToArray())
                 : new CSRedisClient(null, config.Connections.ToArray()));
+            service.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
             service.AddSingleton<ICacheProvider, PartitionRedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
             return service;
@@ -76,6 +79,7 @@ namespace Dapper.Extensions.Caching.Redis
                 ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
                     config.Connections.ToArray())
                 : new CSRedisClient(null, config.Connections.ToArray()));
+            service.AddSingleton<IDistributedCache>(new CSRedisCache(RedisHelper.Instance));
             service.AddSingleton<ICacheProvider, PartitionRedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
             return service;

@@ -16,7 +16,7 @@ namespace Dapper.Extensions
         public static long GenerateId()
         {
             if (Worker == null)
-                throw new InvalidOperationException("Please call the 'Initialize' method to initialize.");
+                throw new InvalidOperationException("Please call the 'Initialization' method to initialize.");
             return Worker.NextId();
         }
     }

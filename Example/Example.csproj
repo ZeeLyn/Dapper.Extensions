@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.Caching.Redis\Dapper.Extensions.Caching.Redis.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySql.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj" />

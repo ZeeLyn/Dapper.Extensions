@@ -13,5 +13,11 @@ namespace Dapper.Extensions
         {
             return services.AddScoped<IDapper, MsSqlDapper>();
         }
+
+        //public static IServiceCollection AddBloomFilter(this IServiceCollection services)
+        //{
+
+        //    return services;
+        //}
     }
 }

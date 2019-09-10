@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Autofac.Features.AttributeFilters;
 using Dapper.Extensions.Caching.Redis;
+using Dapper.Extensions.Caching.Memory;
 
 namespace Example
 {
@@ -55,6 +56,17 @@ namespace Example
             //    AllMethodsEnableCache = false,
             //    ConnectionString = "localhost:6379,password=nihao123#@!"
             //});
+            //services.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
+            //{
+            //    AllMethodsEnableCache = false,
+            //    Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
+            //});
+
+            //services.AddDapperCachingInMemory(new MemoryConfiguration
+            //{
+            //    AllMethodsEnableCache = false,
+            //    Expire = TimeSpan.FromHours(1)
+            //});
 
             #endregion
 
@@ -83,10 +95,21 @@ namespace Example
 
             #region Autofac For Caching
 
-            builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
+            builder.AddDapperCachingForRedis(new RedisConfiguration
             {
-                Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
+                AllMethodsEnableCache = false,
+                ConnectionString = "localhost:6379,password=nihao123#@!"
             });
+
+            //builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
+            //{
+            //    Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
+            //});
+
+            //builder.AddDapperCachingInMemory(new MemoryConfiguration
+            //{
+            //    AllMethodsEnableCache = false
+            //});
 
             #endregion
 
