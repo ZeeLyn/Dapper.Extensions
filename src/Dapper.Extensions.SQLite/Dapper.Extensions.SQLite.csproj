@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
-    <PackageTags>Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis</PackageTags>
+    <PackageTags>Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <RepositoryUrl></RepositoryUrl>
     <Description>Dapper extensions</Description>

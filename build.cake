@@ -38,7 +38,7 @@ Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file
    XmlPoke(file,"/Project/PropertyGroup/GeneratePackageOnBuild","false");
    XmlPoke(file,"/Project/PropertyGroup/Description","Dapper extensions");
    XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/1100100/Dapper.Extensions");
-   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis");
+   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching");
    XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg");
    XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
    XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");
