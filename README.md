@@ -1,5 +1,5 @@
 # Dapper.Extensions
-A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC.
+A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC,  Support cache.
 
 # Packages & Status
 Packages | NuGet|Remark
@@ -9,8 +9,8 @@ Dapper.Extensions.MySql|[![NuGet package](https://buildstats.info/nuget/Dapper.E
 Dapper.Extensions.PostgreSql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSql)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSql)
 Dapper.Extensions.Odbc|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Odbc)](https://www.nuget.org/packages/Dapper.Extensions.Odbc)
 Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)
-
-
+Dapper.Extensions.Caching.Redis|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)
+Dapper.Extensions.Caching.Memory|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory)
 
 # Database connection string configuration
 
@@ -149,3 +149,44 @@ public class ValuesController : ControllerBase
  ```SQL
  select * from tab offset @Skip rows fetch next @Take rows only;
  ```
+
+
+# Support for caching
+
+### In redis
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+
+	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+	
+	services.AddDapperCachingInRedis(new RedisConfiguration
+	{
+		AllMethodsEnableCache = false,
+		ConnectionString = "localhost:6379,password=nihao123#@!"
+	});
+
+	//Redis partition mode
+	//services.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
+	//{
+		//AllMethodsEnableCache = false,
+		//Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
+	//});
+}
+```
+
+### In Memory
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+
+	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+	
+	services.AddDapperCachingInMemory(new RedisConfiguration
+	{
+		AllMethodsEnableCache = false
+	});
+
+}
+
