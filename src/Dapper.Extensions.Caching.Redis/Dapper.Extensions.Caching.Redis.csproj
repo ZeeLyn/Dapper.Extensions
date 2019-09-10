@@ -2,20 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
+    <PackageId>Dapper.Extensions.Caching.Redis</PackageId>
     <Description>Dapper extensions</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <Authors>Owen</Authors>
-    <Company>Kakous</Company>
     <Version>2.0.0</Version>
+    <Authors>Owen</Authors>
     <PackageTags>Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageId>Dapper.Extensions.MySQL</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySqlConnector" Version="0.56.0" />
+    <PackageReference Include="Caching.CSRedis" Version="3.0.51" />
+    <PackageReference Include="CSRedisCore" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>

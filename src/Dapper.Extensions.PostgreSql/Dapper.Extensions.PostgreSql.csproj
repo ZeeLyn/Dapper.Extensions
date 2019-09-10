@@ -7,14 +7,15 @@
     <Description>Dapper extensions</Description>
     <RepositoryUrl />
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <PackageTags>Dapper,Extensions,DataBase,MsSql,Sql Server,SQLite</PackageTags>
-    <Version>1.2.2</Version>
+    <PackageTags>Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis</PackageTags>
+    <Version>2.0.0</Version>
     <Authors>Owen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>Dapper.Extensions.PostgreSQL</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="4.0.3" />
+    <PackageReference Include="Npgsql" Version="4.0.9" />
   </ItemGroup>
 
   <ItemGroup>
