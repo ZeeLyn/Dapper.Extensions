@@ -189,4 +189,22 @@ public void ConfigureServices(IServiceCollection services)
 	});
 
 }
+```
 
+
+# Built-in global unique id generator(Snowflake)
+```csharp
+
+// Initialization
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+	SnowflakeUtils.Initialization(1, 1);
+}
+
+// generate
+public IActionResult GenerateId()
+{
+	return Ok(SnowflakeUtils.GenerateId());
+}
+```
