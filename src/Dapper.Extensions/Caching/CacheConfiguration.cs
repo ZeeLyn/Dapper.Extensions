@@ -10,5 +10,7 @@ namespace Dapper.Extensions.Caching
         public bool AllMethodsEnableCache { get; set; } = true;
 
         public TimeSpan? Expire { get; set; }
+
+        public string KeyPrefix { get; set; } = "dapper_cache";
     }
 }

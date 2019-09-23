@@ -191,6 +191,16 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+### Recommended usage
+```csharp
+public async Task<IActionResult> Get()
+{
+	int pageindex = 1;
+	var page = await Repo1.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}", cacheExpire: TimeSpan.FromSeconds(100));
+	return Ok(page);
+}
+```
+
 
 # Built-in global unique id generator(Snowflake)
 ```csharp

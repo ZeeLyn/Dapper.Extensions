@@ -2,6 +2,6 @@
 {
     public interface ICacheKeyBuilder
     {
-        string Generate(string sql, object param, bool shotKey = true, int? pageIndex = default, int? pageSize = default);
+        string Generate(string sql, object param, string customKey, int? pageIndex = default, int? pageSize = default);
     }
 }

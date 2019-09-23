@@ -13,16 +13,27 @@ namespace Dapper.Extensions.Caching
         private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ParamProperties = new ConcurrentDictionary<Type, List<PropertyInfo>>();
         private static readonly MD5 Md5 = System.Security.Cryptography.MD5.Create();
         private static readonly char[] Digitals = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-        public string Generate(string sql, object param, bool shotKey = true, int? pageIndex = default, int? pageSize = default)
+
+        private CacheConfiguration CacheConfiguration { get; }
+
+        public DefaultCacheKeyBuilder(CacheConfiguration configuration)
         {
+            CacheConfiguration = configuration;
+        }
+        public string Generate(string sql, object param, string customKey, int? pageIndex = default, int? pageSize = default)
+        {
+            if (!string.IsNullOrWhiteSpace(customKey))
+                return $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{customKey}";
+
             if (string.IsNullOrWhiteSpace(sql))
                 throw new ArgumentNullException(nameof(sql));
 
-            var builder = new StringBuilder("dapper_cache:");
+            var builder = new StringBuilder();
             builder.AppendFormat("{0}:", sql);
 
             if (param == null)
-                return shotKey ? MD5(builder.ToString()) : builder.ToString();
+                return $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{MD5(builder.ToString().TrimEnd(':'))}";
+
             var prop = GetProperties(param);
             foreach (var item in prop)
             {
@@ -36,7 +47,7 @@ namespace Dapper.Extensions.Caching
             {
                 builder.AppendFormat("pagesize={0}&", pageSize.Value);
             }
-            return shotKey ? MD5(builder.ToString().TrimEnd('&')) : builder.ToString();
+            return $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{MD5(builder.ToString().TrimEnd('&'))}";
         }
 
         private static IEnumerable<PropertyInfo> GetProperties(object param)

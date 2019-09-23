@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var output=Argument<string>("output", "Output");
-var version=Argument<string>("version", "2.0.0");
+var version=Argument<string>("version", "2.0.1");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
@@ -36,9 +36,9 @@ Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file
    Information("Update Version:"+file);
    XmlPoke(file,"/Project/PropertyGroup/Version",version);
    XmlPoke(file,"/Project/PropertyGroup/GeneratePackageOnBuild","false");
-   XmlPoke(file,"/Project/PropertyGroup/Description","Dapper extensions");
+   XmlPoke(file,"/Project/PropertyGroup/Description","A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC, Support cache.");
    XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/1100100/Dapper.Extensions");
-   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching");
+   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching");
    XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg");
    XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
    XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");

@@ -389,13 +389,12 @@ namespace Dapper.Extensions
         {
             if (!IsEnableCache(enableCache))
                 return execQuery();
-            if (string.IsNullOrWhiteSpace(cacheKey))
-                cacheKey = CacheKeyBuilder.Generate(sql, param, true, pageIndex, pageSize);
+            cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
             var cache = Cache.TryGet<T>(cacheKey);
             if (cache.HasKey)
                 return cache.Value;
             var result = execQuery();
-            Cache.TrySet(cacheKey, result, expire);
+            Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
             return result;
         }
 
@@ -403,13 +402,12 @@ namespace Dapper.Extensions
         {
             if (!IsEnableCache(enableCache))
                 return await execQuery();
-            if (string.IsNullOrWhiteSpace(cacheKey))
-                cacheKey = CacheKeyBuilder.Generate(sql, param, true, pageIndex, pageSize);
+            cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
             var cache = Cache.TryGet<T>(cacheKey);
             if (cache.HasKey)
                 return cache.Value;
             var result = await execQuery();
-            Cache.TrySet(cacheKey, result, expire);
+            Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
             return result;
         }
         #endregion
