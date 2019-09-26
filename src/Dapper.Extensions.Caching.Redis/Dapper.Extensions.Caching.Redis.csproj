@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Caching.CSRedis" Version="3.0.51" />
-    <PackageReference Include="CSRedisCore" Version="3.1.5" />
+    <PackageReference Include="Caching.CSRedis" Version="3.1.6" />
+    <PackageReference Include="CSRedisCore" Version="3.1.8" />
   </ItemGroup>
 
   <ItemGroup>

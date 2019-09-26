@@ -3,7 +3,6 @@ using Autofac.Features.AttributeFilters;
 using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace Example.Controllers
 {
