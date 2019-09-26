@@ -64,22 +64,22 @@ public class ValuesController : ControllerBase
 
 ```csharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
-	{
+{
 
-		services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
-		var builder = new ContainerBuilder();
-		builder.Populate(services);
+	var builder = new ContainerBuilder();
+	builder.Populate(services);
 
-		builder.AddDapperForMSSQL("MySqlConnection", "msql-conn");
-		builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
+	builder.AddDapperForMSSQL("MySqlConnection", "msql-conn");
+	builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
-		builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
-			.Where(t => t.Name.EndsWith("Controller"))
-			.PropertiesAutowired().InstancePerLifetimeScope();
-		ApplicationContainer = builder.Build();
-		return new AutofacServiceProvider(ApplicationContainer);
-	}
+	builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
+		.Where(t => t.Name.EndsWith("Controller"))
+		.PropertiesAutowired().InstancePerLifetimeScope();
+	ApplicationContainer = builder.Build();
+	return new AutofacServiceProvider(ApplicationContainer);
+}
 ```
 
 #### Inject objects with IResolveKeyed
