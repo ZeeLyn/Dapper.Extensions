@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Autofac.Features.AttributeFilters;
 using Dapper.Extensions.Caching.Redis;
 using Dapper.Extensions.MSSQL;
+using Dapper.Extensions.Odbc;
+using Dapper.Extensions.PostgreSql;
 using Microsoft.Extensions.Hosting;
 
 namespace Example
@@ -33,7 +35,7 @@ namespace Example
             SnowflakeUtils.Initialization(1, 1);
 
             #region Add Dapper
-            //services.AddDapperForSQLite();
+            services.AddDapperForSQLite();
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
             //services.AddDapperForMySQL();
