@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace Dapper.Extensions
+namespace Dapper.Extensions.MSSQL
 {
     public class MsSqlDapper : DbDapper
     {

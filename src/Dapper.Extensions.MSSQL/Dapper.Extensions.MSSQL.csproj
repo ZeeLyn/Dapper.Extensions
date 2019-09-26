@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.2</Version>
+    <Description>A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC, Support cache.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageTags>Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dapper.Extensions\Dapper.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

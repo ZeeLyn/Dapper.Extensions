@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac.Features.AttributeFilters;
 using Dapper.Extensions.Caching.Redis;
+using Dapper.Extensions.MSSQL;
 using Microsoft.Extensions.Hosting;
 
 namespace Example

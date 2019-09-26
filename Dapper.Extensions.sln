@@ -17,11 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.SQLite", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.Caching.Redis", "src\Dapper.Extensions.Caching.Redis\Dapper.Extensions.Caching.Redis.csproj", "{ADD57164-CF50-415C-8BF3-EFAAF6FF2455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Extensions.Caching.Memory", "src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj", "{2D7ACD9F-1AF8-429B-9F21-ACD979ED971C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.Caching.Memory", "src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj", "{2D7ACD9F-1AF8-429B-9F21-ACD979ED971C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{052F9750-3DC4-4D32-9E99-AFCA88FB23AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{01ADC116-B7CE-41DF-99C3-E94BABE081FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Extensions.MSSQL", "src\Dapper.Extensions.MSSQL\Dapper.Extensions.MSSQL.csproj", "{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{2D7ACD9F-1AF8-429B-9F21-ACD979ED971C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D7ACD9F-1AF8-429B-9F21-ACD979ED971C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D7ACD9F-1AF8-429B-9F21-ACD979ED971C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{ADD57164-CF50-415C-8BF3-EFAAF6FF2455} = {01ADC116-B7CE-41DF-99C3-E94BABE081FC}
 		{2D7ACD9F-1AF8-429B-9F21-ACD979ED971C} = {01ADC116-B7CE-41DF-99C3-E94BABE081FC}
 		{01ADC116-B7CE-41DF-99C3-E94BABE081FC} = {052F9750-3DC4-4D32-9E99-AFCA88FB23AC}
+		{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D} = {052F9750-3DC4-4D32-9E99-AFCA88FB23AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72C2F8A8-B622-4FB1-8B87-3B240B9CC58F}

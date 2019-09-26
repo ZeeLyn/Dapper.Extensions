@@ -2,10 +2,11 @@
 A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC,  Support cache.
 
 # Packages & Status
-Packages | NuGet|Remark
----------|------|----
-Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)|Abstract class and implementation of microsoft sql server
+Packages | NuGet
+---------|------
+Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)
 Dapper.Extensions.MySql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySql)](https://www.nuget.org/packages/DDapper.Extensions.MySql)
+Dapper.Extensions.MSSQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/DDapper.Extensions.MSSQL)
 Dapper.Extensions.PostgreSql|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSql)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSql)
 Dapper.Extensions.Odbc|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Odbc)](https://www.nuget.org/packages/Dapper.Extensions.Odbc)
 Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)

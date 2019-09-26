@@ -8,16 +8,5 @@ namespace Dapper.Extensions
         {
             return services.AddScoped(typeof(IDapper), typeof(TDbProvider));
         }
-
-        public static IServiceCollection AddDapperForMSSQL(this IServiceCollection services)
-        {
-            return services.AddScoped<IDapper, MsSqlDapper>();
-        }
-
-        //public static IServiceCollection AddBloomFilter(this IServiceCollection services)
-        //{
-
-        //    return services;
-        //}
     }
 }

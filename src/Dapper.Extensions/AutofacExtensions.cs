@@ -13,11 +13,5 @@ namespace Dapper.Extensions
                 container.RegisterType<TDbProvider>().Keyed<IDapper>(serviceKey).WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
             return container;
         }
-
-        public static ContainerBuilder AddDapperForMSSQL(this ContainerBuilder container, string connectionName = "DefaultConnection", object serviceKey = null)
-        {
-            container.AddDapper<MsSqlDapper>(connectionName, serviceKey);
-            return container;
-        }
     }
 }
