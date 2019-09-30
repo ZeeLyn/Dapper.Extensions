@@ -8,7 +8,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <Authors>Owen</Authors>
     <Company>Kakous</Company>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <PackageTags>Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MSSQL,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Dapper.Extensions.MySQL</PackageId>
