@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using StackExchange.Profiling.Data;
 
 namespace Dapper.Extensions.MiniProfiler
 {
@@ -7,7 +8,7 @@ namespace Dapper.Extensions.MiniProfiler
     {
         public IDbConnection CreateConnection(DbConnection connection)
         {
-            return new StackExchange.Profiling.Data.ProfiledDbConnection(connection, StackExchange.Profiling.MiniProfiler.Current);
+            return new ProfiledDbConnection(connection, StackExchange.Profiling.MiniProfiler.Current);
         }
     }
 }

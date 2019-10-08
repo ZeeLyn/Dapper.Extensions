@@ -35,7 +35,6 @@ Note:Dependency injection only supports a single database and the default connec
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-
 	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 	services.AddDapperForSQLite();
 }
@@ -193,6 +192,7 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ### Recommended usage
+It is recommended to use a custom cache key, because the built-in key generator is based on all parameters MD5 hash, which affects performance.
 ```csharp
 public async Task<IActionResult> Get()
 {

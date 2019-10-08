@@ -133,7 +133,7 @@ namespace Example
 
             app.UseMiniProfiler();
             app.UseRouting();
-
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
