@@ -10,10 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac.Features.AttributeFilters;
 using Dapper.Extensions.Caching.Redis;
+using Dapper.Extensions.MiniProfiler;
 using Dapper.Extensions.MSSQL;
 using Dapper.Extensions.Odbc;
 using Dapper.Extensions.PostgreSql;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Profiling.Storage;
+using StackExchange.Redis;
 
 namespace Example
 {
@@ -35,7 +38,7 @@ namespace Example
             SnowflakeUtils.Initialization(1, 1);
 
             #region Add Dapper
-            services.AddDapperForSQLite();
+            //services.AddDapperForSQLite();
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
             //services.AddDapperForMySQL();
@@ -64,6 +67,16 @@ namespace Example
 
             #endregion
 
+            services.AddMemoryCache();
+            services.AddMiniProfilerForDapper();
+            services.AddMiniProfiler(options =>
+            {
+                options.RouteBasePath = "/profiler";
+                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
+
+                options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
+                options.Storage = new RedisStorage("localhost:6379,password=nihao123#@!");
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -86,12 +99,12 @@ namespace Example
 
             #region Add Caching
 
-            builder.AddDapperCachingForRedis(new RedisConfiguration
-            {
-                AllMethodsEnableCache = false,
-                ConnectionString = "localhost:6379,password=nihao123#@!",
-                Expire = TimeSpan.FromHours(1)
-            });
+            //builder.AddDapperCachingForRedis(new RedisConfiguration
+            //{
+            //    AllMethodsEnableCache = false,
+            //    ConnectionString = "localhost:6379,password=nihao123#@!",
+            //    Expire = TimeSpan.FromHours(1)
+            //});
 
             //builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
             //{
@@ -118,7 +131,9 @@ namespace Example
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiniProfiler();
             app.UseRouting();
+
 
             app.UseEndpoints(endpoints =>
             {

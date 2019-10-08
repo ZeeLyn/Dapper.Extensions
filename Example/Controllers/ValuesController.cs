@@ -38,7 +38,7 @@ namespace Example.Controllers
             int pageindex = 1;
             var page = await Repo1.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}");
             //var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
-            return Ok(new { r1, page });
+            return Ok(new { r1, page, m = await StackExchange.Profiling.MiniProfiler.Current.Storage.LoadAsync(new Guid("657a85cf-f781-4fc9-9752-32c49c5c24d4")) });
         }
 
         [HttpGet("Transaction")]

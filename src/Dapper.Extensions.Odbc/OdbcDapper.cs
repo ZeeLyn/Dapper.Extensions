@@ -3,11 +3,10 @@ using System.Data;
 using System.Data.Odbc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace Dapper.Extensions.Odbc
 {
-    public class OdbcDapper : DbDapper
+    public class OdbcDapper : BaseDapper
     {
         public OdbcDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
         {
@@ -15,15 +14,13 @@ namespace Dapper.Extensions.Odbc
 
         protected override IDbConnection CreateConnection(string connectionName)
         {
-            var connString = Configuration.GetConnectionString(connectionName);
-            if (string.IsNullOrWhiteSpace(connString))
-                throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
-            IDbConnection conn = OdbcFactory.Instance.CreateConnection();
+            var connString = GetConnectionString(connectionName);
+            var conn = OdbcFactory.Instance.CreateConnection();
             if (conn == null)
                 throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
             conn.ConnectionString = connString;
             conn.Open();
-            return conn;
+            return PackMiniProfilerConnection(conn);
         }
         public override async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {

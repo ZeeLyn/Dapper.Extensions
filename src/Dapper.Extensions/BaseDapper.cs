@@ -1,15 +1,17 @@
 ﻿using Dapper.Extensions.Caching;
+using Dapper.Extensions.MiniProfiler;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dapper.Extensions
 {
-    public abstract class DbDapper : IDapper, IDisposable
+    public abstract class BaseDapper : IDapper, IDisposable
     {
         public Lazy<IDbConnection> Conn { get; }
 
@@ -25,14 +27,33 @@ namespace Dapper.Extensions
 
         protected internal CacheConfiguration CacheConfiguration { get; }
 
-        protected DbDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
+        protected internal IDbMiniProfiler MiniProfiler { get; }
+
+        protected internal BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
         {
             Configuration = serviceProvider.GetRequiredService<IConfiguration>();
             Cache = serviceProvider.GetService<ICacheProvider>();
             CacheConfiguration = serviceProvider.GetService<CacheConfiguration>();
             CacheKeyBuilder = serviceProvider.GetService<ICacheKeyBuilder>();
+            MiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
         }
+
+        protected internal IDbConnection PackMiniProfilerConnection(DbConnection connection)
+        {
+            if (MiniProfiler == null)
+                return connection;
+            return MiniProfiler.CreateConnection(connection);
+        }
+
+        protected internal string GetConnectionString(string connectionName)
+        {
+            var connString = Configuration.GetConnectionString(connectionName);
+            if (string.IsNullOrWhiteSpace(connString))
+                throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
+            return connString;
+        }
+
 
         public virtual async Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
