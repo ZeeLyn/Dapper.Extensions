@@ -68,7 +68,7 @@ namespace Example
             #endregion
 
             services.AddMemoryCache();
-            services.AddMiniProfilerForDapper();
+            //services.AddMiniProfilerForDapper();
             services.AddMiniProfiler(options =>
             {
                 options.RouteBasePath = "/profiler";

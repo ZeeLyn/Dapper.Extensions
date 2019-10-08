@@ -11,7 +11,7 @@ namespace Dapper.Extensions.MiniProfiler
     {
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            StackExchange.Profiling.MiniProfiler.StartNew();
+            StackExchange.Profiling.MiniProfiler.StartNew("Test");
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

@@ -19,7 +19,7 @@ namespace Dapper.Extensions
 
         protected internal IConfiguration Configuration { get; }
 
-        protected abstract IDbConnection CreateConnection(string connectionName);
+        protected internal abstract IDbConnection CreateConnection(string connectionName);
 
         private ICacheProvider Cache { get; }
 
@@ -27,7 +27,7 @@ namespace Dapper.Extensions
 
         protected internal CacheConfiguration CacheConfiguration { get; }
 
-        protected internal IDbMiniProfiler MiniProfiler { get; }
+        private IDbMiniProfiler DbMiniProfiler { get; }
 
         protected internal BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
         {
@@ -35,23 +35,22 @@ namespace Dapper.Extensions
             Cache = serviceProvider.GetService<ICacheProvider>();
             CacheConfiguration = serviceProvider.GetService<CacheConfiguration>();
             CacheKeyBuilder = serviceProvider.GetService<ICacheKeyBuilder>();
-            MiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
+            DbMiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
         }
 
-        protected internal IDbConnection PackMiniProfilerConnection(DbConnection connection)
-        {
-            if (MiniProfiler == null)
-                return connection;
-            return MiniProfiler.CreateConnection(connection);
-        }
-
-        protected internal string GetConnectionString(string connectionName)
+        protected internal IDbConnection GetConnection(string connectionName, DbProviderFactory factory)
         {
             var connString = Configuration.GetConnectionString(connectionName);
             if (string.IsNullOrWhiteSpace(connString))
                 throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
-            return connString;
+            var conn = factory.CreateConnection();
+            if (conn == null)
+                throw new ArgumentNullException(nameof(IDbConnection), "Failed to create database connection.");
+            conn.ConnectionString = connString;
+            if (DbMiniProfiler == null)
+                return conn;
+            return DbMiniProfiler.CreateConnection(conn);
         }
 
 

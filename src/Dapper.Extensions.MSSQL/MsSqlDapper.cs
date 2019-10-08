@@ -13,13 +13,7 @@ namespace Dapper.Extensions.MSSQL
         }
         protected override IDbConnection CreateConnection(string connectionName)
         {
-            var connString = GetConnectionString(connectionName);
-            var conn = SqlClientFactory.Instance.CreateConnection();
-            if (conn == null)
-                throw new ArgumentNullException(nameof(IDbConnection), "Failed to get database connection object");
-            conn.ConnectionString = connString;
-            conn.Open();
-            return PackMiniProfilerConnection(conn);
+            return GetConnection(connectionName, SqlClientFactory.Instance);
         }
         public override async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
