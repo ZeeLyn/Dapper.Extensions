@@ -432,18 +432,22 @@ namespace Dapper.Extensions
 
         public virtual void CommitTransaction()
         {
-            Transaction?.Commit();
+            if (Transaction == null)
+                throw new InvalidOperationException("Please call the BeginTransaction method first.");
+            Transaction.Commit();
         }
 
         public virtual void RollbackTransaction()
         {
-            Transaction?.Rollback();
+            if (Transaction == null)
+                throw new InvalidOperationException("Please call the BeginTransaction method first.");
+            Transaction.Rollback();
         }
 
         public virtual void Dispose()
         {
-            Transaction?.Dispose();
             if (!Conn.IsValueCreated) return;
+            Transaction?.Dispose();
             Conn?.Value?.Close();
             Conn?.Value?.Dispose();
         }

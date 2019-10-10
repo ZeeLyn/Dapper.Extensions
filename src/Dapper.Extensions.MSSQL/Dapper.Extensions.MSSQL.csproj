@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.1.2</Version>
+    <Version>2.2.0</Version>
     <Description>A dapper extension library. Support MySql,SQL Server,MSSQL,PostgreSql,SQLite and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
