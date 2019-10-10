@@ -4,7 +4,7 @@ using System;
 
 namespace Dapper.Extensions
 {
-    public class SnowflakeUtils
+    public static class SnowflakeUtils
     {
         private static IdWorker Worker { get; set; }
 
