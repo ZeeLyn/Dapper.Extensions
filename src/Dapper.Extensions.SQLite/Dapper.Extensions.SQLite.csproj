@@ -8,7 +8,7 @@
     <RepositoryUrl></RepositoryUrl>
     <Description>A dapper extension library. Support MySql,SQL Server,MSSQL,PostgreSql,SQLite and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Owen</Authors>
   </PropertyGroup>

@@ -48,9 +48,7 @@ namespace Dapper.Extensions
             if (conn == null)
                 throw new ArgumentNullException(nameof(IDbConnection), "Failed to create database connection.");
             conn.ConnectionString = connString;
-            if (DbMiniProfiler == null)
-                return conn;
-            return DbMiniProfiler.CreateConnection(conn);
+            return DbMiniProfiler == null ? conn : DbMiniProfiler.CreateConnection(conn);
         }
 
 

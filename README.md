@@ -12,6 +12,7 @@ Dapper.Extensions.Odbc|[![NuGet package](https://buildstats.info/nuget/Dapper.Ex
 Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)
 Dapper.Extensions.Caching.Redis|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)
 Dapper.Extensions.Caching.Memory|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory)
+Dapper.Extensions.MiniProfiler|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MiniProfiler)](https://www.nuget.org/packages/Dapper.Extensions.MiniProfiler)
 
 # Database connection string configuration
 
@@ -199,6 +200,16 @@ public async Task<IActionResult> Get()
 	int pageindex = 1;
 	var page = await Repo1.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}", cacheExpire: TimeSpan.FromSeconds(100));
 	return Ok(page);
+}
+```
+
+# Support for MiniProfiler
+Dapper.Extensions.MiniProfiler just adds support for MiniProfiler. To enable MiniProfiler, you need to configure it yourself. Please check the [documentation](https://miniprofiler.com/dotnet/).
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddMiniProfilerForDapper();
 }
 ```
 

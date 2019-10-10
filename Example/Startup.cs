@@ -68,14 +68,16 @@ namespace Example
             #endregion
 
             services.AddMemoryCache();
-            //services.AddMiniProfilerForDapper();
+
             services.AddMiniProfiler(options =>
             {
+                var storage = new RedisStorage("localhost:6379,password=nihao123#@!")
+                {
+                    CacheDuration = TimeSpan.FromMinutes(5)
+                };
                 options.RouteBasePath = "/profiler";
-                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
-
                 options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
-                options.Storage = new RedisStorage("localhost:6379,password=nihao123#@!");
+                options.Storage = storage;
             });
         }
 
@@ -95,6 +97,7 @@ namespace Example
 
             builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
+            builder.AddMiniProfilerForDapper();
             #endregion
 
             #region Add Caching
