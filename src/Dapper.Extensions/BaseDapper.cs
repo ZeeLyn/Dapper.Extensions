@@ -391,6 +391,28 @@ namespace Dapper.Extensions
             return Transaction = Conn.Value.BeginTransaction(level);
         }
 
+        public virtual void CommitTransaction()
+        {
+            if (Transaction == null)
+                throw new InvalidOperationException("Please call the BeginTransaction method first.");
+            Transaction.Commit();
+        }
+
+        public virtual void RollbackTransaction()
+        {
+            if (Transaction == null)
+                throw new InvalidOperationException("Please call the BeginTransaction method first.");
+            Transaction.Rollback();
+        }
+
+        public virtual void Dispose()
+        {
+            if (!Conn.IsValueCreated) return;
+            Transaction?.Dispose();
+            Conn?.Value?.Close();
+            Conn?.Value?.Dispose();
+        }
+
 
         #region Cache methods
 
@@ -429,28 +451,5 @@ namespace Dapper.Extensions
             return result;
         }
         #endregion
-
-        public virtual void CommitTransaction()
-        {
-            if (Transaction == null)
-                throw new InvalidOperationException("Please call the BeginTransaction method first.");
-            Transaction.Commit();
-        }
-
-        public virtual void RollbackTransaction()
-        {
-            if (Transaction == null)
-                throw new InvalidOperationException("Please call the BeginTransaction method first.");
-            Transaction.Rollback();
-        }
-
-        public virtual void Dispose()
-        {
-            if (!Conn.IsValueCreated) return;
-            Transaction?.Dispose();
-            Conn?.Value?.Close();
-            Conn?.Value?.Dispose();
-        }
-
     }
 }
