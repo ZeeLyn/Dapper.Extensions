@@ -15,21 +15,21 @@ namespace Dapper.Extensions
     {
         public Lazy<IDbConnection> Conn { get; }
 
-        protected internal IDbTransaction Transaction { get; set; }
+        protected IDbTransaction Transaction { get; set; }
 
-        protected internal IConfiguration Configuration { get; }
+        protected IConfiguration Configuration { get; }
 
-        protected internal abstract IDbConnection CreateConnection(string connectionName);
+        protected abstract IDbConnection CreateConnection(string connectionName);
+
+        protected CacheConfiguration CacheConfiguration { get; }
 
         private ICacheProvider Cache { get; }
 
         private ICacheKeyBuilder CacheKeyBuilder { get; }
 
-        protected internal CacheConfiguration CacheConfiguration { get; }
-
         private IDbMiniProfiler DbMiniProfiler { get; }
 
-        protected internal BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
+        protected BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
         {
             Configuration = serviceProvider.GetRequiredService<IConfiguration>();
             Cache = serviceProvider.GetService<ICacheProvider>();
@@ -39,7 +39,7 @@ namespace Dapper.Extensions
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
         }
 
-        protected internal IDbConnection GetConnection(string connectionName, DbProviderFactory factory)
+        protected IDbConnection GetConnection(string connectionName, DbProviderFactory factory)
         {
             var connString = Configuration.GetConnectionString(connectionName);
             if (string.IsNullOrWhiteSpace(connString))
@@ -181,12 +181,12 @@ namespace Dapper.Extensions
             }, sql, param, cacheKey, cacheExpire);
         }
 
-        public IDataReader ExecuteReader(string sql, object param = null, int? commandTimeout = null)
+        public virtual IDataReader ExecuteReader(string sql, object param = null, int? commandTimeout = null)
         {
             return Conn.Value.ExecuteReader(sql, param, Transaction, commandTimeout);
         }
 
-        public async Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null)
+        public virtual async Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null)
         {
             return await Conn.Value.ExecuteReaderAsync(sql, param, Transaction, commandTimeout);
         }
@@ -416,7 +416,7 @@ namespace Dapper.Extensions
 
         #region Cache methods
 
-        protected internal bool IsEnableCache(bool? enable)
+        protected bool IsEnableCache(bool? enable)
         {
             if (CacheConfiguration == null)
                 return false;
@@ -425,7 +425,7 @@ namespace Dapper.Extensions
             return CacheConfiguration.AllMethodsEnableCache;
         }
 
-        protected internal T CacheManager<T>(bool? enableCache, Func<T> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
+        protected T CacheManager<T>(bool? enableCache, Func<T> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
         {
             if (!IsEnableCache(enableCache))
                 return execQuery();
@@ -438,7 +438,7 @@ namespace Dapper.Extensions
             return result;
         }
 
-        protected internal async Task<T> CacheManagerAsync<T>(bool? enableCache, Func<Task<T>> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
+        protected async Task<T> CacheManagerAsync<T>(bool? enableCache, Func<Task<T>> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
         {
             if (!IsEnableCache(enableCache))
                 return await execQuery();
