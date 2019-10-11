@@ -35,7 +35,7 @@ namespace Dapper.Extensions.Odbc
             });
 
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
@@ -77,7 +77,7 @@ namespace Dapper.Extensions.Odbc
                 Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
@@ -119,7 +119,7 @@ namespace Dapper.Extensions.Odbc
                 Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return CacheManager(enableCache, () =>
+            return CommandExecute(enableCache, () =>
             {
                 using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
                 {
@@ -161,7 +161,7 @@ namespace Dapper.Extensions.Odbc
                 Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return CacheManager(enableCache, () =>
+            return CommandExecute(enableCache, () =>
             {
                 using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
                 {

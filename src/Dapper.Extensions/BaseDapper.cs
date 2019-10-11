@@ -54,62 +54,62 @@ namespace Dapper.Extensions
 
         public virtual async Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () => (await Conn.Value.QueryAsync<T>(sql, param, Transaction, commandTimeout)).ToList(), sql, param, cacheKey, cacheExpire);
+            return await CommandExecuteAsync(enableCache, async () => (await Conn.Value.QueryAsync<T>(sql, param, Transaction, commandTimeout)).ToList(), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual List<T> Query<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return CacheManager(enableCache, () => Conn.Value.Query<T>(sql, param, Transaction, commandTimeout: commandTimeout).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query<T>(sql, param, Transaction, commandTimeout: commandTimeout).ToList(), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual async Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () => (await Conn.Value.QueryAsync(sql, param, Transaction, commandTimeout)).ToList(), sql, param, cacheKey, cacheExpire);
+            return await CommandExecuteAsync(enableCache, async () => (await Conn.Value.QueryAsync(sql, param, Transaction, commandTimeout)).ToList(), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual List<dynamic> Query(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return CacheManager(enableCache, () => Conn.Value.Query(sql, param, Transaction, commandTimeout: commandTimeout).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, param, Transaction, commandTimeout: commandTimeout).ToList(), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual async Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () => await Conn.Value.QueryFirstOrDefaultAsync<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return await CommandExecuteAsync(enableCache, async () => await Conn.Value.QueryFirstOrDefaultAsync<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual T QueryFirstOrDefault<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return CacheManager(enableCache, () => Conn.Value.QueryFirstOrDefault<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QueryFirstOrDefault<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual async Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () => await Conn.Value.QueryFirstOrDefaultAsync(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return await CommandExecuteAsync(enableCache, async () => await Conn.Value.QueryFirstOrDefaultAsync(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return CacheManager(enableCache, () => Conn.Value.QueryFirstOrDefault(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QueryFirstOrDefault(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return CacheManager(enableCache, () => Conn.Value.QuerySingleOrDefault(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QuerySingleOrDefault(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual async Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () => await Conn.Value.QuerySingleOrDefaultAsync(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return await CommandExecuteAsync(enableCache, async () => await Conn.Value.QuerySingleOrDefaultAsync(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual T QuerySingleOrDefault<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return CacheManager(enableCache, () => Conn.Value.QuerySingleOrDefault<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QuerySingleOrDefault<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual async Task<T> QuerySingleOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () => await Conn.Value.QuerySingleOrDefaultAsync<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
+            return await CommandExecuteAsync(enableCache, async () => await Conn.Value.QuerySingleOrDefaultAsync<T>(sql, param, Transaction, commandTimeout), sql, param, cacheKey, cacheExpire);
         }
 
         public virtual async Task QueryMultipleAsync(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null)
@@ -131,7 +131,7 @@ namespace Dapper.Extensions
         public virtual async Task<(List<T1> Result1, List<T2> Result2)> QueryMultipleAsync<T1, T2>(string sql,
             object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
                 {
@@ -144,7 +144,7 @@ namespace Dapper.Extensions
             string sql,
             object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
                 {
@@ -156,7 +156,7 @@ namespace Dapper.Extensions
 
         public virtual async Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3, List<T4> Result4)> QueryMultipleAsync<T1, T2, T3, T4>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
                 {
@@ -171,7 +171,7 @@ namespace Dapper.Extensions
                 string sql,
                 object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, param, Transaction, commandTimeout))
                 {
@@ -210,7 +210,7 @@ namespace Dapper.Extensions
             });
 
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
@@ -252,7 +252,7 @@ namespace Dapper.Extensions
                 Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return await CacheManagerAsync(enableCache, async () =>
+            return await CommandExecuteAsync(enableCache, async () =>
             {
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
@@ -294,7 +294,7 @@ namespace Dapper.Extensions
                 Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return CacheManager(enableCache, () =>
+            return CommandExecute(enableCache, () =>
             {
                 using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
                 {
@@ -336,7 +336,7 @@ namespace Dapper.Extensions
                 Take = pageSize
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
-            return CacheManager(enableCache, () =>
+            return CommandExecute(enableCache, () =>
             {
                 using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
                 {
@@ -425,7 +425,7 @@ namespace Dapper.Extensions
             return CacheConfiguration.AllMethodsEnableCache;
         }
 
-        protected T CacheManager<T>(bool? enableCache, Func<T> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
+        protected T CommandExecute<T>(bool? enableCache, Func<T> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
         {
             if (!IsEnableCache(enableCache))
                 return execQuery();
@@ -438,7 +438,7 @@ namespace Dapper.Extensions
             return result;
         }
 
-        protected async Task<T> CacheManagerAsync<T>(bool? enableCache, Func<Task<T>> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
+        protected async Task<T> CommandExecuteAsync<T>(bool? enableCache, Func<Task<T>> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
         {
             if (!IsEnableCache(enableCache))
                 return await execQuery();
