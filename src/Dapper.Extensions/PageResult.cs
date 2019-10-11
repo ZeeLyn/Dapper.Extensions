@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Dapper.Extensions
 {
@@ -6,6 +7,7 @@ namespace Dapper.Extensions
     /// 分页
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Serializable]
     public class PageResult<T>
     {
         /// <summary>
