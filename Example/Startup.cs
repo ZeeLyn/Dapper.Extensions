@@ -98,6 +98,7 @@ namespace Example
             builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
             builder.AddMiniProfilerForDapper();
+
             #endregion
 
             #region Add Caching
