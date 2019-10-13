@@ -17,13 +17,17 @@ namespace Example.Controllers
         private IDapper SQLiteRepo1 { get; }
 
         private IDapper SQLiteRepo2 { get; }
-        public ValuesController(IResolveKeyed resolve, [KeyFilter("sqlite1-conn")]IDapper rep1, [KeyFilter("sqlite2-conn")]IDapper rep2)
+
+        private IDapper SQLRepo { get; }
+        public ValuesController(IResolveKeyed resolve, [KeyFilter("sqlite1-conn")]IDapper rep1, [KeyFilter("sqlite2-conn")]IDapper rep2, [KeyFilter("msql-conn")]IDapper sql)
         {
             SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
             SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
 
             Repo1 = rep1;
             Repo2 = rep2;
+
+            SQLRepo = sql;
         }
         // GET api/values
         [HttpGet]
@@ -38,7 +42,14 @@ namespace Example.Controllers
             int pageindex = 1;
             var page = await Repo1.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}");
             //var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
-            return Ok(new { r1, page });
+            return Ok(new
+            {
+                SQLite = new { r1, page },
+                SQL = new
+                {
+                    page = await SQLRepo.QueryPageAsync("select count(*) from Company;", "select * from Company;", 1, 20)
+                }
+            });
         }
 
         [HttpGet("Transaction")]

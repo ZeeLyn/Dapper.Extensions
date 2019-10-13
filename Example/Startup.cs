@@ -46,7 +46,7 @@ namespace Example
             #endregion
 
 
-            #region Add Caching
+            #region Enable Caching
             //services.AddDapperCachingInRedis(new RedisConfiguration
             //{
             //    AllMethodsEnableCache = false,
@@ -68,7 +68,7 @@ namespace Example
             #endregion
 
             services.AddMemoryCache();
-
+            //Enable MiniProfiler
             services.AddMiniProfiler(options =>
             {
                 var storage = new RedisStorage("localhost:6379,password=nihao123#@!")
@@ -95,20 +95,23 @@ namespace Example
 
             builder.AddDapperForMSSQL("MSSqlConnection", "msql-conn");
 
-            builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn").AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
+            builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn");
 
+            builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
+
+            //Add support for MiniProfiler
             builder.AddMiniProfilerForDapper();
 
             #endregion
 
-            #region Add Caching
+            #region Enable Caching
 
-            //builder.AddDapperCachingForRedis(new RedisConfiguration
-            //{
-            //    AllMethodsEnableCache = false,
-            //    ConnectionString = "localhost:6379,password=nihao123#@!",
-            //    Expire = TimeSpan.FromHours(1)
-            //});
+            builder.AddDapperCachingForRedis(new RedisConfiguration
+            {
+                AllMethodsEnableCache = false,
+                ConnectionString = "localhost:6379,password=nihao123#@!",
+                Expire = TimeSpan.FromHours(1)
+            });
 
             //builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
             //{
