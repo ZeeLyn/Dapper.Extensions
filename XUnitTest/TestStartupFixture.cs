@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Dapper.Extensions.SQLite;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
@@ -14,7 +16,10 @@ namespace XUnitTest
 
         public TestStartupFixture()
         {
-            _host = Host.CreateDefaultBuilder().ConfigureServices(context => { context.AddDapperForSQLite(); }).Build();
+            _host = Host.CreateDefaultBuilder().ConfigureServices(context => { context.AddDapperForSQLite(); }).ConfigureHostConfiguration(builder =>
+                {
+                    builder.SetBasePath(Directory.GetCurrentDirectory());
+                }).Build();
             Services = _host.Services;
         }
 

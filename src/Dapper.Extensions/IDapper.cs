@@ -19,8 +19,9 @@ namespace Dapper.Extensions
         /// <param name="enableCache">Enable cache</param>
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="commandType"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Perform a multi-mapping query with 2 input types.
@@ -36,8 +37,10 @@ namespace Dapper.Extensions
         /// <param name="enableCache"></param>
         /// <param name="cacheExpire"></param>
         /// <param name="cacheKey"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true);
 
         /// <summary>
         /// Perform a multi-mapping query with 3 input types.
@@ -54,8 +57,10 @@ namespace Dapper.Extensions
         /// <param name="enableCache"></param>
         /// <param name="cacheExpire"></param>
         /// <param name="cacheKey"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true);
 
         /// <summary>
         /// Perform a multi-mapping query with 4 input types.
@@ -73,8 +78,10 @@ namespace Dapper.Extensions
         /// <param name="enableCache"></param>
         /// <param name="cacheExpire"></param>
         /// <param name="cacheKey"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true);
 
         /// <summary>
         /// Perform a multi-mapping query with 5 input types.
@@ -93,8 +100,10 @@ namespace Dapper.Extensions
         /// <param name="enableCache"></param>
         /// <param name="cacheExpire"></param>
         /// <param name="cacheKey"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true);
 
 
         /// <summary>
@@ -115,8 +124,10 @@ namespace Dapper.Extensions
         /// <param name="enableCache"></param>
         /// <param name="cacheExpire"></param>
         /// <param name="cacheKey"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true);
 
         /// <summary>
         /// Perform a multi-mapping query with 7 input types.
@@ -137,8 +148,10 @@ namespace Dapper.Extensions
         /// <param name="enableCache"></param>
         /// <param name="cacheExpire"></param>
         /// <param name="cacheKey"></param>
+        /// <param name="commandType"></param>
+        /// <param name="buffered"></param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
@@ -280,8 +293,9 @@ namespace Dapper.Extensions
         /// <param name="enableCache">Enable cache</param>
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="commandType"></param>
         /// <returns></returns>
-        Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Return a sequence of dynamic objects with properties matching the columns.
@@ -306,7 +320,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Executes a single-row query, returning the data typed as T.
@@ -331,7 +345,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<dynamic> QueryFirstOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a single-row query ,return a dynamic object with properties matching the columns.
@@ -367,7 +381,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
@@ -389,7 +403,7 @@ namespace Dapper.Extensions
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
@@ -399,7 +413,7 @@ namespace Dapper.Extensions
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task QueryMultipleAsync(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null);
+        Task QueryMultipleAsync(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
@@ -423,7 +437,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -439,7 +453,7 @@ namespace Dapper.Extensions
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(string sql,
-               object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+               object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -456,7 +470,7 @@ namespace Dapper.Extensions
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)> QueryMultipleAsync
-               <TReturn1, TReturn2, TReturn3, TReturn4>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+               <TReturn1, TReturn2, TReturn3, TReturn4>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -473,7 +487,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         ///  Execute parameterized SQL and return an System.Data.IDataReader.
@@ -491,7 +505,7 @@ namespace Dapper.Extensions
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null);
+        Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Paging query.
@@ -508,7 +522,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Paging query.
@@ -524,7 +538,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
 
         /// <summary>
@@ -567,7 +581,7 @@ namespace Dapper.Extensions
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<int> ExecuteAsync(string sql, object param = null, int? commandTimeout = null);
+        Task<int> ExecuteAsync(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Execute parameterized SQL.
@@ -586,7 +600,7 @@ namespace Dapper.Extensions
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<TReturn> ExecuteScalarAsync<TReturn>(string sql, object param = null, int? commandTimeout = null);
+        Task<TReturn> ExecuteScalarAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Execute parameterized SQL that selects a single value.

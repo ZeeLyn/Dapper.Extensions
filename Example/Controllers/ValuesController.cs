@@ -51,11 +51,11 @@ namespace Example.Controllers
             //    }
             //});
 
-            var r = await Repo1.QueryAsync<Contact, Passport, Contact>("select Contact.id,Contact.name,Passport.ContactId,Passport.PassportNumber from Contact,Passport where Passport.ContactId=Contact.id;", (contact, passport) =>
+            var r = await Repo1.QueryAsync<Contact, Passport, Contact>("select Contact.id,Contact.name,Passport.PassportNumber from Contact,Passport where Passport.ContactId=Contact.id;", (contact, passport) =>
             {
                 contact.Passport = passport;
                 return contact;
-            }, null, "ContactId");
+            }, null, "PassportNumber");
             return Ok(r);
         }
 
