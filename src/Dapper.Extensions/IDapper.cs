@@ -12,7 +12,7 @@ namespace Dapper.Extensions
         /// <summary>
         /// Execute a query asynchronously, returning the data typed as T.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -20,12 +20,130 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<List<T>> QueryAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 2 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>am>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 3 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 4 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 5 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+
+        /// <summary>
+        /// Perform a multi-mapping query with 6 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 7 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TSeventh">The seventh type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -33,7 +151,125 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        List<T> Query<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        List<TReturn> Query<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 2 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>am>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        List<TReturn> Query<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 3 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        List<TReturn> Query<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 4 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 5 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+
+        /// <summary>
+        /// Perform a multi-mapping query with 6 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 7 input types.
+        /// </summary>
+        /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
+        /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
+        /// <typeparam name="TThird">The third type in the recordset.</typeparam>
+        /// <typeparam name="TFourth">The fourth type in the recordset.</typeparam>
+        /// <typeparam name="TFifth">The fifth type in the recordset.</typeparam>
+        /// <typeparam name="TSixth">The sixth type in the recordset.</typeparam>
+        /// <typeparam name="TSeventh">The seventh type in the recordset.</typeparam>
+        /// <typeparam name="TReturn">The combined type to return.</typeparam>
+        /// <param name="sql"></param>
+        /// <param name="map">The function to map row types to the return type.</param>
+        /// <param name="param"></param>
+        /// <param name="splitOn">The field we should split and read the second object from (default: "Id").</param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Return a sequence of dynamic objects with properties matching the columns.
@@ -62,7 +298,7 @@ namespace Dapper.Extensions
         /// <summary>
         /// Executes a single-row query, returning the data typed as T.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -70,12 +306,12 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<T> QueryFirstOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a single-row query, returning the data typed as T.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -83,7 +319,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        T QueryFirstOrDefault<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        TReturn QueryFirstOrDefault<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a single-row query asynchronously,return a dynamic object with properties matching the columns.
@@ -143,17 +379,17 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        T QuerySingleOrDefault<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        TReturn QuerySingleOrDefault<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Executes a query, returning the data typed as T.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<T> QuerySingleOrDefaultAsync<T>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
@@ -178,8 +414,8 @@ namespace Dapper.Extensions
         /// <summary>
         /// Execute a command that returns multiple result sets.
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -187,14 +423,14 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<(List<T1> Result1, List<T2> Result2)> QueryMultipleAsync<T1, T2>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -202,16 +438,16 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3)> QueryMultipleAsync<T1, T2, T3>(string sql,
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(string sql,
                object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <typeparam name="T4"></typeparam>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <typeparam name="TReturn4"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -219,17 +455,17 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3, List<T4> Result4)> QueryMultipleAsync
-               <T1, T2, T3, T4>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)> QueryMultipleAsync
+               <TReturn1, TReturn2, TReturn3, TReturn4>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
         /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <typeparam name="T4"></typeparam>
-        /// <typeparam name="T5"></typeparam>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <typeparam name="TReturn4"></typeparam>
+        /// <typeparam name="TReturn5"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -237,7 +473,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<(List<T1> Result1, List<T2> Result2, List<T3> Result3, List<T4> Result4, List<T5> Result5)> QueryMultipleAsync<T1, T2, T3, T4, T5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         ///  Execute parameterized SQL and return an System.Data.IDataReader.
@@ -261,7 +497,7 @@ namespace Dapper.Extensions
         /// Paging query.
         /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="countSql"></param>
         /// <param name="dataSql"></param>
         /// <param name="pageindex"></param>
@@ -272,7 +508,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Paging query.
@@ -295,7 +531,7 @@ namespace Dapper.Extensions
         /// Paging query.
         /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="countSql"></param>
         /// <param name="dataSql"></param>
         /// <param name="pageindex"></param>
@@ -306,7 +542,7 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        PageResult<TReturn> QueryPage<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Paging query.
@@ -345,22 +581,22 @@ namespace Dapper.Extensions
         /// <summary>
         /// Execute parameterized SQL that selects a single value.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        Task<T> ExecuteScalarAsync<T>(string sql, object param = null, int? commandTimeout = null);
+        Task<TReturn> ExecuteScalarAsync<TReturn>(string sql, object param = null, int? commandTimeout = null);
 
         /// <summary>
         /// Execute parameterized SQL that selects a single value.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <returns></returns>
-        T ExecuteScalar<T>(string sql, object param = null, int? commandTimeout = null);
+        TReturn ExecuteScalar<TReturn>(string sql, object param = null, int? commandTimeout = null);
 
         /// <summary>
         /// Begin transaction.

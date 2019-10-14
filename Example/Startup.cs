@@ -106,12 +106,12 @@ namespace Example
 
             #region Enable Caching
 
-            builder.AddDapperCachingForRedis(new RedisConfiguration
-            {
-                AllMethodsEnableCache = false,
-                ConnectionString = "localhost:6379,password=nihao123#@!",
-                Expire = TimeSpan.FromHours(1)
-            });
+            //builder.AddDapperCachingForRedis(new RedisConfiguration
+            //{
+            //    AllMethodsEnableCache = false,
+            //    ConnectionString = "localhost:6379,password=nihao123#@!",
+            //    Expire = TimeSpan.FromHours(1)
+            //});
 
             //builder.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
             //{
