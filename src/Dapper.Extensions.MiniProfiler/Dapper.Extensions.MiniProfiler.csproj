@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <Authors>Owen</Authors>
     <Description>A dapper extension library. Support MySql,SQL Server,MSSQL,PostgreSql,SQLite and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/1100100/Dapper.Extensions</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <PackageTags>Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MSSQL,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching</PackageTags>
+    <PackageTags>DapperExtensions,Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MSSQL,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
