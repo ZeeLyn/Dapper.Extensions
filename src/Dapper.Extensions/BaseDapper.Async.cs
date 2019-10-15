@@ -150,7 +150,7 @@ namespace Dapper.Extensions
             return await Conn.Value.ExecuteReaderAsync(sql, param, Transaction, commandTimeout, commandType);
         }
 
-        public virtual async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+        public virtual async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -171,7 +171,7 @@ namespace Dapper.Extensions
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return await CommandExecuteAsync(enableCache, async () =>
             {
-                using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout, commandType))
+                using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
                     var count = (await multi.ReadAsync<long>()).FirstOrDefault();
                     var data = (await multi.ReadAsync<TReturn>()).ToList();
@@ -193,7 +193,7 @@ namespace Dapper.Extensions
         }
 
         public virtual async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
-            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -213,7 +213,7 @@ namespace Dapper.Extensions
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return await CommandExecuteAsync(enableCache, async () =>
             {
-                using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout, commandType))
+                using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
                     var count = (await multi.ReadAsync<long>()).FirstOrDefault();
                     var data = (await multi.ReadAsync()).ToList();

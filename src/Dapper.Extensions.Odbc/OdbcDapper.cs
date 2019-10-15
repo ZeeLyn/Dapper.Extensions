@@ -16,7 +16,7 @@ namespace Dapper.Extensions.Odbc
         {
             return GetConnection(connectionName, OdbcFactory.Instance);
         }
-        public override async Task<PageResult<T>> QueryPageAsync<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        public override async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -40,8 +40,8 @@ namespace Dapper.Extensions.Odbc
                 using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
                 {
                     var count = (await multi.ReadAsync<int>()).FirstOrDefault();
-                    var data = (await multi.ReadAsync<T>()).ToList();
-                    var result = new PageResult<T>
+                    var data = (await multi.ReadAsync<TReturn>()).ToList();
+                    var result = new PageResult<TReturn>
                     {
                         TotalCount = count,
                         Page = pageindex,
@@ -101,7 +101,7 @@ namespace Dapper.Extensions.Odbc
 
         }
 
-        public override PageResult<T> QueryPage<T>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        public override PageResult<TReturn> QueryPage<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -124,8 +124,8 @@ namespace Dapper.Extensions.Odbc
                 using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
                 {
                     var count = multi.Read<int>().FirstOrDefault();
-                    var data = multi.Read<T>().ToList();
-                    var result = new PageResult<T>
+                    var data = multi.Read<TReturn>().ToList();
+                    var result = new PageResult<TReturn>
                     {
                         TotalCount = count,
                         Page = pageindex,

@@ -29,14 +29,13 @@ The default connection name is 'DefaultConnection'
 }
 ```
 
-# Use Dependency Injection
+# Using Dependency Injection
 
 Note:Dependency injection only supports a single database and the default connection name is 'DefaultConnection'. If you need to use multiple databases, use autofac.
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 	services.AddDapperForSQLite();
 }
 ```
@@ -60,14 +59,11 @@ public class ValuesController : ControllerBase
 	}
 }
 ```
-# Use Autofac
+# Using Autofac
 
 ```csharp
 public IServiceProvider ConfigureServices(IServiceCollection services)
 {
-
-	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-
 	var builder = new ContainerBuilder();
 	builder.Populate(services);
 
@@ -159,9 +155,6 @@ public class ValuesController : ControllerBase
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-
-	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-	
 	services.AddDapperCachingInRedis(new RedisConfiguration
 	{
 		AllMethodsEnableCache = false,
@@ -181,9 +174,6 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-
-	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
-	
 	services.AddDapperCachingInMemory(new RedisConfiguration
 	{
 		AllMethodsEnableCache = false
@@ -220,7 +210,6 @@ public void ConfigureServices(IServiceCollection services)
 // Initialization
 public void ConfigureServices(IServiceCollection services)
 {
-	services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 	SnowflakeUtils.Initialization(1, 1);
 }
 
