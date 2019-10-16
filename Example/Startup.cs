@@ -32,7 +32,7 @@ namespace Example
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //IConfiguration c = new ConfigurationBuilder().Build();
             services.AddControllers().AddNewtonsoftJson().AddControllersAsServices();
 
             SnowflakeUtils.Initialization(1, 1);

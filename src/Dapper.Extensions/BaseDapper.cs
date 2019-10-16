@@ -241,6 +241,8 @@ namespace Dapper.Extensions
             return Conn.Value.ExecuteScalar<TReturn>(sql, param, Transaction, commandTimeout, commandType);
         }
 
+        #region Transaction
+
         public virtual IDbTransaction BeginTransaction()
         {
             return Transaction = Conn.Value.BeginTransaction();
@@ -269,12 +271,14 @@ namespace Dapper.Extensions
             Transaction = null;
         }
 
+        #endregion
+
         public virtual void Dispose()
         {
             if (!Conn.IsValueCreated) return;
             Transaction?.Dispose();
-            Conn?.Value?.Close();
-            Conn?.Value?.Dispose();
+            Conn.Value?.Close();
+            Conn.Value?.Dispose();
         }
 
 
