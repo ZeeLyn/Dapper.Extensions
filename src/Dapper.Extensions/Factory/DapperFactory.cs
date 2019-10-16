@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -50,6 +48,29 @@ namespace Dapper.Extensions.Factory
             Builder.Container = Builder.ContainerBuilder.Build();
         }
 
+        public static void Step(Action<IDapper> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            delegation(scope.Resolve<IDapper>());
+        }
+
+        public static async Task StepAsync(Func<IDapper, Task> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            await delegation(scope.Resolve<IDapper>());
+        }
+
+        public static TReturn Step<TReturn>(Func<IDapper, TReturn> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            return delegation(scope.Resolve<IDapper>());
+        }
+
+        public static async Task<TReturn> StepAsync<TReturn>(Func<IDapper, Task<TReturn>> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            return await delegation(scope.Resolve<IDapper>());
+        }
 
         public static void Step(Action<IContext> delegation)
         {

@@ -25,6 +25,27 @@ namespace ConsoleApp
                 builder.AddJsonFile("appsettings.json");
             }).Build();
 
+            DapperFactory.Step(dapper =>
+            {
+                var query = dapper.Query("select * from Contact;");
+                Console.WriteLine(JsonConvert.SerializeObject(query));
+            });
+
+            var result7 = DapperFactory.Step(dapper => { return dapper.Query("select * from Contact;"); });
+            Console.WriteLine(JsonConvert.SerializeObject(result7));
+
+            DapperFactory.StepAsync(async dapper =>
+            {
+                var query = await dapper.QueryAsync("select * from Contact;");
+                Console.WriteLine(JsonConvert.SerializeObject(query));
+            }).Wait();
+
+            var result8 = DapperFactory.StepAsync(async dapper =>
+             {
+                 return await dapper.QueryAsync("select * from Contact;");
+             }).Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result8));
+
             DapperFactory.Step(context =>
             {
                 var dapper = context.GetService<IDapper>();
