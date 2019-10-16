@@ -46,6 +46,30 @@ namespace ConsoleApp
              }).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result8));
 
+
+            DapperFactory.Step("sqlite2", dapper =>
+             {
+                 var query = dapper.Query("select * from Contact;");
+                 Console.WriteLine(JsonConvert.SerializeObject(query));
+             });
+
+            var result9 = DapperFactory.Step("sqlite2", dapper => { return dapper.Query("select * from Contact;"); });
+            Console.WriteLine(JsonConvert.SerializeObject(result9));
+
+            DapperFactory.StepAsync("sqlite2", async dapper =>
+            {
+                var query = await dapper.QueryAsync("select * from Contact;");
+                Console.WriteLine(JsonConvert.SerializeObject(query));
+            }).Wait();
+
+            var result10 = DapperFactory.StepAsync("sqlite2", async dapper =>
+            {
+                return await dapper.QueryAsync("select * from Contact;");
+            }).Result;
+            Console.WriteLine(JsonConvert.SerializeObject(result10));
+
+
+
             DapperFactory.Step(context =>
             {
                 var dapper = context.GetService<IDapper>();

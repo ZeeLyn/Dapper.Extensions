@@ -72,6 +72,31 @@ namespace Dapper.Extensions.Factory
             return await delegation(scope.Resolve<IDapper>());
         }
 
+
+        public static void Step(object dapperServiceKey, Action<IDapper> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            delegation(scope.ResolveKeyed<IDapper>(dapperServiceKey));
+        }
+
+        public static async Task StepAsync(object dapperServiceKey, Func<IDapper, Task> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            await delegation(scope.ResolveKeyed<IDapper>(dapperServiceKey));
+        }
+
+        public static TReturn Step<TReturn>(object dapperServiceKey, Func<IDapper, TReturn> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            return delegation(scope.ResolveKeyed<IDapper>(dapperServiceKey));
+        }
+
+        public static async Task<TReturn> StepAsync<TReturn>(object dapperServiceKey, Func<IDapper, Task<TReturn>> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            return await delegation(scope.ResolveKeyed<IDapper>(dapperServiceKey));
+        }
+
         public static void Step(Action<IContext> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
