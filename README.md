@@ -148,6 +148,34 @@ public class ValuesController : ControllerBase
  ```
 
 
+# Support for console application
+
+```csharp
+static void Main(string[] args)
+{
+	//registration
+	DapperFactory.CreateInstance().ConfigureServices(service =>
+	{
+		service.AddDapperForSQLite();
+	}).ConfigureContainer(container =>
+	{
+		container.AddDapperForSQLite("Sqlite2", "sqlite2");
+	}).ConfigureConfiguration(builder =>
+	{
+		builder.SetBasePath(Directory.GetCurrentDirectory());
+		builder.AddJsonFile("appsettings.json");
+	}).Build();
+
+	//query database
+	DapperFactory.Step(dapper =>
+	{
+		var query = dapper.Query("select * from Contact;");
+		Console.WriteLine(JsonConvert.SerializeObject(query));
+	});
+}
+```
+
+
 # Support for caching
 
 ### In redis

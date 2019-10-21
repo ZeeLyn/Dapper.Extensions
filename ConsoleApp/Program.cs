@@ -5,7 +5,6 @@ using Dapper.Extensions.SQLite;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Dapper.Extensions;
-using System.Collections.Generic;
 
 namespace ConsoleApp
 {
@@ -40,10 +39,7 @@ namespace ConsoleApp
                 Console.WriteLine(JsonConvert.SerializeObject(query));
             }).Wait();
 
-            var result8 = DapperFactory.StepAsync(async dapper =>
-             {
-                 return await dapper.QueryAsync("select * from Contact;");
-             }).Result;
+            var result8 = DapperFactory.StepAsync(async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result8));
 
 
@@ -62,10 +58,7 @@ namespace ConsoleApp
                 Console.WriteLine(JsonConvert.SerializeObject(query));
             }).Wait();
 
-            var result10 = DapperFactory.StepAsync("sqlite2", async dapper =>
-            {
-                return await dapper.QueryAsync("select * from Contact;");
-            }).Result;
+            var result10 = DapperFactory.StepAsync("sqlite2", async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result10));
 
 
@@ -122,28 +115,16 @@ namespace ConsoleApp
             }).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result2));
 
-            var result3 = DapperFactory.Step((context, dapper) =>
-            {
-                return dapper.Query("select * from Contact;");
-            });
+            var result3 = DapperFactory.Step((context, dapper) => dapper.Query("select * from Contact;"));
             Console.WriteLine(JsonConvert.SerializeObject(result3));
 
-            var result4 = DapperFactory.StepAsync(async (context, dapper) =>
-            {
-                return await dapper.QueryAsync("select * from Contact;");
-            }).Result;
+            var result4 = DapperFactory.StepAsync(async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result4));
 
-            var result5 = DapperFactory.Step("sqlite2", (context, dapper) =>
-            {
-                return dapper.Query("select * from Contact;");
-            });
+            var result5 = DapperFactory.Step("sqlite2", (context, dapper) => dapper.Query("select * from Contact;"));
             Console.WriteLine(JsonConvert.SerializeObject(result5));
 
-            var result6 = DapperFactory.StepAsync("sqlite2", async (context, dapper) =>
-            {
-                return await dapper.QueryAsync("select * from Contact;");
-            }).Result;
+            var result6 = DapperFactory.StepAsync("sqlite2", async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result6));
 
             Console.ReadKey();

@@ -31,4 +31,10 @@
     <ProjectReference Include="..\src\Dapper.Extensions.SQLite\Dapper.Extensions.SQLite.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="sql\test_sql.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

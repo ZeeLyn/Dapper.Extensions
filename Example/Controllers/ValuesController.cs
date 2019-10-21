@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac.Features.AttributeFilters;
 using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Dapper.Extensions.SQL;
 
 namespace Example.Controllers
 {
@@ -51,11 +53,14 @@ namespace Example.Controllers
             //    }
             //});
 
-            var r = await Repo1.QueryAsync<Contact, Passport, Contact>("select Contact.id,Contact.name,Passport.PassportNumber from Contact,Passport where Passport.ContactId=Contact.id;", (contact, passport) =>
+            var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query");
+            var sql = Repo1.GetSQL("contact.query");
+            var r = await Repo1.QueryAsync<Contact, Passport, Contact>(sql, (contact, passport) =>
             {
                 contact.Passport = passport;
                 return contact;
             }, null, "PassportNumber");
+
             return Ok(r);
         }
 

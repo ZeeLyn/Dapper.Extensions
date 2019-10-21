@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Autofac;
 using Dapper.Extensions;
@@ -101,6 +102,8 @@ namespace Example
 
             //Add support for MiniProfiler
             builder.AddMiniProfilerForDapper();
+
+            builder.AddSQLSeparateForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
 
             #endregion
 
