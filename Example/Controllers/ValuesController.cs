@@ -53,7 +53,7 @@ namespace Example.Controllers
             //    }
             //});
 
-            var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query");
+            var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query", new { id = 1 });
             var sql = Repo1.GetSQL("contact.query");
             var r = await Repo1.QueryAsync<Contact, Passport, Contact>(sql, (contact, passport) =>
             {

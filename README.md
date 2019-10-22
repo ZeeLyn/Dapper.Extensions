@@ -175,6 +175,31 @@ static void Main(string[] args)
 }
 ```
 
+# Support for sql separate
+Like mybatis, but does not support Dynamic SQL
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+	services.AddSQLSeparateForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<sql-set>
+  <sql name="COMPANY.list.query"><![CDATA[select * from COMPANY where id=@id;]]></sql>
+  <paging-sql name="COMPANY.paging">
+    <count>select count(*) from COMPANY;</count>
+    <query>select * from COMPANY limit @Skip,@Take;</query>
+  </paging-sql>
+</sql-set>
+```
+
+```csharp
+var list = await Repo1.QueryAsync<Company>(name: "COMPANY.list.query",new{ id=1 });
+var page = await Repo1.QueryPageAsync<Company>(name: "COMPANY.paging", 1,20 );
+```
+
 
 # Support for caching
 
