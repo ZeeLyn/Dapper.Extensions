@@ -16,11 +16,19 @@ namespace Dapper.Extensions
             return container;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="xmlRootDir">The root directory of the xml file</param>
+        /// <returns></returns>
         public static ContainerBuilder AddSQLSeparateForDapper(this ContainerBuilder services, string xmlRootDir)
         {
-            if (!Directory.Exists(xmlRootDir))
-                throw new FileNotFoundException($"Directory not found {xmlRootDir}.");
-            services.RegisterInstance(new SQLManager(xmlRootDir)).As<ISQLManager>().SingleInstance();
+            services.RegisterInstance(new SQLSeparateConfigure
+            {
+                RootDir = xmlRootDir
+            });
+            services.RegisterType<SQLManager>().As<ISQLManager>().SingleInstance();
             return services;
         }
     }

@@ -11,11 +11,19 @@ namespace Dapper.Extensions
             return services.AddScoped(typeof(IDapper), typeof(TDbProvider));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="xmlRootDir">The root directory of the xml file</param>
+        /// <returns></returns>
         public static IServiceCollection AddSQLSeparateForDapper(this IServiceCollection services, string xmlRootDir)
         {
-            if (!Directory.Exists(xmlRootDir))
-                throw new FileNotFoundException($"Directory not found {xmlRootDir}.");
-            return services.AddSingleton<ISQLManager>(new SQLManager(xmlRootDir));
+            services.AddSingleton(new SQLSeparateConfigure
+            {
+                RootDir = xmlRootDir
+            });
+            return services.AddSingleton<ISQLManager, SQLManager>();
         }
     }
 }

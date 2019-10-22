@@ -176,7 +176,7 @@ static void Main(string[] args)
 ```
 
 # Support for sql separate
-Like mybatis, but does not support Dynamic SQL
+Like mybatis, but does not support Dynamic SQL. Modify the xml file to take effect immediately, no need to restart the application.
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
