@@ -871,6 +871,17 @@ namespace Dapper.Extensions
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
         /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="reader"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task QueryMultipleAsync(SQLName name, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
         /// <param name="sql"></param>
         /// <param name="reader"></param>
         /// <param name="param"></param>
@@ -878,6 +889,17 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         void QueryMultiple(string sql, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="reader"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        void QueryMultiple(SQLName name, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -899,6 +921,21 @@ namespace Dapper.Extensions
         /// </summary>
         /// <typeparam name="TReturn1"></typeparam>
         /// <typeparam name="TReturn2"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
         /// <typeparam name="TReturn3"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
@@ -910,6 +947,23 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(string sql,
                object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(SQLName name,
+            object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -936,6 +990,24 @@ namespace Dapper.Extensions
         /// <typeparam name="TReturn2"></typeparam>
         /// <typeparam name="TReturn3"></typeparam>
         /// <typeparam name="TReturn4"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)> QueryMultipleAsync
+            <TReturn1, TReturn2, TReturn3, TReturn4>(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <typeparam name="TReturn4"></typeparam>
         /// <typeparam name="TReturn5"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
@@ -946,6 +1018,24 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <typeparam name="TReturn4"></typeparam>
+        /// <typeparam name="TReturn5"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null);
 
         /// <summary>
         ///  Execute parameterized SQL and return an System.Data.IDataReader.
@@ -960,12 +1050,32 @@ namespace Dapper.Extensions
         /// <summary>
         ///  Execute parameterized SQL and return an System.Data.IDataReader.
         /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        IDataReader ExecuteReader(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        ///  Execute parameterized SQL and return an System.Data.IDataReader.
+        /// </summary>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        ///  Execute parameterized SQL and return an System.Data.IDataReader.
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<IDataReader> ExecuteReaderAsync(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Paging query.
@@ -984,6 +1094,22 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        Task<PageResult<TReturn>> QueryPageAsync<TReturn>(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
 
         /// <summary>
         /// Paging query.
@@ -999,7 +1125,24 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<List<TReturn>> QueryPageAsync<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<TReturn>> QueryPlainPageAsync<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryPlainPageAsync<TReturn>(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
 
         /// <summary>
         /// Paging query.
@@ -1017,6 +1160,21 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        Task<PageResult<dynamic>> QueryPageAsync(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
 
         /// <summary>
         /// Paging query.
@@ -1031,7 +1189,22 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        Task<List<dynamic>> QueryPageAsync(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        Task<List<dynamic>> QueryPlainPageAsync(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        Task<List<dynamic>> QueryPlainPageAsync(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
 
         /// <summary>
@@ -1056,6 +1229,22 @@ namespace Dapper.Extensions
         /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
         /// </summary>
         /// <typeparam name="TReturn"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        PageResult<TReturn> QueryPage<TReturn>(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="pageindex"></param>
         /// <param name="pageSize"></param>
@@ -1065,7 +1254,23 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        List<TReturn> QueryPage<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        List<TReturn> QueryPlainPage<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        List<TReturn> QueryPlainPage<TReturn>(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Paging query.
@@ -1087,6 +1292,21 @@ namespace Dapper.Extensions
         /// Paging query.
         /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
         /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        PageResult<dynamic> QueryPage(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
         /// <param name="sql"></param>
         /// <param name="pageindex"></param>
         /// <param name="pageSize"></param>
@@ -1096,7 +1316,22 @@ namespace Dapper.Extensions
         /// <param name="cacheExpire">Cache expiration time</param>
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
-        List<dynamic> QueryPage(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+        List<dynamic> QueryPlainPage(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
+
+        /// <summary>
+        /// Paging query.
+        /// Paging index is required when paging data. The method has @Skip, @Take, @TakeStart, @TakeEnd 4 variables, MySql example: limit @Skip, @Take, MSSQL example: where row between @TakeStart and @TakeEnd
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="pageindex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <returns></returns>
+        List<dynamic> QueryPlainPage(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default);
 
         /// <summary>
         /// Execute a command asynchronously.
@@ -1109,6 +1344,16 @@ namespace Dapper.Extensions
         Task<int> ExecuteAsync(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
+        /// Execute a command asynchronously.
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<int> ExecuteAsync(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
         /// Execute parameterized SQL.
         /// </summary>
         /// <param name="sql"></param>
@@ -1117,6 +1362,16 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         int Execute(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute parameterized SQL.
+        /// </summary>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        int Execute(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Execute parameterized SQL that selects a single value.
@@ -1133,12 +1388,34 @@ namespace Dapper.Extensions
         /// Execute parameterized SQL that selects a single value.
         /// </summary>
         /// <typeparam name="TReturn"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        Task<TReturn> ExecuteScalarAsync<TReturn>(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         TReturn ExecuteScalar<TReturn>(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="name">SQL separated xml file node name.</param>
+        /// <param name="param"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType">Is it a stored proc or a batch?</param>
+        /// <returns></returns>
+        TReturn ExecuteScalar<TReturn>(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
         /// Begin transaction.
@@ -1165,9 +1442,9 @@ namespace Dapper.Extensions
         void RollbackTransaction();
 
 
-        string GetSQL(string id);
+        string GetSQL(string name);
 
-        (string CountSQL, string QuerySQL) GetPagingSQL(string id);
+        (string CountSQL, string QuerySQL) GetPagingSQL(string name);
 
     }
 }

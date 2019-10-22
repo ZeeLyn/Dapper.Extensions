@@ -61,7 +61,7 @@ namespace Example.Controllers
                 return contact;
             }, null, "PassportNumber");
 
-            return Ok(r);
+            return Ok(new { r, list });
         }
 
         [HttpGet("Transaction")]

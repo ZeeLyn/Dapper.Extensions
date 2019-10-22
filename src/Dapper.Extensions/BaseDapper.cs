@@ -64,7 +64,7 @@ namespace Dapper.Extensions
         public List<TReturn> Query<TReturn>(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
         {
-            return Query<TReturn>(SQLManager.GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id",
@@ -78,7 +78,7 @@ namespace Dapper.Extensions
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
             CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id",
@@ -92,7 +92,7 @@ namespace Dapper.Extensions
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
             CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
         public virtual List<TResult> Query<TFirst, TSecond, TThird, TFourth, TResult>(string sql, Func<TFirst, TSecond, TThird, TFourth, TResult> map, object param = null, string splitOn = "Id",
@@ -106,7 +106,7 @@ namespace Dapper.Extensions
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
             string cacheKey = default, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null,
@@ -120,7 +120,7 @@ namespace Dapper.Extensions
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
             string cacheKey = default, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null,
@@ -134,7 +134,7 @@ namespace Dapper.Extensions
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
             string cacheKey = default, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map,
@@ -148,7 +148,7 @@ namespace Dapper.Extensions
             object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
 
@@ -160,7 +160,7 @@ namespace Dapper.Extensions
         public List<dynamic> Query(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(SQLManager.GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
         }
 
 
@@ -173,7 +173,7 @@ namespace Dapper.Extensions
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
             CommandType? commandType = null)
         {
-            return QueryFirstOrDefault<TReturn>(SQLManager.GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QueryFirstOrDefault<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
         }
 
 
@@ -185,7 +185,7 @@ namespace Dapper.Extensions
         public dynamic QueryFirstOrDefault(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
         {
-            return QueryFirstOrDefault(SQLManager.GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QueryFirstOrDefault(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
         }
 
         public virtual dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
@@ -196,7 +196,7 @@ namespace Dapper.Extensions
         public dynamic QuerySingleOrDefault(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
         {
-            return QuerySingleOrDefault(SQLManager.GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QuerySingleOrDefault(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
         }
 
 
@@ -209,7 +209,7 @@ namespace Dapper.Extensions
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
             CommandType? commandType = null)
         {
-            return QuerySingleOrDefault<TReturn>(SQLManager.GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QuerySingleOrDefault<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
         }
 
 
@@ -219,10 +219,21 @@ namespace Dapper.Extensions
             reader(multi);
         }
 
+        public void QueryMultiple(SQLName name, Action<SqlMapper.GridReader> reader, object param = null, int? commandTimeout = null,
+            CommandType? commandType = null)
+        {
+            QueryMultiple(GetSQL(name), reader, param, commandTimeout, commandType);
+        }
 
         public virtual IDataReader ExecuteReader(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             return Conn.Value.ExecuteReader(sql, param, Transaction, commandTimeout, commandType);
+        }
+
+        public IDataReader ExecuteReader(SQLName name, object param = null, int? commandTimeout = null,
+            CommandType? commandType = null)
+        {
+            return ExecuteReader(GetSQL(name), param, commandTimeout, commandType);
         }
 
 
@@ -265,7 +276,15 @@ namespace Dapper.Extensions
             }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
         }
 
-        public virtual List<TReturn> QueryPage<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
+        public PageResult<TReturn> QueryPage<TReturn>(SQLName name, int pageindex, int pageSize, object param = null,
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
+            string cacheKey = default)
+        {
+            var (countSql, querySql) = GetPagingSQL(name);
+            return QueryPage<TReturn>(countSql, querySql, pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey);
+        }
+
+        public virtual List<TReturn> QueryPlainPage<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)
@@ -285,6 +304,12 @@ namespace Dapper.Extensions
             });
 
             return CommandExecute(enableCache, () => Conn.Value.Query<TReturn>(sql, pars, Transaction, true, commandTimeout).ToList(), sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+        }
+
+        public List<TReturn> QueryPlainPage<TReturn>(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        {
+            return QueryPlainPage<TReturn>(GetSQL(name), pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey);
         }
 
         public virtual PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
@@ -328,7 +353,14 @@ namespace Dapper.Extensions
 
         }
 
-        public virtual List<dynamic> QueryPage(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
+        public PageResult<dynamic> QueryPage(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        {
+            var (countSql, querySql) = GetPagingSQL(name);
+            return QueryPage(countSql, querySql, pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey);
+        }
+
+        public virtual List<dynamic> QueryPlainPage(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)
@@ -350,17 +382,33 @@ namespace Dapper.Extensions
             return CommandExecute(enableCache, () => Conn.Value.Query(sql, pars, Transaction, true, commandTimeout).ToList(), sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
         }
 
+        public List<dynamic> QueryPlainPage(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        {
+            return QueryPlainPage(GetSQL(name), pageindex, pageSize, pageSize, commandTimeout, enableCache, cacheExpire, cacheKey);
+        }
+
 
         public virtual int Execute(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             return Conn.Value.Execute(sql, param, Transaction, commandTimeout, commandType);
         }
 
+        public int Execute(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null)
+        {
+            return Execute(GetSQL(name), param, commandTimeout, commandType);
+        }
 
 
         public virtual TReturn ExecuteScalar<TReturn>(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)
         {
             return Conn.Value.ExecuteScalar<TReturn>(sql, param, Transaction, commandTimeout, commandType);
+        }
+
+        public TReturn ExecuteScalar<TReturn>(SQLName name, object param = null, int? commandTimeout = null,
+            CommandType? commandType = null)
+        {
+            return ExecuteScalar<TReturn>(GetSQL(name), param, commandTimeout, commandType);
         }
 
         #region Transaction
@@ -436,14 +484,14 @@ namespace Dapper.Extensions
         public string GetSQL(string id)
         {
             if (SQLManager == null)
-                throw new InvalidOperationException("Please call the AddSQLMapXMLForDapper method to register first.");
+                throw new InvalidOperationException("Please call the 'AddSQLSeparateForDapper' method to register first.");
             return SQLManager.GetSQL(id);
         }
 
         public (string CountSQL, string QuerySQL) GetPagingSQL(string id)
         {
             if (SQLManager == null)
-                throw new InvalidOperationException("Please call the AddSQLMapXMLForDapper method to register first.");
+                throw new InvalidOperationException("Please call the 'AddSQLSeparateForDapper' method to register first.");
             return SQLManager.GetPagingSQL(id);
         }
     }
