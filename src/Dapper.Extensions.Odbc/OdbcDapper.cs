@@ -8,7 +8,7 @@ namespace Dapper.Extensions.Odbc
 {
     public class OdbcDapper : BaseDapper
     {
-        public OdbcDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
+        public OdbcDapper(IServiceProvider service, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false) : base(service, connectionName, enableMasterSlave, readOnly)
         {
         }
 

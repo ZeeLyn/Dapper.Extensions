@@ -84,13 +84,8 @@ namespace Example
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.Register<Func<string, IDapper>>(c =>
-            {
-                var container = c.Resolve<IComponentContext>();
-                return named => container.ResolveNamed<IDapper>(named);
-            });
-
             #region Add Dapper
+
 
             builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
 
@@ -99,6 +94,8 @@ namespace Example
             builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn");
 
             builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
+
+            builder.AddDapperForSQLite("master_slave", "master_slave", true);
 
             //Add support for MiniProfiler
             builder.AddMiniProfilerForDapper();

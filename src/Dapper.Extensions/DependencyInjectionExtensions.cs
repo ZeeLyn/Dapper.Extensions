@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Dapper.Extensions.SQL;
+﻿using Dapper.Extensions.SQL;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dapper.Extensions

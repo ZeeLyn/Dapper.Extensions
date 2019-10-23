@@ -1,18 +1,20 @@
-﻿using System.IO;
-using Autofac;
+﻿using Autofac;
+using Dapper.Extensions.MasterSlave;
 using Dapper.Extensions.SQL;
 
 namespace Dapper.Extensions
 {
     public static class AutofacExtensions
     {
-        public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", object serviceKey = null) where TDbProvider : IDapper
+        public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", object serviceKey = null, bool enableMasterSlave = false) where TDbProvider : IDapper
         {
             container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
-            if (serviceKey == null)
-                container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
-            else
-                container.RegisterType<TDbProvider>().Keyed<IDapper>(serviceKey).WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
+            container.RegisterType<ConnectionConfigureManager>().IfNotRegistered(typeof(ConnectionConfigureManager)).SingleInstance();
+            container.RegisterType<WeightedPolling>().As<ILoadBalancing>().IfNotRegistered(typeof(ILoadBalancing)).SingleInstance();
+            var builder = serviceKey == null ? container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName).InstancePerLifetimeScope() : container.RegisterType<TDbProvider>().Keyed<IDapper>(serviceKey).WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
+
+            if (enableMasterSlave)
+                builder.WithParameter("enableMasterSlave", true);
             return container;
         }
 

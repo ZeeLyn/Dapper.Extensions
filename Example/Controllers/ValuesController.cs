@@ -4,7 +4,9 @@ using Autofac.Features.AttributeFilters;
 using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Dapper.Extensions.MasterSlave;
 using Dapper.Extensions.SQL;
+using Microsoft.Extensions.Configuration;
 
 namespace Example.Controllers
 {
@@ -21,8 +23,15 @@ namespace Example.Controllers
         private IDapper SQLiteRepo2 { get; }
 
         private IDapper SQLRepo { get; }
-        public ValuesController(IResolveKeyed resolve, [KeyFilter("sqlite1-conn")]IDapper rep1, [KeyFilter("sqlite2-conn")]IDapper rep2, [KeyFilter("msql-conn")]IDapper sql)
+
+        private IDapper MasterSlave { get; }
+
+        private IConfiguration Configuration { get; }
+
+        public ValuesController(IResolveKeyed resolve, [Dependency("master_slave", true)]IDapper masterSlave, [Dependency("sqlite1-conn")]IDapper rep1, [Dependency("sqlite2-conn")]IDapper rep2, [Dependency("msql-conn")]IDapper sql, IConfiguration configuration)
         {
+            MasterSlave = masterSlave;
+
             SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
             SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
 
@@ -30,6 +39,7 @@ namespace Example.Controllers
             Repo2 = rep2;
 
             SQLRepo = sql;
+            Configuration = configuration;
         }
         // GET api/values
         [HttpGet]
@@ -42,26 +52,40 @@ namespace Example.Controllers
 
             //var r1 = await Repo1.QueryAsync<object>("select * from COMPANY where id=1 LIMIT 1 OFFSET 0", enableCache: true, cacheExpire: TimeSpan.FromSeconds(100));
             //int pageindex = 1;
-            //var page = await Repo1.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}");
+            //var page = await Repo2.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}");
             ////var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
             //return Ok(new
             //{
             //    SQLite = new { r1, page },
-            //    SQL = new
-            //    {
-            //        page = await SQLRepo.QueryPageAsync("select count(*) from Company;", "select * from Company;", 1, 20)
-            //    }
+            //    //SQL = new
+            //    //{
+            //    //    page = await SQLRepo.QueryPageAsync("select count(*) from Company;", "select * from Company;", 1, 20)
+            //    //}
             //});
 
-            var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query", new { id = 1 });
-            var sql = Repo1.GetSQL("contact.query");
-            var r = await Repo1.QueryAsync<Contact, Passport, Contact>(sql, (contact, passport) =>
-            {
-                contact.Passport = passport;
-                return contact;
-            }, null, "PassportNumber");
+            //var con = Repo2.Query("select * from company;");
+            //var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query", new { id = 1 });
+            //var sql = Repo1.GetSQL("contact.query");
+            //var r = await Repo1.QueryAsync<Contact, Passport, Contact>(sql, (contact, passport) =>
+            //{
+            //    contact.Passport = passport;
+            //    return contact;
+            //}, null, "PassportNumber");
 
-            return Ok(new { r, list });
+            //return Ok(new { r, list });
+
+            return Ok(new { config = Configuration.GetSection("ConnectionStrings:master_slave").Get<ConnectionConfiguration>() });
+
+        }
+
+        [HttpGet("Masterslave")]
+        public async Task<IActionResult> Masterslave()
+        {
+            return Ok(new
+            {
+                data = await MasterSlave.QueryAsync("select * from company;"),
+                MasterSlave.Conn.Value.ConnectionString
+            });
         }
 
         [HttpGet("Transaction")]

@@ -8,7 +8,7 @@ namespace Dapper.Extensions.MSSQL
 {
     public class MsSqlDapper : BaseDapper
     {
-        public MsSqlDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
+        public MsSqlDapper(IServiceProvider service, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false) : base(service, connectionName, enableMasterSlave, readOnly)
         {
         }
         protected override IDbConnection CreateConnection(string connectionName)

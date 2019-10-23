@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using Dapper.Extensions.MasterSlave;
 
 namespace Dapper.Extensions
 {
@@ -31,8 +32,18 @@ namespace Dapper.Extensions
 
         private ISQLManager SQLManager { get; }
 
-        protected BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection")
+        private bool ReadOnly { get; }
+
+        private bool EnableMasterSlave { get; }
+
+        private ConnectionConfigureManager ConnectionConfigureManager { get; }
+
+        protected BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false)
         {
+            if (!enableMasterSlave && readOnly)
+                throw new InvalidOperationException($"The connection with the name '{connectionName}' does not enable the master-slave");
+            EnableMasterSlave = enableMasterSlave;
+            ReadOnly = readOnly;
             Configuration = serviceProvider.GetRequiredService<IConfiguration>();
             Cache = serviceProvider.GetService<ICacheProvider>();
             CacheConfiguration = serviceProvider.GetService<CacheConfiguration>();
@@ -40,11 +51,13 @@ namespace Dapper.Extensions
             DbMiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
             SQLManager = serviceProvider.GetService<ISQLManager>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
+            if (enableMasterSlave)
+                ConnectionConfigureManager = serviceProvider.GetService<ConnectionConfigureManager>();
         }
 
         protected IDbConnection GetConnection(string connectionName, DbProviderFactory factory)
         {
-            var connString = Configuration.GetConnectionString(connectionName);
+            var connString = EnableMasterSlave ? ConnectionConfigureManager.GetConnectionString(connectionName, ReadOnly) : Configuration.GetConnectionString(connectionName);
             if (string.IsNullOrWhiteSpace(connString))
                 throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
             var conn = factory.CreateConnection();

@@ -6,7 +6,7 @@ namespace Dapper.Extensions.PostgreSql
 {
     public class PostgreSqlDapper : BaseDapper
     {
-        public PostgreSqlDapper(IServiceProvider service, string connectionName = "DefaultConnection") : base(service, connectionName)
+        public PostgreSqlDapper(IServiceProvider service, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false) : base(service, connectionName, enableMasterSlave, readOnly)
         {
         }
 
