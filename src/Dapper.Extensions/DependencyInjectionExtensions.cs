@@ -11,7 +11,7 @@ namespace Dapper.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Enable SQL separation
         /// </summary>
         /// <param name="services"></param>
         /// <param name="xmlRootDir">The root directory of the xml file</param>

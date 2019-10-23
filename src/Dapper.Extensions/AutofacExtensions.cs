@@ -11,6 +11,7 @@ namespace Dapper.Extensions
             container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
             container.RegisterType<ConnectionConfigureManager>().IfNotRegistered(typeof(ConnectionConfigureManager)).SingleInstance();
             container.RegisterType<WeightedPolling>().As<ILoadBalancing>().IfNotRegistered(typeof(ILoadBalancing)).SingleInstance();
+
             var builder = serviceKey == null ? container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName).InstancePerLifetimeScope() : container.RegisterType<TDbProvider>().Keyed<IDapper>(serviceKey).WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
 
             if (enableMasterSlave)
@@ -19,7 +20,7 @@ namespace Dapper.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Enable SQL separation
         /// </summary>
         /// <param name="services"></param>
         /// <param name="xmlRootDir">The root directory of the xml file</param>

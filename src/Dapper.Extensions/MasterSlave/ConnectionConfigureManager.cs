@@ -17,6 +17,7 @@ namespace Dapper.Extensions.MasterSlave
 
         private readonly ConcurrentDictionary<string, ConnectionConfiguration> _connections =
             new ConcurrentDictionary<string, ConnectionConfiguration>();
+
         public ConnectionConfigureManager(IConfiguration configuration, ILoadBalancing loadBalancing, ILogger<ConnectionConfigureManager> logger)
         {
             Configuration = configuration;
@@ -43,10 +44,15 @@ namespace Dapper.Extensions.MasterSlave
                 throw new Exception($"Configuration node 'ConnectionStrings:{connectionName}' not found.");
             }
             var configure = section.Get<ConnectionConfiguration>();
-            if (configure == null || string.IsNullOrWhiteSpace(configure.Master) || configure.Slaves == null || !configure.Slaves.Any())
+            if (configure == null || string.IsNullOrWhiteSpace(configure.Master))
             {
-                Logger.LogError($"Configuration node 'ConnectionStrings:{connectionName}' error.");
-                throw new Exception($"Configuration node 'ConnectionStrings:{connectionName}' error.");
+                Logger.LogError($"The connection named '{connectionName}' master cannot be empty.");
+                throw new Exception($"The connection named '{connectionName}' master cannot be empty.");
+            }
+            if (configure.Slaves == null || !configure.Slaves.Any())
+            {
+                Logger.LogError($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
+                throw new Exception($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
             }
             return configure;
         }
@@ -54,11 +60,10 @@ namespace Dapper.Extensions.MasterSlave
         private void Configure(string connectionName)
         {
             var section = Configuration.GetSection($"ConnectionStrings:{connectionName}");
-            ChangeToken.OnChange<string>(() => section.GetReloadToken(), name =>
+            ChangeToken.OnChange(() => section.GetReloadToken(), name =>
             {
-                _connections[name.ToString()] = Bind(name.ToString());
+                _connections[name] = Bind(name);
             }, connectionName);
-
         }
     }
 }
