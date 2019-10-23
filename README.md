@@ -1,5 +1,13 @@
 # Dapper.Extensions
-A dapper extension library. Support MySql,SQL Server,PostgreSql,SQLite and ODBC,  Support cache.
+A dapper extension library. 
+
+1.Support MySql,SQL Server,PostgreSql,SQLite and ODBC.
+
+2.Support cache.
+
+3.Support for sql separation.
+
+4.Support for reading and writing separation.
 
 # Packages & Status
 Packages | NuGet
@@ -24,7 +32,20 @@ The default connection name is 'DefaultConnection'
 		"DefaultConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
 		"MySqlConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
 		"SQLite1Connection": "data source=/data/test1.sqlite",
-		"SQLite2Connection": "data source=/data/test2.sqlite"
+		"SQLite2Connection": "data source=/data/test2.sqlite",
+		"master_slave": {
+			"Master": "data source=D://test1.sqlite",
+			"Slaves": [
+				{
+					"ConnectionString": "data source=D://test1.sqlite",
+					"Weight": 4
+				},
+				{
+					"ConnectionString": "data source=D://test2.sqlite",
+					"Weight": 6
+				}
+			]
+		}
 	}
 }
 ```
@@ -101,8 +122,8 @@ public class ValuesController : ControllerBase
 }
 
 ```
-#### Filter injection using KeyFilterAttribute
-Note:If you’re using metadata filters (KeyFilterAttribute or WithAttributeFiltering in your constructors), you need to register those components using the [WithAttributeFiltering](https://autofaccn.readthedocs.io/en/latest/advanced/metadata.html) extension. Note that if you’re only using filters but not attributed metadata, you don’t actually need the AttributedMetadataModule. Metadata filters stand on their own.
+#### Filter injection using DependencyAttribute
+Note:If you’re using metadata filters (DependencyAttribute or WithAttributeFiltering in your constructors), you need to register those components using the [WithAttributeFiltering](https://autofaccn.readthedocs.io/en/latest/advanced/metadata.html) extension. Note that if you’re only using filters but not attributed metadata, you don’t actually need the AttributedMetadataModule. Metadata filters stand on their own.
 
 ```csharp
 public class ValuesController : ControllerBase
@@ -111,7 +132,7 @@ public class ValuesController : ControllerBase
 
 	private IDapper Repo2 { get; }
 
-	public ValuesController([KeyFilter("sqlite1-conn")]IDapper rep1, [KeyFilter("sqlite2-conn")]IDapper rep2)
+	public ValuesController([Dependency("sqlite1-conn")]IDapper rep1, [Dependency("sqlite2-conn")]IDapper rep2)
 	{
 		Repo1 = rep1;
 		Repo2 = rep2;
@@ -175,7 +196,7 @@ static void Main(string[] args)
 }
 ```
 
-# Support for sql separate
+# Support for sql separation
 Like mybatis, but does not support Dynamic SQL. Modify the xml file to take effect immediately, no need to restart the application.
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -201,7 +222,7 @@ var page = await Repo1.QueryPageAsync<Company>(name: "COMPANY.paging", 1,20 );
 ```
 
 
-# Support for caching
+# Caching
 
 ### In redis
 
@@ -253,6 +274,56 @@ Dapper.Extensions.MiniProfiler just adds support for MiniProfiler. To enable Min
 public void ConfigureServices(IServiceCollection services)
 {
 	services.AddMiniProfilerForDapper();
+}
+```
+
+# Reading and writing separation
+```json
+{
+	"ConnectionStrings": {
+		"master_slave": {
+			"Master": "data source=D://test1.sqlite",
+			"Slaves": [
+				{
+					"ConnectionString": "data source=D://test1.sqlite",
+					"Weight": 4
+				},
+				{
+					"ConnectionString": "data source=D://test2.sqlite",
+					"Weight": 6
+				}
+			]
+		}
+	}
+}
+```
+
+```csharp
+public void ConfigureContainer(ContainerBuilder builder)
+{
+	builder.AddDapperForSQLite("master_slave", "master_slave", true);
+}
+```
+
+```csharp
+public class ValuesController : ControllerBase
+{
+    private IDapper Writer { get; }
+
+    private IDapper Reader { get; }
+
+    public ValuesController([Dependency("master_slave")]IDapper writer, [Dependency("master_slave",true)]IDapper reader)
+    {
+        Writer = writer;
+        Reader = reader;
+    }
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        await writer.QueryAsync("delete * from COMPANY;");
+        var result = await reader.QueryAsync("select * from COMPANY;");
+        return Ok(result);
+    }
 }
 ```
 

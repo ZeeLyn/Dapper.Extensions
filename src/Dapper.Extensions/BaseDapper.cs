@@ -51,7 +51,7 @@ namespace Dapper.Extensions
             DbMiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
             SQLManager = serviceProvider.GetService<ISQLManager>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
-            if (enableMasterSlave)
+            if (EnableMasterSlave)
                 ConnectionConfigureManager = serviceProvider.GetService<ConnectionConfigureManager>();
         }
 
