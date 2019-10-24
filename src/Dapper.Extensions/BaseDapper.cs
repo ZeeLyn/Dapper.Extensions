@@ -52,7 +52,7 @@ namespace Dapper.Extensions
             SQLManager = serviceProvider.GetService<ISQLManager>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
             if (EnableMasterSlave)
-                ConnectionConfigureManager = serviceProvider.GetService<ConnectionConfigureManager>();
+                ConnectionConfigureManager = serviceProvider.GetRequiredService<ConnectionConfigureManager>();
         }
 
         protected IDbConnection GetConnection(string connectionName, DbProviderFactory factory)

@@ -1,6 +1,8 @@
-﻿using Dapper.Extensions;
+﻿using System.Collections.Concurrent;
+using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Dapper.Extensions.MasterSlave;
 using Microsoft.Extensions.Configuration;
 
 namespace Example.Controllers
@@ -23,10 +25,12 @@ namespace Example.Controllers
 
         private IConfiguration Configuration { get; }
 
-        public ValuesController(IResolveKeyed resolve, [Dependency("master_slave", true)]IDapper masterSlave, [Dependency("sqlite1-conn")]IDapper rep1, [Dependency("sqlite2-conn")]IDapper rep2, [Dependency("msql-conn")]IDapper sql, IConfiguration configuration)
+        private ILoadBalancing LoadBalancing { get; }
+
+        public ValuesController(IResolveKeyed resolve, [Dependency("master_slave", true)]IDapper masterSlave, [Dependency("sqlite1-conn")]IDapper rep1, [Dependency("sqlite2-conn")]IDapper rep2, [Dependency("msql-conn")]IDapper sql, IConfiguration configuration, ILoadBalancing loadBalancing)
         {
             MasterSlave = masterSlave;
-
+            LoadBalancing = loadBalancing;
             SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
             SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
 
@@ -69,6 +73,14 @@ namespace Example.Controllers
 
             return Ok(new { r, list });
 
+            //ConcurrentDictionary<string, int> dic = new ConcurrentDictionary<string, int>();
+            //var c = Configuration.GetSection("ConnectionStrings:master_slave").Get<ConnectionConfiguration>();
+            //for (var i = 0; i < 600; i++)
+            //{
+            //    dic.AddOrUpdate(LoadBalancing.NextConnectionString(c.Slaves), 1, (key, old) => old + 1);
+            //}
+
+            //return Ok(dic);
         }
 
         [HttpGet("Masterslave")]

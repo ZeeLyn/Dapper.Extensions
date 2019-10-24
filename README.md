@@ -31,17 +31,17 @@ The default connection name is 'DefaultConnection'
 	"ConnectionStrings": {
 		"DefaultConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
 		"MySqlConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
-		"SQLite1Connection": "data source=/data/test1.sqlite",
-		"SQLite2Connection": "data source=/data/test2.sqlite",
+		"SQLite1Connection": "data source=db//test1.db",
+		"SQLite2Connection": "data source=db//test2.db",
 		"master_slave": {
-			"Master": "data source=D://test1.sqlite",
+			"Master": "data source=db//test.master.db",
 			"Slaves": [
 				{
-					"ConnectionString": "data source=D://test1.sqlite",
+					"ConnectionString": "data source=db//test1.db",
 					"Weight": 4
 				},
 				{
-					"ConnectionString": "data source=D://test2.sqlite",
+					"ConnectionString": "data source=db//test2.db",
 					"Weight": 6
 				}
 			]
@@ -51,7 +51,7 @@ The default connection name is 'DefaultConnection'
 ```
 
 # Using Dependency Injection
-
+ 
 Note:Dependency injection only supports a single database and the default connection name is 'DefaultConnection'. If you need to use multiple databases, use autofac.
 
 ```csharp
@@ -282,14 +282,14 @@ public void ConfigureServices(IServiceCollection services)
 {
 	"ConnectionStrings": {
 		"master_slave": {
-			"Master": "data source=D://test1.sqlite",
+			"Master": "data source=db//test.master.db",
 			"Slaves": [
 				{
-					"ConnectionString": "data source=D://test1.sqlite",
+					"ConnectionString": "data source=db//test1.db",
 					"Weight": 4
 				},
 				{
-					"ConnectionString": "data source=D://test2.sqlite",
+					"ConnectionString": "data source=db//test2.db",
 					"Weight": 6
 				}
 			]
@@ -320,7 +320,7 @@ public class ValuesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        await writer.QueryAsync("delete * from COMPANY;");
+        await writer.ExecuteAsync("delete * from COMPANY;");
         var result = await reader.QueryAsync("select * from COMPANY;");
         return Ok(result);
     }

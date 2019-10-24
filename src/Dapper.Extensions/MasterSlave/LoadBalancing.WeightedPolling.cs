@@ -10,7 +10,7 @@ namespace Dapper.Extensions.MasterSlave
 
         public string NextConnectionString(IReadOnlyList<SlaveConfiguration> slaves)
         {
-            if (!slaves.Any())
+            if (slaves == null || !slaves.Any())
                 throw new ArgumentNullException(nameof(slaves));
             if (slaves.Count == 1)
                 return slaves.First().ConnectionString;
