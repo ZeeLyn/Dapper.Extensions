@@ -277,7 +277,9 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-# Reading and writing separation
+# Read and write separation
+To use read and write separation, you must use autofac injection.
+
 ```json
 {
 	"ConnectionStrings": {
@@ -298,13 +300,16 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+### enableMasterSlave: Enable read and write separation.
 ```csharp
 public void ConfigureContainer(ContainerBuilder builder)
 {
-	builder.AddDapperForSQLite("master_slave", "master_slave", true);
+	builder.AddDapperForSQLite("master_slave", "master_slave", enableMasterSlave:true);
 }
 ```
 
+
+### readOnly: Access to the slave database(s), using weighted polling by default.
 ```csharp
 public class ValuesController : ControllerBase
 {
@@ -312,7 +317,7 @@ public class ValuesController : ControllerBase
 
     private IDapper Reader { get; }
 
-    public ValuesController([Dependency("master_slave")]IDapper writer, [Dependency("master_slave",true)]IDapper reader)
+    public ValuesController([Dependency("master_slave")]IDapper writer, [Dependency("master_slave",readOnly:true)]IDapper reader)
     {
         Writer = writer;
         Reader = reader;

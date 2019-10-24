@@ -6,24 +6,24 @@ namespace Dapper.Extensions
     {
         T Resolve<T>(object serviceKey);
 
-        IDapper ResolveDapper(object serviceKey);
+        IDapper ResolveDapper(object serviceKey, bool readOnly = false);
     }
 
     public class ResolveKeyed : IResolveKeyed
     {
-        private IComponentContext _context;
+        private IComponentContext Context { get; }
         public ResolveKeyed(IComponentContext context)
         {
-            _context = context;
+            Context = context;
         }
         public T Resolve<T>(object serviceKey)
         {
-            return _context.ResolveKeyed<T>(serviceKey);
+            return Context.ResolveKeyed<T>(serviceKey);
         }
 
-        public IDapper ResolveDapper(object serviceKey)
+        public IDapper ResolveDapper(object serviceKey, bool readOnly = false)
         {
-            return _context.ResolveKeyed<IDapper>(serviceKey);
+            return readOnly ? Context.ResolveKeyed<IDapper>(serviceKey, new NamedParameter("readOnly", true)) : Context.ResolveKeyed<IDapper>(serviceKey);
         }
     }
 }

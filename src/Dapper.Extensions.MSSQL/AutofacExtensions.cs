@@ -4,9 +4,9 @@ namespace Dapper.Extensions.MSSQL
 {
     public static class AutofacExtensions
     {
-        public static ContainerBuilder AddDapperForMSSQL(this ContainerBuilder container, string connectionName = "DefaultConnection", object serviceKey = null)
+        public static ContainerBuilder AddDapperForMSSQL(this ContainerBuilder container, string connectionName = "DefaultConnection", object serviceKey = null, bool enableMasterSlave = false)
         {
-            container.AddDapper<MsSqlDapper>(connectionName, serviceKey);
+            container.AddDapper<MsSqlDapper>(connectionName, serviceKey, enableMasterSlave);
             return container;
         }
     }
