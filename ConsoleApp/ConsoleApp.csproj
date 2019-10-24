@@ -33,7 +33,7 @@
     <None Update="db\test2.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="db\test.db">
+    <None Update="db\test1.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

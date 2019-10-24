@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Autofac.Features.AttributeFilters;
-using Dapper.Extensions;
+﻿using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Dapper.Extensions.MasterSlave;
-using Dapper.Extensions.SQL;
 using Microsoft.Extensions.Configuration;
 
 namespace Example.Controllers
@@ -63,18 +58,16 @@ namespace Example.Controllers
             //    //}
             //});
 
-            //var con = Repo2.Query("select * from company;");
-            //var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query", new { id = 1 });
-            //var sql = Repo1.GetSQL("contact.query");
-            //var r = await Repo1.QueryAsync<Contact, Passport, Contact>(sql, (contact, passport) =>
-            //{
-            //    contact.Passport = passport;
-            //    return contact;
-            //}, null, "PassportNumber");
+            var con = Repo2.Query("select * from company;");
+            var list = await Repo1.QueryAsync<object>(name: "COMPANY.list.query", new { id = 1 });
+            var sql = Repo1.GetSQL("contact.query");
+            var r = await Repo1.QueryAsync<Contact, Passport, Contact>(sql, (contact, passport) =>
+            {
+                contact.Passport = passport;
+                return contact;
+            }, null, "PassportNumber");
 
-            //return Ok(new { r, list });
-
-            return Ok(new { config = Configuration.GetSection("ConnectionStrings:master_slave").Get<ConnectionConfiguration>() });
+            return Ok(new { r, list });
 
         }
 
