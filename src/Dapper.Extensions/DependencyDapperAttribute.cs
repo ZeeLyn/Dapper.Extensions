@@ -8,16 +8,21 @@ namespace Dapper.Extensions
 {
     [SuppressMessage("Microsoft.Design", "CA1018:MarkAttributesWithAttributeUsage", Justification = "Allowing the inherited AttributeUsageAttribute to be used avoids accidental override or conflict at this level.")]
     [AttributeUsage(AttributeTargets.Parameter)]
-    public sealed class DependencyAttribute : ParameterFilterAttribute
+    public sealed class DependencyDapperAttribute : ParameterFilterAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyFilterAttribute"/> class.
         /// </summary>
         /// <param name="serviceKey">The key that the dependency should have in order to satisfy the parameter.</param>
         /// <param name="readOnly"></param>
-        public DependencyAttribute(object serviceKey, bool readOnly = false)
+        public DependencyDapperAttribute(string serviceKey, bool readOnly = false)
         {
             ServiceKey = serviceKey;
+            ReadOnly = readOnly;
+        }
+
+        public DependencyDapperAttribute(bool readOnly = false)
+        {
             ReadOnly = readOnly;
         }
 
@@ -30,7 +35,7 @@ namespace Dapper.Extensions
         /// The <see cref="object"/> corresponding to a registered service key on a component.
         /// Resolved components must be keyed with this value to satisfy the filter.
         /// </value>
-        public object ServiceKey { get; }
+        public string ServiceKey { get; }
 
         /// <summary>
         /// Resolves a constructor parameter based on keyed service requirements.
@@ -47,7 +52,7 @@ namespace Dapper.Extensions
         {
             if (parameter == null) throw new ArgumentNullException(nameof(parameter));
             if (context == null) throw new ArgumentNullException(nameof(context));
-            return ReadOnly ? context.ResolveKeyed(ServiceKey, parameter.ParameterType, new NamedParameter("readOnly", true)) : context.ResolveKeyed(ServiceKey, parameter.ParameterType);
+            return ReadOnly ? context.ResolveKeyed($"{ServiceKey}_slave", parameter.ParameterType, new NamedParameter("readOnly", true)) : context.ResolveKeyed(ServiceKey, parameter.ParameterType);
             //context.TryResolveService(new KeyedService(Key, parameter.ParameterType), new[] { new NamedParameter("", "") }, out var instance);
             //context.TryResolveKeyed(Key, parameter.ParameterType, out var value);
             //return value;

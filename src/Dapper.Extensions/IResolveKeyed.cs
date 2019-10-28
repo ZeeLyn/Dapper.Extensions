@@ -1,29 +1,80 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
+using Autofac.Core;
 
 namespace Dapper.Extensions
 {
+
+    [Obsolete("Please use IResolveContext")]
     public interface IResolveKeyed
     {
-        T Resolve<T>(object serviceKey);
+        IComponentContext ComponentContext { get; }
 
-        IDapper ResolveDapper(object serviceKey, bool readOnly = false);
+        T Resolve<T>();
+
+        T Resolve<T>(params Parameter[] parameters);
+
+        T Resolve<T>(string serviceKey);
+
+        T Resolve<T>(string serviceKey, params Parameter[] parameters);
+
+        IDapper ResolveDapper(bool readOnly = false);
+
+        IDapper ResolveDapper(string serviceKey, bool readOnly = false);
     }
 
-    public class ResolveKeyed : IResolveKeyed
+    public interface IResolveContext : IResolveKeyed
     {
-        private IComponentContext Context { get; }
+
+    }
+
+    [Obsolete("Please use ResolveContext")]
+    public class ResolveKeyed : IResolveContext
+    {
+
         public ResolveKeyed(IComponentContext context)
         {
-            Context = context;
-        }
-        public T Resolve<T>(object serviceKey)
-        {
-            return Context.ResolveKeyed<T>(serviceKey);
+            ComponentContext = context;
         }
 
-        public IDapper ResolveDapper(object serviceKey, bool readOnly = false)
+        public IComponentContext ComponentContext { get; }
+
+        public T Resolve<T>()
         {
-            return readOnly ? Context.ResolveKeyed<IDapper>(serviceKey, new NamedParameter("readOnly", true)) : Context.ResolveKeyed<IDapper>(serviceKey);
+            return ComponentContext.Resolve<T>();
+        }
+
+        public T Resolve<T>(params Parameter[] parameters)
+        {
+            return ComponentContext.Resolve<T>(parameters);
+        }
+
+        public T Resolve<T>(string serviceKey)
+        {
+            return ComponentContext.ResolveKeyed<T>(serviceKey);
+        }
+
+        public T Resolve<T>(string serviceKey, params Parameter[] parameters)
+        {
+            return ComponentContext.ResolveKeyed<T>(serviceKey, parameters);
+        }
+
+        public IDapper ResolveDapper(bool readOnly = false)
+        {
+            return readOnly ? ComponentContext.ResolveKeyed<IDapper>("_slave", new NamedParameter("readOnly", true)) : ComponentContext.Resolve<IDapper>();
+        }
+
+
+        public IDapper ResolveDapper(string serviceKey, bool readOnly = false)
+        {
+            return readOnly ? ComponentContext.ResolveKeyed<IDapper>($"{serviceKey}_slave", new NamedParameter("readOnly", true)) : ComponentContext.ResolveKeyed<IDapper>(serviceKey);
+        }
+    }
+
+    public class ResolveContext : ResolveKeyed
+    {
+        public ResolveContext(IComponentContext context) : base(context)
+        {
         }
     }
 }

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sql-set>
+  <sql name="contact.query"><![CDATA[select Contact.id,Contact.name,Passport.PassportNumber from Contact,Passport where Passport.ContactId=Contact.id;]]></sql>
+  <sql name="COMPANY.list.query"><![CDATA[select * from COMPANY where id=@id;]]></sql>
+  <sql name="update2"><![CDATA[update tab set name=@name where id=@id;]]></sql>
+  <sql name="update1"><![CDATA[update tab1 set name=@name where id=@id;]]></sql>
+  <paging-sql name="paging">
+    <count>select count(*) from Contact;</count>
+    <query>select * from Contact limit @Skip,@Take;</query>
+  </paging-sql>
+</sql-set>

@@ -21,15 +21,18 @@ namespace Example.Controllers
 
         private IDapper SQLRepo { get; }
 
-        private IDapper MasterSlave { get; }
+        private IDapper MasterReader { get; }
+
+        private IDapper MasterWriter { get; }
 
         private IConfiguration Configuration { get; }
 
         private ILoadBalancing LoadBalancing { get; }
 
-        public ValuesController(IResolveKeyed resolve, [Dependency("master_slave", true)]IDapper masterSlave, [Dependency("sqlite1-conn")]IDapper rep1, [Dependency("sqlite2-conn")]IDapper rep2, [Dependency("msql-conn")]IDapper sql, IConfiguration configuration, ILoadBalancing loadBalancing)
+        public ValuesController(IResolveContext resolve, [DependencyDapper("master_slave")]IDapper writer, [DependencyDapper("master_slave", true)]IDapper reader, [DependencyDapper("sqlite1-conn")]IDapper rep1, [DependencyDapper("sqlite2-conn")]IDapper rep2, [DependencyDapper("msql-conn")]IDapper sql, IConfiguration configuration, ILoadBalancing loadBalancing)
         {
-            MasterSlave = masterSlave;
+            MasterReader = reader;
+            MasterWriter = writer;
             LoadBalancing = loadBalancing;
             SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
             SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
@@ -88,8 +91,16 @@ namespace Example.Controllers
         {
             return Ok(new
             {
-                data = await MasterSlave.QueryAsync("select * from company;"),
-                MasterSlave.Conn.Value.ConnectionString
+                Masert = new
+                {
+                    data = await MasterWriter.QueryAsync("select * from company;"),
+                    MasterWriter.Conn.Value.ConnectionString
+                },
+                Slave = new
+                {
+                    data = await MasterReader.QueryAsync("select * from company;"),
+                    MasterReader.Conn.Value.ConnectionString
+                }
             });
         }
 

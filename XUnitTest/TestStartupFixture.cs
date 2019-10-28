@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Dapper.Extensions;
 using Dapper.Extensions.Caching.Memory;
 using Dapper.Extensions.SQLite;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +20,10 @@ namespace XUnitTest
 
         public TestStartupFixture()
         {
-            _host = Host.CreateDefaultBuilder().ConfigureServices(context =>
+            _host = Host.CreateDefaultBuilder().UseServiceProviderFactory(new AutofacServiceProviderFactory()).ConfigureHostConfiguration(builder =>
+            {
+                builder.SetBasePath(Directory.GetCurrentDirectory());
+            }).ConfigureServices(context =>
             {
                 context.AddDapperForSQLite();
                 context.AddDapperCachingInMemory(new MemoryConfiguration
@@ -25,10 +31,11 @@ namespace XUnitTest
                     AllMethodsEnableCache = false,
                     Expire = TimeSpan.FromMinutes(1)
                 });
-            }).ConfigureHostConfiguration(builder =>
-                {
-                    builder.SetBasePath(Directory.GetCurrentDirectory());
-                }).Build();
+                context.AddSQLSeparateForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+            }).ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.AddDapperForSQLite("master_slave", "master_slave", true);
+            }).Build();
             Services = _host.Services;
         }
 

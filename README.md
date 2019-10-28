@@ -99,14 +99,14 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 }
 ```
 
-#### Inject objects with IResolveKeyed
+#### Inject objects with IResolveContext
 ```csharp
 public class ValuesController : ControllerBase
 {
 	private IDapper SQLiteRepo1 { get; }
 	private IDapper SQLiteRepo2 { get; }
 
-	public ValuesController(IResolveKeyed resolve)
+	public ValuesController(IResolveContext resolve)
 	{
 		SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
 		SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
@@ -122,8 +122,8 @@ public class ValuesController : ControllerBase
 }
 
 ```
-#### Filter injection using DependencyAttribute
-Note:If you’re using metadata filters (DependencyAttribute or WithAttributeFiltering in your constructors), you need to register those components using the [WithAttributeFiltering](https://autofaccn.readthedocs.io/en/latest/advanced/metadata.html) extension. Note that if you’re only using filters but not attributed metadata, you don’t actually need the AttributedMetadataModule. Metadata filters stand on their own.
+#### Filter injection using DependencyDapperAttribute
+Note:If you’re using metadata filters (DependencyDapperAttribute or WithAttributeFiltering in your constructors), you need to register those components using the [WithAttributeFiltering](https://autofaccn.readthedocs.io/en/latest/advanced/metadata.html) extension. Note that if you’re only using filters but not attributed metadata, you don’t actually need the AttributedMetadataModule. Metadata filters stand on their own.
 
 ```csharp
 public class ValuesController : ControllerBase
@@ -132,7 +132,7 @@ public class ValuesController : ControllerBase
 
 	private IDapper Repo2 { get; }
 
-	public ValuesController([Dependency("sqlite1-conn")]IDapper rep1, [Dependency("sqlite2-conn")]IDapper rep2)
+	public ValuesController([DependencyDapper("sqlite1-conn")]IDapper rep1, [DependencyDapper("sqlite2-conn")]IDapper rep2)
 	{
 		Repo1 = rep1;
 		Repo2 = rep2;
@@ -317,7 +317,7 @@ public class ValuesController : ControllerBase
 
     private IDapper Reader { get; }
 
-    public ValuesController([Dependency("master_slave")]IDapper writer, [Dependency("master_slave",readOnly:true)]IDapper reader)
+    public ValuesController([DependencyDapper("master_slave")]IDapper writer, [DependencyDapper("master_slave",readOnly:true)]IDapper reader)
     {
         Writer = writer;
         Reader = reader;

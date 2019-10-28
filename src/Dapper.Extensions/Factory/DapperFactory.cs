@@ -43,7 +43,7 @@ namespace Dapper.Extensions.Factory
         {
             Builder.Service.AddSingleton<IConfiguration>(builder.ConfigurationBuilder.Build());
             Builder.ContainerBuilder.Populate(Builder.Service);
-            Builder.ContainerBuilder.RegisterType<Context>().As<IContext>().InstancePerLifetimeScope();
+            Builder.ContainerBuilder.RegisterType<ResolveContext>().As<IResolveContext>().InstancePerLifetimeScope();
             Builder.ServiceProvider = Builder.Service.BuildServiceProvider();
             Builder.Container = Builder.ContainerBuilder.Build();
         }
@@ -97,78 +97,78 @@ namespace Dapper.Extensions.Factory
             return await delegation(scope.ResolveKeyed<IDapper>(dapperServiceKey));
         }
 
-        public static void Step(Action<IContext> delegation)
+        public static void Step(Action<IResolveContext> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            delegation(scope.Resolve<IContext>());
+            delegation(scope.Resolve<IResolveContext>());
         }
 
-        public static async Task StepAsync(Func<IContext, Task> delegation)
+        public static async Task StepAsync(Func<IResolveContext, Task> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            await delegation(scope.Resolve<IContext>());
+            await delegation(scope.Resolve<IResolveContext>());
         }
 
-        public static void Step(Action<IContext, IDapper> delegation)
+        public static void Step(Action<IResolveContext, IDapper> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            delegation(scope.Resolve<IContext>(), scope.Resolve<IDapper>());
+            delegation(scope.Resolve<IResolveContext>(), scope.Resolve<IDapper>());
         }
 
-        public static async Task StepAsync(Func<IContext, IDapper, Task> delegation)
+        public static async Task StepAsync(Func<IResolveContext, IDapper, Task> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            await delegation(scope.Resolve<IContext>(), scope.Resolve<IDapper>());
+            await delegation(scope.Resolve<IResolveContext>(), scope.Resolve<IDapper>());
         }
 
-        public static void Step(object dapperServiceKey, Action<IContext, IDapper> delegation)
+        public static void Step(object dapperServiceKey, Action<IResolveContext, IDapper> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            delegation(scope.Resolve<IContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
+            delegation(scope.Resolve<IResolveContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
         }
 
-        public static async Task StepAsync(object dapperServiceKey, Func<IContext, IDapper, Task> delegation)
+        public static async Task StepAsync(object dapperServiceKey, Func<IResolveContext, IDapper, Task> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            await delegation(scope.Resolve<IContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
+            await delegation(scope.Resolve<IResolveContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
         }
 
-        public static TReturn Step<TReturn>(Func<IContext, TReturn> delegation)
+        public static TReturn Step<TReturn>(Func<IResolveContext, TReturn> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            return delegation(scope.Resolve<IContext>());
+            return delegation(scope.Resolve<IResolveContext>());
         }
 
-        public static async Task<TReturn> StepAsync<TReturn>(Func<IContext, Task<TReturn>> delegation)
+        public static async Task<TReturn> StepAsync<TReturn>(Func<IResolveContext, Task<TReturn>> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            return await delegation(scope.Resolve<IContext>());
+            return await delegation(scope.Resolve<IResolveContext>());
         }
 
-        public static TReturn Step<TReturn>(Func<IContext, IDapper, TReturn> delegation)
+        public static TReturn Step<TReturn>(Func<IResolveContext, IDapper, TReturn> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            return delegation(scope.Resolve<IContext>(), scope.Resolve<IDapper>());
-        }
-
-
-        public static async Task<TReturn> StepAsync<TReturn>(Func<IContext, IDapper, Task<TReturn>> delegation)
-        {
-            using var scope = Builder.Container.BeginLifetimeScope();
-            return await delegation(scope.Resolve<IContext>(), scope.Resolve<IDapper>());
+            return delegation(scope.Resolve<IResolveContext>(), scope.Resolve<IDapper>());
         }
 
 
-        public static TReturn Step<TReturn>(object dapperServiceKey, Func<IContext, IDapper, TReturn> delegation)
+        public static async Task<TReturn> StepAsync<TReturn>(Func<IResolveContext, IDapper, Task<TReturn>> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            return delegation(scope.Resolve<IContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
+            return await delegation(scope.Resolve<IResolveContext>(), scope.Resolve<IDapper>());
         }
 
-        public static async Task<TReturn> StepAsync<TReturn>(object dapperServiceKey, Func<IContext, IDapper, Task<TReturn>> delegation)
+
+        public static TReturn Step<TReturn>(object dapperServiceKey, Func<IResolveContext, IDapper, TReturn> delegation)
         {
             using var scope = Builder.Container.BeginLifetimeScope();
-            return await delegation(scope.Resolve<IContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
+            return delegation(scope.Resolve<IResolveContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
+        }
+
+        public static async Task<TReturn> StepAsync<TReturn>(object dapperServiceKey, Func<IResolveContext, IDapper, Task<TReturn>> delegation)
+        {
+            using var scope = Builder.Container.BeginLifetimeScope();
+            return await delegation(scope.Resolve<IResolveContext>(), scope.ResolveKeyed<IDapper>(dapperServiceKey));
         }
     }
 }

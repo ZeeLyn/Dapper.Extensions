@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
@@ -18,11 +19,11 @@ namespace Dapper.Extensions.MasterSlave
         private readonly ConcurrentDictionary<string, ConnectionConfiguration> _connections =
             new ConcurrentDictionary<string, ConnectionConfiguration>();
 
-        public ConnectionConfigureManager(IConfiguration configuration, ILoadBalancing loadBalancing, ILogger<ConnectionConfigureManager> logger)
+        public ConnectionConfigureManager(IConfiguration configuration, ILoadBalancing loadBalancing, IServiceProvider service)
         {
             Configuration = configuration;
             LoadBalancing = loadBalancing;
-            Logger = logger;
+            Logger = service.GetService<ILogger<ConnectionConfigureManager>>();
         }
 
         public string GetConnectionString(string connectionName, bool readOnly = false)
@@ -40,18 +41,18 @@ namespace Dapper.Extensions.MasterSlave
             var section = Configuration.GetSection($"ConnectionStrings:{connectionName}");
             if (!section.Exists())
             {
-                Logger.LogError($"Configuration node 'ConnectionStrings:{connectionName}' not found.");
+                Logger?.LogError($"Configuration node 'ConnectionStrings:{connectionName}' not found.");
                 throw new Exception($"Configuration node 'ConnectionStrings:{connectionName}' not found.");
             }
             var configure = section.Get<ConnectionConfiguration>();
             if (configure == null || string.IsNullOrWhiteSpace(configure.Master))
             {
-                Logger.LogError($"The connection named '{connectionName}' master cannot be empty.");
+                Logger?.LogError($"The connection named '{connectionName}' master cannot be empty.");
                 throw new Exception($"The connection named '{connectionName}' master cannot be empty.");
             }
             if (configure.Slaves == null || !configure.Slaves.Any())
             {
-                Logger.LogError($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
+                Logger?.LogError($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
                 throw new Exception($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
             }
             return configure;

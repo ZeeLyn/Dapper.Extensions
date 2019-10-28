@@ -7,7 +7,7 @@
     <PackageId>Dapper.Extensions.Caching.Redis</PackageId>
     <Description>A dapper extension library. Support MySql,SQL Server,MSSQL,PostgreSql,SQLite and ODBC, Support cache.</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
-    <Version>2.2.1</Version>
+    <Version>2.3.0-rc</Version>
     <Authors>Owen</Authors>
     <PackageTags>DapperExtensions,Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions.NetCore,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MSSQL,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
