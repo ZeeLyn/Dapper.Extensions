@@ -5,9 +5,11 @@ A dapper extension library.
 
 2.Support cache.
 
-3.Support for sql separation.
+3.Support sql separation.
 
-4.Support for reading and writing separation.
+4.Support reading and writing separation.
+
+5.Support performance monitoring.
 
 # Packages & Status
 Packages | NuGet
@@ -106,10 +108,10 @@ public class ValuesController : ControllerBase
 	private IDapper SQLiteRepo1 { get; }
 	private IDapper SQLiteRepo2 { get; }
 
-	public ValuesController(IResolveContext resolve)
+	public ValuesController(IResolveContext context)
 	{
-		SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
-		SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
+		SQLiteRepo1 = context.ResolveDapper("sqlite1-conn");
+		SQLiteRepo2 = context.ResolveDapper("sqlite2-conn");
 	}
 	// GET api/values
 	[HttpGet]
