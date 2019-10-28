@@ -9,5 +9,11 @@ namespace Dapper.Extensions.MSSQL
             container.AddDapper<MsSqlDapper>(connectionName, serviceKey, enableMasterSlave);
             return container;
         }
+
+        public static ContainerBuilder AddDapperForMSSQL(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+        {
+            container.AddDapper<MsSqlDapper>(connectionName, null, enableMasterSlave);
+            return container;
+        }
     }
 }

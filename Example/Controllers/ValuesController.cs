@@ -1,9 +1,6 @@
-﻿using System.Collections.Concurrent;
-using Dapper.Extensions;
+﻿using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Dapper.Extensions.MasterSlave;
-using Microsoft.Extensions.Configuration;
 
 namespace Example.Controllers
 {
@@ -25,24 +22,26 @@ namespace Example.Controllers
 
         private IDapper MasterWriter { get; }
 
-        private IConfiguration Configuration { get; }
 
-        private ILoadBalancing LoadBalancing { get; }
-
-        public ValuesController(IResolveContext resolve, [DependencyDapper("master_slave")]IDapper writer, [DependencyDapper("master_slave", true)]IDapper reader, [DependencyDapper("sqlite1-conn")]IDapper rep1, [DependencyDapper("sqlite2-conn")]IDapper rep2, [DependencyDapper("msql-conn")]IDapper sql, IConfiguration configuration, ILoadBalancing loadBalancing)
+        public ValuesController(IResolveContext context, [DependencyDapper("master_slave")]IDapper writer, [DependencyDapper("master_slave", true)]IDapper reader, [DependencyDapper("sqlite1-conn")]IDapper rep1, [DependencyDapper("sqlite2-conn")]IDapper rep2, [DependencyDapper("msql-conn")]IDapper sql)
         {
             MasterReader = reader;
             MasterWriter = writer;
-            LoadBalancing = loadBalancing;
-            SQLiteRepo1 = resolve.ResolveDapper("sqlite1-conn");
-            SQLiteRepo2 = resolve.ResolveDapper("sqlite2-conn");
+            SQLiteRepo1 = context.ResolveDapper("sqlite1-conn");
+            SQLiteRepo2 = context.ResolveDapper("sqlite2-conn");
 
             Repo1 = rep1;
             Repo2 = rep2;
 
             SQLRepo = sql;
-            Configuration = configuration;
         }
+
+        //public ValuesController([DependencyDapper]IDapper writer, [DependencyDapper(true)]IDapper reader)
+        //{
+        //    MasterReader = reader;
+        //    MasterWriter = writer;
+        //}
+
         // GET api/values
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -76,14 +75,6 @@ namespace Example.Controllers
 
             return Ok(new { r, list });
 
-            //ConcurrentDictionary<string, int> dic = new ConcurrentDictionary<string, int>();
-            //var c = Configuration.GetSection("ConnectionStrings:master_slave").Get<ConnectionConfiguration>();
-            //for (var i = 0; i < 600; i++)
-            //{
-            //    dic.AddOrUpdate(LoadBalancing.NextConnectionString(c.Slaves), 1, (key, old) => old + 1);
-            //}
-
-            //return Ok(dic);
         }
 
         [HttpGet("Masterslave")]

@@ -9,5 +9,11 @@ namespace Dapper.Extensions.SQLite
             container.AddDapper<SQLiteDapper>(connectionName, serviceKey, enableMasterSlave);
             return container;
         }
+
+        public static ContainerBuilder AddDapperForSQLite(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+        {
+            container.AddDapper<SQLiteDapper>(connectionName, null, enableMasterSlave);
+            return container;
+        }
     }
 }

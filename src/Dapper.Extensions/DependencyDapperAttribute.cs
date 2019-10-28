@@ -52,10 +52,9 @@ namespace Dapper.Extensions
         {
             if (parameter == null) throw new ArgumentNullException(nameof(parameter));
             if (context == null) throw new ArgumentNullException(nameof(context));
+            if (string.IsNullOrWhiteSpace(ServiceKey))
+                return ReadOnly ? context.ResolveKeyed("_slave", parameter.ParameterType, new NamedParameter("readOnly", true)) : context.Resolve(parameter.ParameterType);
             return ReadOnly ? context.ResolveKeyed($"{ServiceKey}_slave", parameter.ParameterType, new NamedParameter("readOnly", true)) : context.ResolveKeyed(ServiceKey, parameter.ParameterType);
-            //context.TryResolveService(new KeyedService(Key, parameter.ParameterType), new[] { new NamedParameter("", "") }, out var instance);
-            //context.TryResolveKeyed(Key, parameter.ParameterType, out var value);
-            //return value;
         }
     }
 }
