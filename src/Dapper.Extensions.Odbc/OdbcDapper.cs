@@ -55,7 +55,7 @@ namespace Dapper.Extensions.Odbc
                         result.Page = result.TotalPage;
                     return result;
                 }
-            }, sql, param, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
         }
 
         public override async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
@@ -97,7 +97,7 @@ namespace Dapper.Extensions.Odbc
                         result.Page = result.TotalPage;
                     return result;
                 }
-            }, sql, param, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
 
         }
 
@@ -139,7 +139,7 @@ namespace Dapper.Extensions.Odbc
                         result.Page = result.TotalPage;
                     return result;
                 }
-            }, sql, param, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
         }
 
         public override PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
@@ -181,7 +181,7 @@ namespace Dapper.Extensions.Odbc
                         result.Page = result.TotalPage;
                     return result;
                 }
-            }, sql, param, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
 
         }
     }
