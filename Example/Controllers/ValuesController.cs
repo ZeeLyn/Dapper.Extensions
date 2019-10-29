@@ -1,4 +1,5 @@
-﻿using Dapper.Extensions;
+﻿using System;
+using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -82,9 +83,9 @@ namespace Example.Controllers
         {
             return Ok(new
             {
-                Masert = new
+                Master = new
                 {
-                    data = await MasterWriter.QueryAsync("select * from company;"),
+                    rows = await MasterWriter.ExecuteAsync("update company set name=@name where id=@id;", new { name = Guid.NewGuid().ToString(), id = 1 }),
                     MasterWriter.Conn.Value.ConnectionString
                 },
                 Slave = new
@@ -98,16 +99,14 @@ namespace Example.Controllers
         [HttpGet("Transaction")]
         public async Task<IActionResult> Transaction()
         {
-            using (Repo1.BeginTransaction())
+            Repo1.BeginTransaction();
+            var result = await Repo1.QueryFirstOrDefaultAsync("select * from COMPANY where id=1;");
+            if (result != null)
             {
-                var result = await Repo1.QueryFirstOrDefaultAsync("select * from COMPANY where id=1;");
-                if (result != null)
-                {
-                    await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;", new { name = "updated" });
-                    Repo1.CommitTransaction();
-                }
-                return Ok();
+                await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;", new { name = Guid.NewGuid().ToString() });
+                Repo1.CommitTransaction();
             }
+            return Ok();
 
         }
 

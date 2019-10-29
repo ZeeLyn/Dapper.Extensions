@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 
 namespace Dapper.Extensions.MSSQL
 {
@@ -10,9 +11,11 @@ namespace Dapper.Extensions.MSSQL
             return container;
         }
 
-        public static ContainerBuilder AddDapperForMSSQL(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+        public static ContainerBuilder AddDapperForMSSQL(this ContainerBuilder container, Action<DapperBuilder> builder)
         {
-            container.AddDapper<MsSqlDapper>(connectionName, null, enableMasterSlave);
+            var configure = new DapperBuilder();
+            builder?.Invoke(configure);
+            container.AddDapper<MsSqlDapper>(configure.ConnectionName, configure.ServiceKey, configure.EnableMasterSlave);
             return container;
         }
     }

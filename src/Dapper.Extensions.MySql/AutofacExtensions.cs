@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 
 namespace Dapper.Extensions.MySql
 {
@@ -10,9 +11,12 @@ namespace Dapper.Extensions.MySql
             return container;
         }
 
-        public static ContainerBuilder AddDapperForMySQL(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+
+        public static ContainerBuilder AddDapperForMySQL(this ContainerBuilder container, Action<DapperBuilder> builder)
         {
-            container.AddDapper<MySqlDapper>(connectionName, null, enableMasterSlave);
+            var configure = new DapperBuilder();
+            builder?.Invoke(configure);
+            container.AddDapper<MySqlDapper>(configure.ConnectionName, configure.ServiceKey, configure.EnableMasterSlave);
             return container;
         }
     }

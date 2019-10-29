@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 
 namespace Dapper.Extensions.Odbc
 {
@@ -10,9 +11,11 @@ namespace Dapper.Extensions.Odbc
             return container;
         }
 
-        public static ContainerBuilder AddDapperForODBC(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+        public static ContainerBuilder AddDapperForODBC(this ContainerBuilder container, Action<DapperBuilder> builder)
         {
-            container.AddDapper<OdbcDapper>(connectionName, null, enableMasterSlave);
+            var configure = new DapperBuilder();
+            builder?.Invoke(configure);
+            container.AddDapper<OdbcDapper>(configure.ConnectionName, configure.ServiceKey, configure.EnableMasterSlave);
             return container;
         }
     }

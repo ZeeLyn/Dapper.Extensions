@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var output=Argument<string>("output", "Output");
-var version=Argument<string>("version", "2.3.0-rc");
+var version=Argument<string>("version", "3.0.0");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);

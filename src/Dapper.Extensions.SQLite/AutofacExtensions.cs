@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 
 namespace Dapper.Extensions.SQLite
 {
@@ -10,9 +11,11 @@ namespace Dapper.Extensions.SQLite
             return container;
         }
 
-        public static ContainerBuilder AddDapperForSQLite(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+        public static ContainerBuilder AddDapperForSQLite(this ContainerBuilder container, Action<DapperBuilder> builder)
         {
-            container.AddDapper<SQLiteDapper>(connectionName, null, enableMasterSlave);
+            var configure = new DapperBuilder();
+            builder?.Invoke(configure);
+            container.AddDapper<SQLiteDapper>(configure.ConnectionName, configure.ServiceKey, configure.EnableMasterSlave);
             return container;
         }
     }

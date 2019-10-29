@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 
 namespace Dapper.Extensions.PostgreSql
 {
@@ -10,9 +11,11 @@ namespace Dapper.Extensions.PostgreSql
             return container;
         }
 
-        public static ContainerBuilder AddDapperForPostgreSQL(this ContainerBuilder container, string connectionName = "DefaultConnection", bool enableMasterSlave = false)
+        public static ContainerBuilder AddDapperForPostgreSQL(this ContainerBuilder container, Action<DapperBuilder> builder)
         {
-            container.AddDapper<PostgreSqlDapper>(connectionName, null, enableMasterSlave);
+            var configure = new DapperBuilder();
+            builder?.Invoke(configure);
+            container.AddDapper<PostgreSqlDapper>(configure.ConnectionName, configure.ServiceKey, configure.EnableMasterSlave);
             return container;
         }
     }
