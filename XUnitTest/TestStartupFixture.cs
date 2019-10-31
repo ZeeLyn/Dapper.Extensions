@@ -31,7 +31,7 @@ namespace XUnitTest
                     AllMethodsEnableCache = false,
                     Expire = TimeSpan.FromMinutes(1)
                 });
-                context.AddSQLSeparateForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+                context.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
             }).ConfigureContainer<ContainerBuilder>(builder =>
             {
                 builder.AddDapperForSQLite("master_slave", "master_slave", true);

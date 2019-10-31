@@ -100,7 +100,7 @@ namespace Example
             //Add support for MiniProfiler
             builder.AddMiniProfilerForDapper();
 
-            builder.AddSQLSeparateForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+            builder.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
 
             #endregion
 

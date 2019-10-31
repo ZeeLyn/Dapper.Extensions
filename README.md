@@ -203,9 +203,10 @@ Like mybatis, but does not support Dynamic SQL. Modify the xml file to take effe
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-	services.AddSQLSeparateForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+	services.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
 }
 ```
+
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -217,6 +218,7 @@ public void ConfigureServices(IServiceCollection services)
   </paging-sql>
 </sql-set>
 ```
+The name must be globally unique.
 
 ```csharp
 var list = await Repo1.QueryAsync<Company>(name: "COMPANY.list.query",new{ id=1 });

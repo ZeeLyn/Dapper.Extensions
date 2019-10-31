@@ -494,18 +494,22 @@ namespace Dapper.Extensions
         #endregion
 
 
-        public string GetSQL(string id)
+        public string GetSQL(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
             if (SQLManager == null)
-                throw new InvalidOperationException("Please call the 'AddSQLSeparateForDapper' method to register first.");
-            return SQLManager.GetSQL(id);
+                throw new InvalidOperationException("Please call the 'AddSQLSeparationForDapper' method first.");
+            return SQLManager.GetSQL(name);
         }
 
-        public (string CountSQL, string QuerySQL) GetPagingSQL(string id)
+        public (string CountSQL, string QuerySQL) GetPagingSQL(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
             if (SQLManager == null)
-                throw new InvalidOperationException("Please call the 'AddSQLSeparateForDapper' method to register first.");
-            return SQLManager.GetPagingSQL(id);
+                throw new InvalidOperationException("Please call the 'AddSQLSeparationForDapper' method first.");
+            return SQLManager.GetPagingSQL(name);
         }
     }
 }

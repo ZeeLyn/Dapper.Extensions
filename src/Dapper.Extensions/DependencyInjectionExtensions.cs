@@ -16,7 +16,7 @@ namespace Dapper.Extensions
         /// <param name="services"></param>
         /// <param name="xmlRootDir">The root directory of the xml file</param>
         /// <returns></returns>
-        public static IServiceCollection AddSQLSeparateForDapper(this IServiceCollection services, string xmlRootDir)
+        public static IServiceCollection AddSQLSeparationForDapper(this IServiceCollection services, string xmlRootDir)
         {
             services.AddSingleton(new SQLSeparateConfigure
             {

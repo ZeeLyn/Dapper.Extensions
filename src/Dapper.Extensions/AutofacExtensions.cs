@@ -43,7 +43,7 @@ namespace Dapper.Extensions
         /// <param name="services"></param>
         /// <param name="xmlRootDir">The root directory of the xml file</param>
         /// <returns></returns>
-        public static ContainerBuilder AddSQLSeparateForDapper(this ContainerBuilder services, string xmlRootDir)
+        public static ContainerBuilder AddSQLSeparationForDapper(this ContainerBuilder services, string xmlRootDir)
         {
             services.RegisterInstance(new SQLSeparateConfigure
             {
