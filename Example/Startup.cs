@@ -72,13 +72,11 @@ namespace Example
             //Enable MiniProfiler
             services.AddMiniProfiler(options =>
             {
-                var storage = new RedisStorage("localhost:6379,password=nihao123#@!")
+                options.RouteBasePath = "/profiler";
+                options.Storage = new RedisStorage("localhost:6379,password=nihao123#@!")
                 {
                     CacheDuration = TimeSpan.FromMinutes(5)
                 };
-                options.RouteBasePath = "/profiler";
-                options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
-                options.Storage = storage;
             });
         }
 
