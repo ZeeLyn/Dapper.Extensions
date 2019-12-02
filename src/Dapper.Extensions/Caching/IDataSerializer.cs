@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Dapper.Extensions.Caching
+﻿namespace Dapper.Extensions.Caching
 {
     public interface IDataSerializer
     {

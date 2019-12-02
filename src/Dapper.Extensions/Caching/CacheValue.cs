@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Dapper.Extensions.Caching
 {
+    [Serializable]
     public class CacheValue<TValue>
     {
         public CacheValue()

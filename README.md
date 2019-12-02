@@ -15,8 +15,8 @@ A dapper extension library.
 Packages | NuGet
 ---------|------
 Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)
-Dapper.Extensions.MySQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySQL)](https://www.nuget.org/packages/DDapper.Extensions.MySQL)
-Dapper.Extensions.MSSQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/DDapper.Extensions.MSSQL)
+Dapper.Extensions.MySQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySQL)](https://www.nuget.org/packages/Dapper.Extensions.MySQL)
+Dapper.Extensions.MSSQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/Dapper.Extensions.MSSQL)
 Dapper.Extensions.PostgreSQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSQL)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSQL)
 Dapper.Extensions.ODBC|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.ODBC)](https://www.nuget.org/packages/Dapper.Extensions.ODBC)
 Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)

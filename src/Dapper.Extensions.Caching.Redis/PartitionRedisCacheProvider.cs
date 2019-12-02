@@ -18,7 +18,7 @@ namespace Dapper.Extensions.Caching.Redis
             if (expired.HasValue)
                 Cache.SetString(key, Serializer.Serialize(new CacheValue<TResult>(result)), new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = expired.Value });
             else
-                Cache.SetObject(key, Serializer.Serialize(new CacheValue<TResult>(result)));
+                Cache.SetString(key, Serializer.Serialize(new CacheValue<TResult>(result)));
             return true;
         }
 
