@@ -36,9 +36,9 @@ Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file
    Information("Update Version:"+file);
    XmlPoke(file,"/Project/PropertyGroup/Version",version);
    XmlPoke(file,"/Project/PropertyGroup/GeneratePackageOnBuild","false");
-   XmlPoke(file,"/Project/PropertyGroup/Description","A dapper extension library. Support MySql,SQL Server,MSSQL,PostgreSql,SQLite and ODBC, Support cache.");
+   XmlPoke(file,"/Project/PropertyGroup/Description","A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.");
    XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/1100100/Dapper.Extensions");
-   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper.Extensions.NetCore,DapperExtensions,Dapper Extensions,DapperExtensions,Dapper,Dapper.Extensions,Dapper,Extensions,DataBase,MsSql,Sql Server,MSSQL,MySql,PostgreSql,SQLite,ODBC,Cahce,Caching,Redis,Memory,Redis Caching,Memory caching");
+   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching");
    XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg");
    XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
    XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");
