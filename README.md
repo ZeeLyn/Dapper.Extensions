@@ -1,3 +1,10 @@
+---
+---
+
+**Note: There is a dependency injection [bug](https://github.com/aspnet/Extensions/issues/2431) when upgrading netcore 3.0. You can temporarily use the autofac container, waiting to be fixed.**
+
+---
+---
 # Dapper.Extensions
 A dapper extension library. 
 
