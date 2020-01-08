@@ -346,7 +346,7 @@ public class ValuesController : ControllerBase
 
 # Splicing sql strings
 ```csharp
-await MasterReader.QueryAsync("select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)), new { name });
+await MasterReader.QueryAsync("select * from company {where id=@id};".Splice(!string.IsNullOrWhiteSpace(id)), new { id });
 ```
 
 
