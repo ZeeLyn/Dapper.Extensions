@@ -30,9 +30,21 @@ namespace Dapper.Extensions
             {
                 var start = sql.IndexOf('{');
                 if (start < 0)
-                    continue;
+                    return sql;
                 var end = sql.IndexOf('}');
                 sql = condition ? sql.Remove(start, 1).Remove(end - 1, 1) : sql.Remove(start, end - start + 1);
+            }
+            return sql;
+        }
+        public static string Splice(this string sql, params Func<bool>[] conditions)
+        {
+            foreach (var condition in conditions)
+            {
+                var start = sql.IndexOf('{');
+                if (start < 0)
+                    return sql;
+                var end = sql.IndexOf('}');
+                sql = condition() ? sql.Remove(start, 1).Remove(end - 1, 1) : sql.Remove(start, end - start + 1);
             }
             return sql;
         }
