@@ -1,6 +1,7 @@
 ﻿using Dapper.Extensions.Factory;
 using System;
 using System.IO;
+using System.Text;
 using Dapper.Extensions.SQLite;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;

@@ -110,6 +110,13 @@ namespace Example.Controllers
 
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery]string name = "")
+        {
+            var result = await MasterReader.QueryAsync("select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)), new { name });
+            return Ok(result);
+        }
+
         [HttpGet("generateid")]
         public IActionResult GenerateId()
         {

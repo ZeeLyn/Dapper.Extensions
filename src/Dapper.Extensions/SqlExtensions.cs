@@ -23,5 +23,18 @@ namespace Dapper.Extensions
         {
             return sql.False(func());
         }
+
+        public static string Splice(this string sql, params bool[] conditions)
+        {
+            foreach (var condition in conditions)
+            {
+                var start = sql.IndexOf('{');
+                if (start < 0)
+                    continue;
+                var end = sql.IndexOf('}');
+                sql = condition ? sql.Remove(start, 1).Remove(end - 1, 1) : sql.Remove(start, end - start + 1);
+            }
+            return sql;
+        }
     }
 }

@@ -344,6 +344,12 @@ public class ValuesController : ControllerBase
 ```
 
 
+# Splicing sql strings
+```csharp
+await MasterReader.QueryAsync("select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)), new { name });
+```
+
+
 # Built-in global unique id generator(Snowflake)
 ```csharp
 
