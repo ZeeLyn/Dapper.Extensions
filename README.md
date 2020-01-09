@@ -345,8 +345,16 @@ public class ValuesController : ControllerBase
 
 
 # Splicing sql strings
+Similar to the usage of string.format(), the content in {} is determined by the parameters; it supports ‘else’, {sql1: sql2}, if the parameter is true, use sql1, otherwise use sql2.
+
+Example:
 ```csharp
-await MasterReader.QueryAsync("select * from company {where id=@id};".Splice(!string.IsNullOrWhiteSpace(id)), new { id });
+var id=1;
+var sql="select * from tab where 1=1 {and id=@id} {and status=0} and {r1=1:r2=2} and {t1=1:t2=2};".Splice(id>0,false, true, false);
+```
+Output:
+```sql
+select * from tab where 1=1 and id=@id  and r1=1 and t2=2;
 ```
 
 
