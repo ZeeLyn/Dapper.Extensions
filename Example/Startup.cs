@@ -69,6 +69,9 @@ namespace Example
             #endregion
 
             services.AddMemoryCache();
+
+
+            //Manage home url:/profiler/results-index
             //Enable MiniProfiler
             services.AddMiniProfiler(options =>
             {

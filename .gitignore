@@ -182,3 +182,4 @@ crashlytics-build.properties
 .vs/Dapper.Extensions/v15/Server/sqlite3/db.lock
 .vs/Dapper.Extensions/v15/Server/sqlite3/storage.ide
 .vs/Dapper.Extensions/DesignTimeBuild/.dtbcache
+Example/.config/dotnet-tools.json
