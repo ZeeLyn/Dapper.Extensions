@@ -12,15 +12,13 @@ using Dapper.Extensions.MasterSlave;
 
 namespace Dapper.Extensions
 {
-    public abstract partial class BaseDapper : IDapper, IDisposable
+    public abstract partial class BaseDapper<TDbConnection> : IDapper, IDisposable where TDbConnection : DbConnection, new()
     {
         public Lazy<IDbConnection> Conn { get; }
 
         protected IDbTransaction Transaction { get; set; }
 
         protected IConfiguration Configuration { get; }
-
-        protected abstract IDbConnection CreateConnection(string connectionName);
 
         protected CacheConfiguration CacheConfiguration { get; }
 
@@ -55,12 +53,12 @@ namespace Dapper.Extensions
                 ConnectionConfigureManager = serviceProvider.GetRequiredService<ConnectionConfigureManager>();
         }
 
-        protected IDbConnection GetConnection(string connectionName, DbProviderFactory factory)
+        private IDbConnection CreateConnection(string connectionName)
         {
             var connString = EnableMasterSlave ? ConnectionConfigureManager.GetConnectionString(connectionName, ReadOnly) : Configuration.GetConnectionString(connectionName);
             if (string.IsNullOrWhiteSpace(connString))
                 throw new ArgumentNullException(nameof(connString), "The config of " + connectionName + " cannot be null.");
-            var conn = factory.CreateConnection();
+            var conn = new TDbConnection();
             if (conn == null)
                 throw new ArgumentNullException(nameof(IDbConnection), "Failed to create database connection.");
             conn.ConnectionString = connString;
@@ -484,7 +482,7 @@ namespace Dapper.Extensions
                 return execQuery();
             cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
             var cache = Cache.TryGet<TReturn>(cacheKey);
-            if (cache.HasKey)
+            if (cache.ExistKey)
                 return cache.Value;
             var result = execQuery();
             Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);

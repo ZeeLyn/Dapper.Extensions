@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dapper.Extensions.MSSQL
 {
-    public class MsSqlDapper : BaseDapper
+    public class MsSqlDapper : BaseDapper<SqlConnection>
     {
         public MsSqlDapper(IServiceProvider service, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false) : base(service, connectionName, enableMasterSlave, readOnly)
         {
         }
-        protected override IDbConnection CreateConnection(string connectionName)
-        {
-            return GetConnection(connectionName, SqlClientFactory.Instance);
-        }
+
         public override async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
         {
             if (pageindex < 1)

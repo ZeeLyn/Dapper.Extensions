@@ -37,7 +37,7 @@ namespace Example.Controllers
             SQLRepo = sql;
         }
 
-        //public ValuesController([DependencyDapper]IDapper writer, [DependencyDapper(true)]IDapper reader)
+        //public ValuesController([DependencyDapper("master_slave")]IDapper writer, [DependencyDapper("master_slave", true)]IDapper reader)
         //{
         //    MasterReader = reader;
         //    MasterWriter = writer;

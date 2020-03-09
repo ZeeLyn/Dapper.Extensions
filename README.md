@@ -8,7 +8,7 @@
 # Dapper.Extensions
 A dapper extension library. 
 
-1.Support MySql,SQL Server,PostgreSql,SQLite and ODBC.
+1.Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC.
 
 2.Support cache.
 

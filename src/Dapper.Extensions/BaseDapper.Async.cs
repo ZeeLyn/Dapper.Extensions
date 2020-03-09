@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper.Extensions.SQL;
 
 namespace Dapper.Extensions
 {
-    public abstract partial class BaseDapper
+    public abstract partial class BaseDapper<TDbConnection> where TDbConnection : DbConnection, new()
     {
         public virtual async Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
         {
@@ -445,7 +446,7 @@ namespace Dapper.Extensions
                 return await execQuery();
             cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
             var cache = Cache.TryGet<TReturn>(cacheKey);
-            if (cache.HasKey)
+            if (cache.ExistKey)
                 return cache.Value;
             var result = await execQuery();
             Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);

@@ -17,14 +17,14 @@ namespace Dapper.Extensions.Caching
         public CacheValue(TValue value, bool hasKey)
         {
             Value = value;
-            HasKey = hasKey;
+            ExistKey = hasKey;
         }
 
 
         public TValue Value { get; set; }
 
         [JsonIgnore]
-        public bool HasKey { get; set; } = true;
+        public bool ExistKey { get; set; } = true;
 
     }
 }

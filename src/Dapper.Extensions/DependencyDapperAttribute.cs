@@ -56,5 +56,10 @@ namespace Dapper.Extensions
                 return ReadOnly ? context.ResolveKeyed("_slave", parameter.ParameterType, new NamedParameter("readOnly", true)) : context.Resolve(parameter.ParameterType);
             return ReadOnly ? context.ResolveKeyed($"{ServiceKey}_slave", parameter.ParameterType, new NamedParameter("readOnly", true)) : context.ResolveKeyed(ServiceKey, parameter.ParameterType);
         }
+
+        public override bool CanResolveParameter(ParameterInfo parameter, IComponentContext context)
+        {
+            return true;
+        }
     }
 }
