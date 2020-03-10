@@ -6,7 +6,7 @@ namespace Dapper.Extensions.MySql
     {
         public static IServiceCollection AddDapperForMySQL(this IServiceCollection services)
         {
-            return services.AddScoped<IDapper, MySqlDapper>();
+            return services.AddDapper<MySqlDapper>();
         }
     }
 }

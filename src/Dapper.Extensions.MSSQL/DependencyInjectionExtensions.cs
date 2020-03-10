@@ -6,7 +6,7 @@ namespace Dapper.Extensions.MSSQL
     {
         public static IServiceCollection AddDapperForMSSQL(this IServiceCollection services)
         {
-            return services.AddScoped<IDapper, MsSqlDapper>();
+            return services.AddDapper<MsSqlDapper>();
         }
     }
 }

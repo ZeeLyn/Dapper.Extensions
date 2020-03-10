@@ -6,7 +6,7 @@ namespace Dapper.Extensions.PostgreSql
     {
         public static IServiceCollection AddDapperForPostgreSQL(this IServiceCollection services)
         {
-            return services.AddScoped<IDapper, PostgreSqlDapper>();
+            return services.AddDapper<PostgreSqlDapper>();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Dapper.Extensions.Odbc
     {
         public static IServiceCollection AddDapperForODBC(this IServiceCollection services)
         {
-            return services.AddScoped<IDapper, OdbcDapper>();
+            return services.AddDapper<OdbcDapper>();
         }
     }
 }

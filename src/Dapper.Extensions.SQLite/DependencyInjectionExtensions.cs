@@ -6,7 +6,7 @@ namespace Dapper.Extensions.SQLite
     {
         public static IServiceCollection AddDapperForSQLite(this IServiceCollection services)
         {
-            return services.AddScoped<IDapper, SQLiteDapper>();
+            return services.AddDapper<SQLiteDapper>();
         }
     }
 }
