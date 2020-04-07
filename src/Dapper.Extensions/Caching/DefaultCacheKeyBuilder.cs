@@ -86,7 +86,7 @@ namespace Dapper.Extensions.Caching
 
         public void Dispose()
         {
-            _md5Hasher.Dispose();
+            _md5Hasher?.Dispose();
         }
     }
 }
