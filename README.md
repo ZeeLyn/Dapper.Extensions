@@ -277,6 +277,14 @@ public async Task<IActionResult> Get()
 	return Ok(page);
 }
 ```
+----
+
+### ***NOTE***
+
+***If the cache does not exist, it adds a lock when reading data from the database to prevent cache breakdown. Dapper.Extensions is just a low-level data access library. Preventing malicious attacks is not its responsibility. You can add Bloom filters before this.***
+
+----
+
 
 # Support for MiniProfiler
 Dapper.Extensions.MiniProfiler just adds support for MiniProfiler. To enable MiniProfiler, you need to configure it yourself. Please check the [documentation](https://miniprofiler.com/dotnet/).
