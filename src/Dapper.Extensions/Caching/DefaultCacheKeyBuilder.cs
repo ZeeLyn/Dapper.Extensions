@@ -3,15 +3,14 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Dapper.Extensions.Caching
 {
-    public class DefaultCacheKeyBuilder : ICacheKeyBuilder, IDisposable
+    public class DefaultCacheKeyBuilder : ICacheKeyBuilder
     {
         private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ParamProperties = new ConcurrentDictionary<Type, List<PropertyInfo>>();
-        private static readonly MD5 Md5 = System.Security.Cryptography.MD5.Create();
+
         private static readonly char[] Digitals = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
         private CacheConfiguration CacheConfiguration { get; }
@@ -61,7 +60,8 @@ namespace Dapper.Extensions.Caching
         private static string MD5(string source)
         {
             var bytes = Encoding.UTF8.GetBytes(source);
-            var hash = Md5.ComputeHash(bytes);
+            using var md5 = System.Security.Cryptography.MD5.Create();
+            var hash = md5.ComputeHash(bytes);
             return ToString(hash);
         }
 
@@ -76,11 +76,6 @@ namespace Dapper.Extensions.Caching
                 chars[index] = Digitals[item & 15/* byte low  */]; ++index;
             }
             return new string(chars);
-        }
-
-        public void Dispose()
-        {
-            Md5.Dispose();
         }
     }
 }

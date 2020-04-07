@@ -73,14 +73,14 @@ namespace Example
 
             //Manage home url:/profiler/results-index
             //Enable MiniProfiler
-            services.AddMiniProfiler(options =>
-            {
-                options.RouteBasePath = "/profiler";
-                options.Storage = new RedisStorage("localhost:6379,password=nihao123#@!")
-                {
-                    CacheDuration = TimeSpan.FromMinutes(5)
-                };
-            });
+            //services.AddMiniProfiler(options =>
+            //{
+            //    options.RouteBasePath = "/profiler";
+            //    options.Storage = new RedisStorage("localhost:6379,password=nihao123#@!")
+            //    {
+            //        CacheDuration = TimeSpan.FromMinutes(5)
+            //    };
+            //});
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -99,7 +99,7 @@ namespace Example
             builder.AddDapperForSQLite("master_slave", "master_slave", true);
 
             //Add support for MiniProfiler
-            builder.AddMiniProfilerForDapper();
+            //builder.AddMiniProfilerForDapper();
 
             builder.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
 

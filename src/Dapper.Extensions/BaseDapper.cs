@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using Dapper.Extensions.MasterSlave;
+using Microsoft.Extensions.Logging;
 
 namespace Dapper.Extensions
 {
@@ -36,6 +37,10 @@ namespace Dapper.Extensions
 
         private ConnectionConfigureManager ConnectionConfigureManager { get; }
 
+        private static readonly object Lock = new object();
+
+        protected ILogger Logger { get; }
+
         protected BaseDapper(IServiceProvider serviceProvider, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false)
         {
             if (!enableMasterSlave && readOnly)
@@ -51,6 +56,7 @@ namespace Dapper.Extensions
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
             if (EnableMasterSlave)
                 ConnectionConfigureManager = serviceProvider.GetRequiredService<ConnectionConfigureManager>();
+            Logger = serviceProvider.GetRequiredService<ILogger<BaseDapper<TDbConnection>>>();
         }
 
         private IDbConnection CreateConnection(string connectionName)
@@ -481,12 +487,29 @@ namespace Dapper.Extensions
             if (!IsEnableCache(enableCache))
                 return execQuery();
             cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
+            Logger.LogDebug("Get query results from cache.");
             var cache = Cache.TryGet<TReturn>(cacheKey);
             if (cache.ExistKey)
+            {
+                Logger.LogDebug("Get value from cache successfully.");
                 return cache.Value;
-            var result = execQuery();
-            Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
-            return result;
+            }
+            Logger.LogDebug("The cache does not exist, acquire a lock, queue to query data from the database.");
+            lock (Lock)
+            {
+                Logger.LogDebug("The lock has been acquired, try again to get the value from the cache.");
+                var cacheResult = Cache.TryGet<TReturn>(cacheKey);
+                if (cacheResult.ExistKey)
+                {
+                    Logger.LogDebug("Try again, get value from cache successfully.");
+                    return cacheResult.Value;
+                }
+                Logger.LogDebug("Try again, still fail to get the value from the cache, start to get the value from the data.");
+                var result = execQuery();
+                Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
+                Logger.LogDebug("Get value from data and write to cache.");
+                return result;
+            }
         }
 
         #endregion

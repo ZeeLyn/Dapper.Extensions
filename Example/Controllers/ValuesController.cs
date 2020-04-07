@@ -74,7 +74,7 @@ namespace Example.Controllers
                 return contact;
             }, null, "PassportNumber");
 
-            return Ok(new { r, list });
+            return Ok(new { r1, page });
 
         }
 

@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Dapper.Extensions.SQL;
+using Microsoft.Extensions.Logging;
 
 namespace Dapper.Extensions
 {
     public abstract partial class BaseDapper<TDbConnection> where TDbConnection : DbConnection, new()
     {
+        private static readonly Lazy<SemaphoreSlim> SemaphoreSlim = new Lazy<SemaphoreSlim>(() => new SemaphoreSlim(1, 1));
+
         public virtual async Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
         {
             return await CommandExecuteAsync(enableCache, async () => (await Conn.Value.QueryAsync<TReturn>(sql, param, Transaction, commandTimeout, commandType)).ToList(), sql, param, cacheKey, cacheExpire);
@@ -445,12 +449,35 @@ namespace Dapper.Extensions
             if (!IsEnableCache(enableCache))
                 return await execQuery();
             cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
+            Logger.LogDebug("Get query results from cache.");
             var cache = Cache.TryGet<TReturn>(cacheKey);
             if (cache.ExistKey)
+            {
+                Logger.LogDebug("Get value from cache successfully.");
                 return cache.Value;
-            var result = await execQuery();
-            Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
-            return result;
+            }
+            Logger.LogDebug("The cache does not exist, acquire a lock, queue to query data from the database.");
+            await SemaphoreSlim.Value.WaitAsync(TimeSpan.FromSeconds(5));
+            try
+            {
+                Logger.LogDebug("The lock has been acquired, try again to get the value from the cache.");
+                var cacheResult = Cache.TryGet<TReturn>(cacheKey);
+                if (cacheResult.ExistKey)
+                {
+                    Logger.LogDebug("Try again, get value from cache successfully.");
+                    return cacheResult.Value;
+                }
+                Logger.LogDebug("Try again, still fail to get the value from the cache, start to get the value from the data.");
+                var result = await execQuery();
+                Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
+                Logger.LogDebug("Get value from data and write to cache.");
+                return result;
+            }
+            finally
+            {
+                Logger.LogDebug("Release lock.");
+                SemaphoreSlim.Value.Release();
+            }
         }
     }
 }

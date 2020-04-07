@@ -23,6 +23,10 @@ namespace Example
             Host.CreateDefaultBuilder(args)
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureHostConfiguration(builder => { builder.SetBasePath(Directory.GetCurrentDirectory()); })
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel(b => b.ListenAnyIP(1234));
+                });
     }
 }
