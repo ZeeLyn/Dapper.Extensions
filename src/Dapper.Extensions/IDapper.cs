@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dapper.Extensions
 {
-    public interface IDapper
+    public interface IDapper : IDisposable
     {
         Lazy<IDbConnection> Conn { get; }
 

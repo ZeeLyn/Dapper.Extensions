@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Dapper.Extensions
 {
-    public abstract partial class BaseDapper<TDbConnection> : IDapper, IDisposable where TDbConnection : DbConnection, new()
+    public abstract partial class BaseDapper<TDbConnection> : IDapper where TDbConnection : DbConnection, new()
     {
         public Lazy<IDbConnection> Conn { get; }
 
