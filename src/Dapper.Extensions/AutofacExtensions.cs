@@ -1,6 +1,10 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Autofac.Features.AttributeFilters;
 using Dapper.Extensions.MasterSlave;
 using Dapper.Extensions.SQL;
+using Microsoft.Extensions.Hosting;
 
 namespace Dapper.Extensions
 {
@@ -34,7 +38,22 @@ namespace Dapper.Extensions
                 else
                     container.RegisterType<TDbProvider>().Keyed<IDapper>(serviceKey).WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
             }
+
+
             return container;
+        }
+
+        public static ContainerBuilder AddAllControllers(this ContainerBuilder container)
+        {
+            container.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
+                .Where(t => t.Name.EndsWith("Controller"))
+                .PropertiesAutowired().WithAttributeFiltering().InstancePerLifetimeScope();
+            return container;
+        }
+
+        public static IHostBuilder UseAutofac(this IHostBuilder builder)
+        {
+            return builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
         }
 
         /// <summary>

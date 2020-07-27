@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
+using Dapper.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +22,10 @@ namespace Example
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .UseAutofac()
                 .ConfigureHostConfiguration(builder => { builder.SetBasePath(Directory.GetCurrentDirectory()); })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
                     webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureKestrel(options => { options.ListenAnyIP(1234); });
                 });

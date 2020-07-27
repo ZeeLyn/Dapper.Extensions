@@ -18,6 +18,7 @@ using Dapper.Extensions.PostgreSql;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling.Storage;
 using StackExchange.Redis;
+using Autofac.Core;
 
 namespace Example
 {
@@ -35,6 +36,7 @@ namespace Example
         {
             //IConfiguration c = new ConfigurationBuilder().Build();
             services.AddControllers().AddNewtonsoftJson().AddControllersAsServices();
+
 
             SnowflakeUtils.Initialization(1, 1);
 
@@ -126,9 +128,7 @@ namespace Example
 
             #endregion
 
-            builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
-                .Where(t => t.Name.EndsWith("Controller"))
-                .PropertiesAutowired().WithAttributeFiltering().InstancePerLifetimeScope();
+            builder.AddAllControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
