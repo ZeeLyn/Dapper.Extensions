@@ -12,6 +12,6 @@ namespace Dapper.Extensions.Caching.Redis
     {
         public IEnumerable<string> Connections { get; set; }
 
-        public Func<string, string[], string> PartitionPolicy { get; set; }
+        public Func<string, string> PartitionPolicy { get; set; }
     }
 }

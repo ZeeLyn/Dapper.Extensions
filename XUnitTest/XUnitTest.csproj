@@ -21,15 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.6" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.6" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
+    <PackageReference Include="coverlet.collector" Version="3.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -38,9 +38,9 @@
   <ItemGroup>
     <ProjectReference Include="..\src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.MSSQL\Dapper.Extensions.MSSQL.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySql.csproj" />
+    <ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySQL.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSql.csproj" />
+    <ProjectReference Include="..\src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSQL.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.SQLite\Dapper.Extensions.SQLite.csproj" />
   </ItemGroup>
 

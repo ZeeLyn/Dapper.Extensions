@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions", "src\Dapper.Extensions\Dapper.Extensions.csproj", "{72905B6C-3368-4A7C-9C53-88C991B08E69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.MySql", "src\Dapper.Extensions.MySql\Dapper.Extensions.MySql.csproj", "{5F5C0101-58CB-4D88-9914-F2FB738106A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.MySQL", "src\Dapper.Extensions.MySql\Dapper.Extensions.MySQL.csproj", "{5F5C0101-58CB-4D88-9914-F2FB738106A2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.PostgreSql", "src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSql.csproj", "{561840F3-D18C-4105-8488-EDA85DA993F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.PostgreSQL", "src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSQL.csproj", "{561840F3-D18C-4105-8488-EDA85DA993F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper.Extensions.Odbc", "src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj", "{E996030B-A276-464A-8072-9DCE617C2289}"
 EndProject

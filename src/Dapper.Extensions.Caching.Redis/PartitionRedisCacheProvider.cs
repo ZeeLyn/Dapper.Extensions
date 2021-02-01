@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿
 using System;
 
 namespace Dapper.Extensions.Caching.Redis
 {
     public class PartitionRedisCacheProvider : ICacheProvider
     {
-        private IDistributedCache Cache { get; }
+        private R Cache { get; }
         private IDataSerializer Serializer { get; }
         public PartitionRedisCacheProvider(IDistributedCache cache, IDataSerializer serializer)
         {

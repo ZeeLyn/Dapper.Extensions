@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Autofac;
-using CSRedis;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Redis;
+using FreeRedis;
 
 namespace Dapper.Extensions.Caching.Redis
 {
     public static class AutofacExtensions
     {
+
         public static ContainerBuilder AddDapperCachingForRedis(this ContainerBuilder service, RedisConfiguration config)
         {
             if (config == null)
@@ -17,9 +16,11 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterInstance(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire
+                Expire = config.Expire,
+                KeyPrefix = config.KeyPrefix
             }).SingleInstance();
-            RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
+
+            service.RegisterInstance(new RedisClient(ConnectionStringBuilder.Parse(config.ConnectionString))).SingleInstance();
             service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;
@@ -33,9 +34,10 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterInstance(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire
+                Expire = config.Expire,
+                KeyPrefix = config.KeyPrefix
             }).SingleInstance();
-            RedisHelper.Initialization(new CSRedisClient(config.ConnectionString));
+            service.RegisterInstance(new RedisClient(ConnectionStringBuilder.Parse(config.ConnectionString))).SingleInstance();
             service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;
@@ -51,14 +53,15 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterInstance(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire
+                Expire = config.Expire,
+                KeyPrefix = config.KeyPrefix
             }).SingleInstance();
-            RedisHelper.Initialization(config.PartitionPolicy != null
-                ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
-                    config.Connections.ToArray())
-                : new CSRedisClient(null, config.Connections.ToArray()));
-            service.RegisterInstance(new CSRedisCache(RedisHelper.Instance)).As<IDistributedCache>().SingleInstance();
-            service.RegisterType<PartitionRedisCacheProvider>().As<ICacheProvider>().SingleInstance();
+
+            service.RegisterInstance(config.PartitionPolicy != null
+                ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), config.PartitionPolicy)
+                : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null)).SingleInstance();
+
+            service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;
         }
@@ -73,14 +76,13 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterInstance(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire
+                Expire = config.Expire,
+                KeyPrefix = config.KeyPrefix
             }).SingleInstance();
-            RedisHelper.Initialization(config.PartitionPolicy != null
-                ? new CSRedisClient(key => config.PartitionPolicy(key, config.Connections.ToArray()),
-                    config.Connections.ToArray())
-                : new CSRedisClient(null, config.Connections.ToArray()));
-            service.RegisterInstance(new CSRedisCache(RedisHelper.Instance)).As<IDistributedCache>().SingleInstance();
-            service.RegisterType<PartitionRedisCacheProvider>().As<ICacheProvider>().SingleInstance();
+            service.RegisterInstance(config.PartitionPolicy != null
+                ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), config.PartitionPolicy)
+                : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null)).SingleInstance();
+            service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;
         }

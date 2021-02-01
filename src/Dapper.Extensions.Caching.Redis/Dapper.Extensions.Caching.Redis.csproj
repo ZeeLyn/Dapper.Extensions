@@ -14,8 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Caching.CSRedis" Version="3.6.5" />
-    <PackageReference Include="CSRedisCore" Version="3.6.5" />
+    <Compile Remove="PartitionRedisCacheProvider.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FreeRedis" Version="0.3.0" />
   </ItemGroup>
 
   <ItemGroup>
