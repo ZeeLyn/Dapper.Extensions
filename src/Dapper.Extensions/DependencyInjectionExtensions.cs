@@ -1,4 +1,5 @@
-﻿using Dapper.Extensions.SQL;
+﻿using Autofac;
+using Dapper.Extensions.SQL;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dapper.Extensions
@@ -7,8 +8,15 @@ namespace Dapper.Extensions
     {
         public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services) where TDbProvider : IDapper
         {
-            return services.AddScoped(typeof(IDapper), typeof(TDbProvider));
+            return services.AddScoped(typeof(IDapper), typeof(TDbProvider)).AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
         }
+
+
+        public static IServiceCollection AddDapperConnectionStringProvider<TConnectionStringProvider>(this IServiceCollection services) where TConnectionStringProvider : IConnectionStringProvider
+        {
+          return  services.AddSingleton(typeof(IConnectionStringProvider),typeof(TConnectionStringProvider));
+        }
+
 
         /// <summary>
         /// Enable SQL separation

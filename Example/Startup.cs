@@ -44,8 +44,9 @@ namespace Example
             //services.AddDapperForSQLite();
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
-            //services.AddDapperForMySQL();
+            services.AddDapperForMySQL();
             //services.AddDapperForMSSQL();
+            //services.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
             #endregion
 
 
@@ -83,6 +84,7 @@ namespace Example
             //        CacheDuration = TimeSpan.FromMinutes(5)
             //    };
             //});
+            services.AddScoped<DITest>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -90,7 +92,7 @@ namespace Example
             #region Add Dapper
 
 
-            builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
+            //builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
 
             builder.AddDapperForMSSQL("MSSqlConnection", "msql-conn");
 
@@ -104,6 +106,7 @@ namespace Example
             //builder.AddMiniProfilerForDapper();
 
             builder.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+            //builder.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
 
             #endregion
 
@@ -112,7 +115,7 @@ namespace Example
             //builder.AddDapperCachingForRedis(new RedisConfiguration
             //{
             //    AllMethodsEnableCache = false,
-            //    ConnectionString = "localhost:6379,password=nihao123#@!",
+            //    ConnectionString = "127.0.0.1:6379,password=nihao123",
             //    Expire = TimeSpan.FromHours(1)
             //});
 

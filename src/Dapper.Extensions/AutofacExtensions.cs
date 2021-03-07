@@ -14,8 +14,8 @@ namespace Dapper.Extensions
         {
             container.RegisterType<ResolveContext>().As<IResolveContext>().IfNotRegistered(typeof(IResolveContext)).InstancePerLifetimeScope();
             container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
-            container.RegisterType<ConnectionConfigureManager>().IfNotRegistered(typeof(ConnectionConfigureManager)).SingleInstance();
-            container.RegisterType<WeightedPolling>().As<ILoadBalancing>().IfNotRegistered(typeof(ILoadBalancing)).SingleInstance();
+            container.RegisterType<DefaultConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
+            container.RegisterType<WeightedPolling>().As<ILoadBalancing>().SingleInstance();
 
             if (string.IsNullOrWhiteSpace(serviceKey))
             {
@@ -41,6 +41,12 @@ namespace Dapper.Extensions
 
 
             return container;
+        }
+
+        public static ContainerBuilder AddDapperConnectionStringProvider<TConnectionStringProvider>(this ContainerBuilder container) where TConnectionStringProvider:IConnectionStringProvider
+        {
+             container.RegisterType<TConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
+             return container;
         }
 
         public static ContainerBuilder AddAllControllers(this ContainerBuilder container)

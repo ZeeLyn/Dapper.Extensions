@@ -5,35 +5,40 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using Dapper.Extensions.MasterSlave;
 
-namespace Dapper.Extensions.MasterSlave
+namespace Dapper.Extensions
 {
-    public class ConnectionConfigureManager
+    public class DefaultConnectionStringProvider: IConnectionStringProvider
     {
         private IConfiguration Configuration { get; }
 
-        private ILoadBalancing LoadBalancing { get; }
-
         private ILogger Logger { get; }
+
+        private IServiceProvider Service { get; }
 
         private readonly ConcurrentDictionary<string, ConnectionConfiguration> _connections =
             new ConcurrentDictionary<string, ConnectionConfiguration>();
 
-        public ConnectionConfigureManager(IConfiguration configuration, ILoadBalancing loadBalancing, IServiceProvider service)
+        public DefaultConnectionStringProvider(IConfiguration configuration, IServiceProvider service, ILogger<DefaultConnectionStringProvider> logger)
         {
             Configuration = configuration;
-            LoadBalancing = loadBalancing;
-            Logger = service.GetService<ILogger<ConnectionConfigureManager>>();
+            Service = service;
+            Logger = logger;
         }
 
-        public string GetConnectionString(string connectionName, bool readOnly = false)
+        public string GetConnectionString(string connectionName, bool enableMasterSlave = false, bool readOnly = false)
         {
+            if (!enableMasterSlave)
+                return Configuration.GetConnectionString(connectionName);
+
             var connection = _connections.GetOrAdd(connectionName, name =>
             {
                 Configure(name);
                 return Bind(name);
             });
-            return readOnly ? LoadBalancing.NextConnectionString(connection.Slaves) : connection.Master;
+            var loadBalancing = Service.GetRequiredService<ILoadBalancing>();
+            return readOnly ? loadBalancing.NextConnectionString(connection.Slaves) : connection.Master;
         }
 
         private ConnectionConfiguration Bind(string connectionName)

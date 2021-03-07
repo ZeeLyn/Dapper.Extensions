@@ -20,7 +20,7 @@ namespace Dapper.Extensions.Caching.Redis
                 KeyPrefix = config.KeyPrefix
             }).SingleInstance();
 
-            service.RegisterInstance(new RedisClient(ConnectionStringBuilder.Parse(config.ConnectionString))).SingleInstance();
+            service.RegisterInstance(new RedisClient(config.ConnectionString)).SingleInstance();
             service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;
@@ -37,7 +37,7 @@ namespace Dapper.Extensions.Caching.Redis
                 Expire = config.Expire,
                 KeyPrefix = config.KeyPrefix
             }).SingleInstance();
-            service.RegisterInstance(new RedisClient(ConnectionStringBuilder.Parse(config.ConnectionString))).SingleInstance();
+            service.RegisterInstance(new RedisClient(config.ConnectionString)).SingleInstance();
             service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();
             return service;

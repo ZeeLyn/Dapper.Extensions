@@ -17,7 +17,7 @@ namespace Dapper.Extensions.Caching.Redis
 
         public bool TrySet<TResult>(string key, TResult result, TimeSpan? expired = null)
         {
-            Client.Set(key, new CacheValue<TResult>(result), expired.HasValue ? (int)expired.Value.TotalSeconds : 0);
+            Client.Set(key, Serializer.Serialize(new CacheValue<TResult>(result)) , expired.HasValue ? (int)expired.Value.TotalSeconds : 0);
             return true;
         }
 
