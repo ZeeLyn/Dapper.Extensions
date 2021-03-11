@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Features.AttributeFilters;
 using Dapper.Extensions.MasterSlave;
+using Dapper.Extensions.Monitor;
 using Dapper.Extensions.SQL;
 using Microsoft.Extensions.Hosting;
 
@@ -10,7 +11,7 @@ namespace Dapper.Extensions
 {
     public static class AutofacExtensions
     {
-        public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", string serviceKey = null, bool enableMasterSlave = false) where TDbProvider : IDapper
+        public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", string serviceKey = null, bool enableMasterSlave = false, bool enableMonitor = false) where TDbProvider : IDapper
         {
             container.RegisterType<ResolveContext>().As<IResolveContext>().IfNotRegistered(typeof(IResolveContext)).InstancePerLifetimeScope();
             container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
@@ -25,8 +26,16 @@ namespace Dapper.Extensions
                     container.RegisterType<TDbProvider>().Keyed<IDapper>("_slave").WithParameters(new[] { new NamedParameter("connectionName", connectionName), new NamedParameter("enableMasterSlave", true) }).InstancePerLifetimeScope();
                 }
                 else
-                    container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName)
-                        .InstancePerLifetimeScope();
+                {
+                    if (enableMonitor)
+                    {
+                        container.RegisterType<TDbProvider>().WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
+                        container.Register<IDapper>(ctx => new DapperProxy(ctx.Resolve<TDbProvider>())).InstancePerLifetimeScope();
+                    }
+                    else
+                        container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName)
+                            .InstancePerLifetimeScope();
+                }
             }
             else
             {
@@ -43,10 +52,10 @@ namespace Dapper.Extensions
             return container;
         }
 
-        public static ContainerBuilder AddDapperConnectionStringProvider<TConnectionStringProvider>(this ContainerBuilder container) where TConnectionStringProvider:IConnectionStringProvider
+        public static ContainerBuilder AddDapperConnectionStringProvider<TConnectionStringProvider>(this ContainerBuilder container) where TConnectionStringProvider : IConnectionStringProvider
         {
-             container.RegisterType<TConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
-             return container;
+            container.RegisterType<TConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
+            return container;
         }
 
         public static ContainerBuilder AddAllControllers(this ContainerBuilder container)

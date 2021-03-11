@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Runtime.Versioning;
+using Autofac;
+using Dapper.Extensions.Monitor;
 using Dapper.Extensions.SQL;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,15 +8,20 @@ namespace Dapper.Extensions
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services) where TDbProvider : IDapper
+        public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services, bool enableMonitor = false) where TDbProvider : IDapper
         {
-            return services.AddScoped(typeof(IDapper), typeof(TDbProvider)).AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
+            if (enableMonitor)
+                services.AddScoped(typeof(TDbProvider)).AddScoped<IDapper>(sc => new DapperProxy(sc.GetRequiredService<TDbProvider>()));
+            else
+                services.AddScoped(typeof(IDapper), typeof(TDbProvider));
+
+            return services.AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
         }
 
 
         public static IServiceCollection AddDapperConnectionStringProvider<TConnectionStringProvider>(this IServiceCollection services) where TConnectionStringProvider : IConnectionStringProvider
         {
-          return  services.AddSingleton(typeof(IConnectionStringProvider),typeof(TConnectionStringProvider));
+            return services.AddSingleton(typeof(IConnectionStringProvider), typeof(TConnectionStringProvider));
         }
 
 

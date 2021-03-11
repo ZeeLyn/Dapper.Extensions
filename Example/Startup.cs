@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+
 using Autofac;
 using Dapper.Extensions;
 using Dapper.Extensions.MySql;
@@ -19,6 +20,7 @@ using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling.Storage;
 using StackExchange.Redis;
 using Autofac.Core;
+using Dapper.Extensions.Monitor;
 
 namespace Example
 {
@@ -44,11 +46,18 @@ namespace Example
             //services.AddDapperForSQLite();
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
-            services.AddDapperForMySQL();
+            //services.AddDapperForMySQL(true);
             //services.AddDapperForMSSQL();
             //services.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
             #endregion
 
+            //services.AddAspectScope();
+            //services.AddScoped<ITest, Test>();
+            //services.ConfigureDynamicProxy(configure =>
+            //{
+            //    configure.Interceptors.AddTyped(typeof(DapperInterceptAttribute));
+            //});
+            //services.AddScopedInterfaceProxy<ITest>();
 
             #region Enable Caching
             //services.AddDapperCachingInRedis(new RedisConfiguration
@@ -79,33 +88,34 @@ namespace Example
             //services.AddMiniProfiler(options =>
             //{
             //    options.RouteBasePath = "/profiler";
-            //    options.Storage = new RedisStorage("localhost:6379,password=nihao123#@!")
+            //    options.Storage = new RedisStorage("127.0.0.1:6379,password=nihao123")
             //    {
             //        CacheDuration = TimeSpan.FromMinutes(5)
             //    };
             //});
             services.AddScoped<DITest>();
+            //services.BuildDynamicProxyProvider();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
             #region Add Dapper
-
+            builder.AddDapperForMySQL(enableMonitor: true);
 
             //builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
 
-            builder.AddDapperForMSSQL("MSSqlConnection", "msql-conn");
+            //builder.AddDapperForMSSQL("MSSqlConnection", "msql-conn");
 
-            builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn");
+            //builder.AddDapperForSQLite("SQLite1Connection", "sqlite1-conn");
 
-            builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
+            //builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
-            builder.AddDapperForSQLite("master_slave", "master_slave", true);
+            //builder.AddDapperForSQLite("master_slave", "master_slave", true);
 
             //Add support for MiniProfiler
             //builder.AddMiniProfilerForDapper();
 
-            builder.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
+            //builder.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
             //builder.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
 
             #endregion

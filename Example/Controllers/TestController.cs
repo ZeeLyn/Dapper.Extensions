@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper.Extensions;
+using Dapper.Extensions.Monitor;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,8 +27,9 @@ namespace Example.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var r= Dapper.Query("select * from COMPANY where id=1 LIMIT 1 OFFSET 0;");
-            return Ok(new{r,DI.Value});
+
+            var r = Dapper.Query("select * from COMPANY where id=1 LIMIT 1 OFFSET 0;");
+            return Ok(new { r, DI.Value });
         }
 
         // GET api/<TestController>/5

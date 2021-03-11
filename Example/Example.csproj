@@ -43,6 +43,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AspectCore.Extensions.AspectScope" Version="2.2.0" />
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
@@ -61,6 +62,7 @@
     <ProjectReference Include="..\src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.Caching.Redis\Dapper.Extensions.Caching.Redis.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.MiniProfiler\Dapper.Extensions.MiniProfiler.csproj" />
+    <ProjectReference Include="..\src\Dapper.Extensions.Monitor\Dapper.Extensions.Monitor.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.MSSQL\Dapper.Extensions.MSSQL.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySQL.csproj" />
     <ProjectReference Include="..\src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj" />
