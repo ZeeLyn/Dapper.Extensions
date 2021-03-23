@@ -1,4 +1,5 @@
-﻿using System.Runtime.Versioning;
+﻿using System;
+using System.Runtime.Versioning;
 using Autofac;
 using Dapper.Extensions.Monitor;
 using Dapper.Extensions.SQL;
@@ -8,10 +9,21 @@ namespace Dapper.Extensions
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services, bool enableMonitor = false) where TDbProvider : IDapper
+        public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services, Action<MonitorBuilder> monitorBuilder = null) where TDbProvider : IDapper
         {
-            if (enableMonitor)
-                services.AddScoped(typeof(TDbProvider)).AddScoped<IDapper>(sc => new DapperProxy(sc.GetRequiredService<TDbProvider>()));
+            if (monitorBuilder != null)
+            {
+                var builder = new MonitorBuilder(services);
+                monitorBuilder.Invoke(builder);
+                services.AddSingleton(new MonitorConfiguration
+                {
+                    SlowCriticalValue = builder.SlowCriticalValue,
+                    EnableLog = builder.EnableLog,
+                    HasCustomMonitorHandler = builder.HasCustomMonitorHandler
+                });
+                services.AddScoped(typeof(TDbProvider))
+                    .AddScoped<IDapper>(sc => new DapperProxy(sc.GetRequiredService<TDbProvider>(), sc.GetRequiredService<IServiceProvider>()));
+            }
             else
                 services.AddScoped(typeof(IDapper), typeof(TDbProvider));
 

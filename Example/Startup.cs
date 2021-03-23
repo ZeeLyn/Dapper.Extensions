@@ -46,7 +46,7 @@ namespace Example
             //services.AddDapperForSQLite();
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
-            //services.AddDapperForMySQL(true);
+            //services.AddDapperForMySQL();
             //services.AddDapperForMSSQL();
             //services.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
             #endregion
@@ -100,7 +100,7 @@ namespace Example
         public void ConfigureContainer(ContainerBuilder builder)
         {
             #region Add Dapper
-            builder.AddDapperForMySQL(enableMonitor: true);
+            //builder.AddDapperForMySQL();
 
             //builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
 
@@ -110,7 +110,12 @@ namespace Example
 
             //builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
-            //builder.AddDapperForSQLite("master_slave", "master_slave", true);
+            builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
+            {
+                monitorBuilder.SlowCriticalValue = 0;
+                monitorBuilder.EnableLog = true;
+                monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+            });
 
             //Add support for MiniProfiler
             //builder.AddMiniProfilerForDapper();
