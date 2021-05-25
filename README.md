@@ -4,9 +4,12 @@
 **Note: There is a dependency injection [bug](https://github.com/aspnet/Extensions/issues/2431) when upgrading netcore 3.0. You can temporarily use the autofac container, waiting to be fixed.**
 
 ---
+
 ---
+
 # Dapper.Extensions
-A dapper extension library. 
+
+A dapper extension library.
 
 1.Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC.
 
@@ -19,17 +22,18 @@ A dapper extension library.
 5.Support performance monitoring.
 
 # Packages & Status
-Packages | NuGet
----------|------
-Dapper.Extensions.NetCore|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)
-Dapper.Extensions.MySQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySQL)](https://www.nuget.org/packages/Dapper.Extensions.MySQL)
-Dapper.Extensions.MSSQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/Dapper.Extensions.MSSQL)
-Dapper.Extensions.PostgreSQL|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSQL)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSQL)
-Dapper.Extensions.ODBC|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.ODBC)](https://www.nuget.org/packages/Dapper.Extensions.ODBC)
-Dapper.Extensions.SQLite|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)
-Dapper.Extensions.Caching.Redis|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)
-Dapper.Extensions.Caching.Memory|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory)
-Dapper.Extensions.MiniProfiler|[![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MiniProfiler)](https://www.nuget.org/packages/Dapper.Extensions.MiniProfiler)
+
+| Packages                         | NuGet                                                                                                                                               |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dapper.Extensions.NetCore        | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)               |
+| Dapper.Extensions.MySQL          | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySQL)](https://www.nuget.org/packages/Dapper.Extensions.MySQL)                   |
+| Dapper.Extensions.MSSQL          | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/Dapper.Extensions.MSSQL)                   |
+| Dapper.Extensions.PostgreSQL     | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSQL)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSQL)         |
+| Dapper.Extensions.ODBC           | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.ODBC)](https://www.nuget.org/packages/Dapper.Extensions.ODBC)                     |
+| Dapper.Extensions.SQLite         | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)                 |
+| Dapper.Extensions.Caching.Redis  | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)   |
+| Dapper.Extensions.Caching.Memory | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory) |
+| Dapper.Extensions.MiniProfiler   | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MiniProfiler)](https://www.nuget.org/packages/Dapper.Extensions.MiniProfiler)     |
 
 # Database connection string configuration
 
@@ -37,30 +41,30 @@ The default connection name is 'DefaultConnection'
 
 ```json
 {
-	"ConnectionStrings": {
-		"DefaultConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
-		"MySqlConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
-		"SQLite1Connection": "data source=db//test1.db",
-		"SQLite2Connection": "data source=db//test2.db",
-		"master_slave": {
-			"Master": "data source=db//test.master.db",
-			"Slaves": [
-				{
-					"ConnectionString": "data source=db//test1.db",
-					"Weight": 4
-				},
-				{
-					"ConnectionString": "data source=db//test2.db",
-					"Weight": 6
-				}
-			]
-		}
-	}
+    "ConnectionStrings": {
+        "DefaultConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
+        "MySqlConnection": "Data Source=localhost;port=3306;Pooling=true;Initial Catalog=ShopDB;User Id=root;Password=123456;SslMode=none;",
+        "SQLite1Connection": "data source=db//test1.db",
+        "SQLite2Connection": "data source=db//test2.db",
+        "master_slave": {
+            "Master": "data source=db//test.master.db",
+            "Slaves": [
+                {
+                    "ConnectionString": "data source=db//test1.db",
+                    "Weight": 4
+                },
+                {
+                    "ConnectionString": "data source=db//test2.db",
+                    "Weight": 6
+                }
+            ]
+        }
+    }
 }
 ```
 
 # Using Dependency Injection
- 
+
 Note:Dependency injection only supports a single database and the default connection name is 'DefaultConnection'. If you need to use multiple databases, use autofac.
 
 ```csharp
@@ -89,6 +93,7 @@ public class ValuesController : ControllerBase
 	}
 }
 ```
+
 # Using Autofac
 
 ```csharp
@@ -109,6 +114,7 @@ public IServiceProvider ConfigureServices(IServiceCollection services)
 ```
 
 #### Inject objects with IResolveContext
+
 ```csharp
 public class ValuesController : ControllerBase
 {
@@ -131,7 +137,9 @@ public class ValuesController : ControllerBase
 }
 
 ```
+
 #### Filter injection using DependencyDapperAttribute
+
 Note:If you’re using metadata filters (DependencyDapperAttribute or WithAttributeFiltering in your constructors), you need to register those components using the [WithAttributeFiltering](https://autofaccn.readthedocs.io/en/latest/advanced/metadata.html) extension. Note that if you’re only using filters but not attributed metadata, you don’t actually need the AttributedMetadataModule. Metadata filters stand on their own.
 
 ```csharp
@@ -158,25 +166,28 @@ public class ValuesController : ControllerBase
 ```
 
 # About paging query
- The paging method has four SQL variables built in: @Skip, @Take, @TakeStart, @TakeEnd. 
 
- ### MySQL usage example
- ```SQL
- select * from tab order by id desc limit @Skip, @Take; 
- ```
+The paging method has four SQL variables built in: @Skip, @Take, @TakeStart, @TakeEnd.
 
- ### MSSQL usage example
- 
- SQL Server 2005
- ```SQL
- select * from (select ROW_NUMBER() over(order by id desc) as row_num,id,title from tab) tab1 where row_num between @TakeStart and @TakeEnd;
- ```
+### MySQL usage example
 
- SQL Server 2012
- ```SQL
- select * from tab offset @Skip rows fetch next @Take rows only;
- ```
+```SQL
+select * from tab order by id desc limit @Skip, @Take;
+```
 
+### MSSQL usage example
+
+SQL Server 2005
+
+```SQL
+select * from (select ROW_NUMBER() over(order by id desc) as row_num,id,title from tab) tab1 where row_num between @TakeStart and @TakeEnd;
+```
+
+SQL Server 2012
+
+```SQL
+select * from tab offset @Skip rows fetch next @Take rows only;
+```
 
 # Support for console application
 
@@ -206,14 +217,15 @@ static void Main(string[] args)
 ```
 
 # Support for sql separation
+
 Like mybatis, but does not support Dynamic SQL. Modify the xml file to take effect immediately, no need to restart the application.
+
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
 	services.AddSQLSeparationForDapper(Path.Combine(Directory.GetCurrentDirectory(), "sql"));
 }
 ```
-
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -225,13 +237,13 @@ public void ConfigureServices(IServiceCollection services)
   </paging-sql>
 </sql-set>
 ```
+
 The name must be globally unique.
 
 ```csharp
 var list = await Repo1.QueryAsync<Company>(name: "COMPANY.list.query",new{ id=1 });
 var page = await Repo1.QueryPageAsync<Company>(name: "COMPANY.paging", 1,20 );
 ```
-
 
 # Caching
 
@@ -256,6 +268,7 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ### In Memory
+
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
@@ -268,7 +281,9 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ### Recommended usage
+
 It is recommended to use a custom cache key, because the built-in key generator is based on all parameters MD5 hash, which affects performance.
+
 ```csharp
 public async Task<IActionResult> Get()
 {
@@ -277,16 +292,17 @@ public async Task<IActionResult> Get()
 	return Ok(page);
 }
 ```
-----
 
-### ***NOTE***
+---
 
-***If the cache does not exist, it adds a lock when reading data from the database to prevent cache breakdown. Dapper.Extensions is just a low-level data access library. Preventing malicious attacks is not its responsibility. You can add Bloom filters before this.***
+### **_NOTE_**
 
-----
+**_If the cache does not exist, it adds a lock when reading data from the database to prevent cache breakdown. Dapper.Extensions is just a low-level data access library. Preventing malicious attacks is not its responsibility. You can add Bloom filters before this._**
 
+---
 
 # Support for MiniProfiler
+
 Dapper.Extensions.MiniProfiler just adds support for MiniProfiler. To enable MiniProfiler, you need to configure it yourself. Please check the [documentation](https://miniprofiler.com/dotnet/).
 
 ```csharp
@@ -296,30 +312,49 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+# Support performance monitoring
+
+```csharp
+services.AddDapperForSQLite(monitorBuilder =>
+{
+	monitorBuilder.Threshold = 200;
+	monitorBuilder.EnableLog = true;
+	monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+});
+```
+
+| Option            | Description                                                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Threshold         | Slow SQL command execution time critical value, greater than this value will trigger the monitoring event, default 200, unit millisecond |
+| EnableLog         | Write the log when there is a slow query                                                                                                 |
+| AddMonitorHandler | Add a custom processor                                                                                                                   |
+
 # Read and write separation
+
 To use read and write separation, you must use autofac injection.
 
 ```json
 {
-	"ConnectionStrings": {
-		"master_slave": {
-			"Master": "data source=db//test.master.db",
-			"Slaves": [
-				{
-					"ConnectionString": "data source=db//test1.db",
-					"Weight": 4
-				},
-				{
-					"ConnectionString": "data source=db//test2.db",
-					"Weight": 6
-				}
-			]
-		}
-	}
+    "ConnectionStrings": {
+        "master_slave": {
+            "Master": "data source=db//test.master.db",
+            "Slaves": [
+                {
+                    "ConnectionString": "data source=db//test1.db",
+                    "Weight": 4
+                },
+                {
+                    "ConnectionString": "data source=db//test2.db",
+                    "Weight": 6
+                }
+            ]
+        }
+    }
 }
 ```
 
 ### enableMasterSlave: Enable read and write separation.
+
 ```csharp
 public void ConfigureContainer(ContainerBuilder builder)
 {
@@ -327,8 +362,8 @@ public void ConfigureContainer(ContainerBuilder builder)
 }
 ```
 
-
 ### readOnly: Access to the slave database(s), using weighted polling by default.
+
 ```csharp
 public class ValuesController : ControllerBase
 {
@@ -351,22 +386,25 @@ public class ValuesController : ControllerBase
 }
 ```
 
-
 # Splicing sql strings
+
 Similar to the usage of string.format(), the content in {} is determined by the parameters; it supports ‘else’, {sql1: sql2}, if the parameter is true, use sql1, otherwise use sql2.
 
 Example:
+
 ```csharp
 var id=1;
 var sql="select * from tab where 1=1 {and id=@id} {and status=0} and {r1=1:r2=2} and {t1=1:t2=2};".Splice(id>0,false, true, false);
 ```
+
 Output:
+
 ```sql
 select * from tab where 1=1 and id=@id  and r1=1 and t2=2;
 ```
 
-
 # Built-in global unique id generator(Snowflake)
+
 ```csharp
 
 // Initialization

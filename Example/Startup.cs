@@ -43,7 +43,12 @@ namespace Example
             SnowflakeUtils.Initialization(1, 1);
 
             #region Add Dapper
-            //services.AddDapperForSQLite();
+            //services.AddDapperForSQLite(monitorBuilder =>
+            //{
+            //    monitorBuilder.Threshold = 200;
+            //    monitorBuilder.EnableLog = true;
+            //    monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+            //});
             //services.AddDapperForPostgreSQL();
             //services.AddDapperForODBC();
             //services.AddDapperForMySQL();
@@ -110,19 +115,19 @@ namespace Example
 
             //builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
-            //builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
-            //{
-            //    monitorBuilder.Threshold = 0;
-            //    monitorBuilder.EnableLog = true;
-            //    monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
-            //});
+            builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
+            {
+                monitorBuilder.Threshold = 0;
+                monitorBuilder.EnableLog = true;
+                monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+            });
 
-            builder.AddDapperForSQLite("SQLite1Connection", monitorBuilder: monitorBuilder =>
-             {
-                 monitorBuilder.Threshold = 0;
-                 monitorBuilder.EnableLog = true;
-                 monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
-             });
+            //builder.AddDapperForSQLite("SQLite1Connection", monitorBuilder: monitorBuilder =>
+            // {
+            //     monitorBuilder.Threshold = 0;
+            //     monitorBuilder.EnableLog = true;
+            //     monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+            // });
 
             //Add support for MiniProfiler
             //builder.AddMiniProfilerForDapper();
