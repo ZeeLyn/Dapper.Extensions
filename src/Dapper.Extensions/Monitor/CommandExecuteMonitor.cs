@@ -94,7 +94,7 @@ namespace Dapper.Extensions.Monitor
                 if (MonitorConfiguration.HasCustomMonitorHandler)
                 {
                     var handler = scope.ServiceProvider.GetRequiredService<IMonitorHandler>();
-                    handler.OnSlowSqlCommandAsync(methodName, sql, param, duration).ConfigureAwait(false);
+                    _ = handler.OnSlowSqlCommandAsync(methodName, sql, param, duration).ConfigureAwait(false);
                 }
             }
 

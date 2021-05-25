@@ -26,7 +26,7 @@ namespace Dapper.Extensions
                 monitorBuilder.Invoke(builder);
                 container.RegisterInstance(new MonitorConfiguration
                 {
-                    SlowCriticalValue = builder.SlowCriticalValue,
+                    SlowCriticalValue = builder.Threshold,
                     EnableLog = builder.EnableLog,
                     HasCustomMonitorHandler = builder.HasCustomMonitorHandler
                 }).SingleInstance();

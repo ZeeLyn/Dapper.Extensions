@@ -17,7 +17,7 @@ namespace Dapper.Extensions
                 monitorBuilder.Invoke(builder);
                 services.AddSingleton(new MonitorConfiguration
                 {
-                    SlowCriticalValue = builder.SlowCriticalValue,
+                    SlowCriticalValue = builder.Threshold,
                     EnableLog = builder.EnableLog,
                     HasCustomMonitorHandler = builder.HasCustomMonitorHandler
                 });

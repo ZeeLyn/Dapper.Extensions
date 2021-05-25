@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Dapper.Extensions.SQL;
 using Microsoft.Extensions.DependencyInjection;

@@ -15,7 +15,7 @@ namespace Dapper.Extensions.Monitor
         /// <summary>
         /// Slow SQL command execution time critical value, greater than this value will trigger the monitoring event, default 200, unit millisecond
         /// </summary>
-        public int SlowCriticalValue { get; set; } = 200;
+        public int Threshold { get; set; } = 200;
 
 
         public MonitorBuilder(IServiceCollection service)

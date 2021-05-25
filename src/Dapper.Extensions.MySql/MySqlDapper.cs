@@ -7,6 +7,7 @@ namespace Dapper.Extensions.MySql
     {
         public MySqlDapper(IServiceProvider service, string connectionName = "DefaultConnection", bool enableMasterSlave = false, bool readOnly = false) : base(service, connectionName, enableMasterSlave, readOnly)
         {
+
         }
     }
 }

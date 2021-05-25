@@ -55,6 +55,7 @@ namespace Dapper.Extensions
             DbMiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
             SQLManager = serviceProvider.GetService<ISQLManager>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
+
             ConnectionStringProvider = serviceProvider.GetRequiredService<IConnectionStringProvider>();
             Logger = serviceProvider.GetRequiredService<ILogger<BaseDapper<TDbConnection>>>();
         }

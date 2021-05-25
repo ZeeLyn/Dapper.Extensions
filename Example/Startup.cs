@@ -110,12 +110,19 @@ namespace Example
 
             //builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
-            builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
-            {
-                monitorBuilder.SlowCriticalValue = 0;
-                monitorBuilder.EnableLog = true;
-                monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
-            });
+            //builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
+            //{
+            //    monitorBuilder.Threshold = 0;
+            //    monitorBuilder.EnableLog = true;
+            //    monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+            //});
+
+            builder.AddDapperForSQLite("SQLite1Connection", monitorBuilder: monitorBuilder =>
+             {
+                 monitorBuilder.Threshold = 0;
+                 monitorBuilder.EnableLog = true;
+                 monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+             });
 
             //Add support for MiniProfiler
             //builder.AddMiniProfilerForDapper();
