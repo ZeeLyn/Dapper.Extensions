@@ -133,6 +133,13 @@ namespace Example.Controllers
             return Ok(SnowflakeUtils.GenerateId());
         }
 
+
+        [HttpGet("splice")]
+        public IActionResult Splice()
+        {
+            return Ok("select * from tab where 0=1 {and id=@id} {and type=@type#and status=@status};".Splice('#', true, false));
+        }
+
     }
     public class Contact
     {

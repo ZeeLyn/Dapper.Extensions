@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Dapper.Extensions
 {
@@ -25,7 +26,7 @@ namespace Dapper.Extensions
             return sql.False(func());
         }
 
-        public static string Splice(this string sql, params bool[] conditions)
+        public static string Splice(this string sql, char elseSplitChar, params bool[] conditions)
         {
             var startIndex = 0;
             foreach (var condition in conditions)
@@ -38,7 +39,7 @@ namespace Dapper.Extensions
                     return sql;
                 startIndex = end;
 
-                var elseIndex = sql.IndexOf(':', start, end - start);
+                var elseIndex = sql.IndexOf(elseSplitChar, start, end - start);
                 if (elseIndex < 0)
                 {
                     if (condition)
@@ -71,9 +72,19 @@ namespace Dapper.Extensions
             }
             return sql;
         }
+
+        public static string Splice(this string sql, params bool[] conditions)
+        {
+            return sql.Splice(':', conditions);
+        }
         public static string Splice(this string sql, params Func<bool>[] conditions)
         {
             return sql.Splice(conditions.Select(p => p()).ToArray());
+        }
+
+        public static string Splice(this string sql, char elseSplitChar, params Func<bool>[] conditions)
+        {
+            return sql.Splice(elseSplitChar, conditions.Select(p => p()).ToArray());
         }
     }
 }
