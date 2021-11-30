@@ -44,6 +44,7 @@ namespace Example.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            var sql = "select * from tab where 0=0 {and id=1} {and name='123'}".Splice(true, false);
         }
 
         // PUT api/<TestController>/5
