@@ -403,6 +403,10 @@ Output:
 select * from tab where 1=1 and id=@id  and r1=1 and t2=2;
 ```
 
+Extended market installation extension plug-in(SQLSpliceHighlight) highlights
+
+![](https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/assets/vsix.gif)
+
 # Built-in global unique id generator(Snowflake)
 
 ```csharp
