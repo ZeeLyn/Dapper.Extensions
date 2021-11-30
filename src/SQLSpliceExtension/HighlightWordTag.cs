@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace SQLSpliceExtension
 {
-    internal class HighlightWordTag : TextMarkerTag
+    public class HighlightWordTag : TextMarkerTag
     {
         public HighlightWordTag() : base("MarkerFormatDefinition/HighlightWordFormatDefinition")
         {

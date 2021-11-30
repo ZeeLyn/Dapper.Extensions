@@ -48,11 +48,8 @@
     <Compile Include="HighlightWordFormatDefinition.cs" />
     <Compile Include="HighlightWordTag.cs" />
     <Compile Include="HighlightWordTagger.cs" />
+    <Compile Include="HighlightWordTaggerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLSpliceEditorClassifier.cs" />
-    <Compile Include="SQLSpliceEditorClassifierClassificationDefinition.cs" />
-    <Compile Include="SQLSpliceEditorClassifierFormat.cs" />
-    <Compile Include="SQLSpliceEditorClassifierProvider.cs" />
     <Compile Include="SQLSpliceExtensionPackage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +69,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>4.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.EditorFeatures.Text">
+      <Version>4.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.CoreUtility">
       <Version>17.0.487</Version>
     </PackageReference>
