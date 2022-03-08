@@ -105,14 +105,12 @@ namespace SQLSpliceExtension
             var syntaxTree = document.GetSyntaxTreeAsync().ConfigureAwait(false).GetAwaiter().GetResult();
             var root = syntaxTree.GetRoot();
 
-            SyntaxNodeOrToken token = root.FindToken(currentRequest.Position);
+            //SyntaxNodeOrToken token = root.FindToken(currentRequest.Position);
 
-            var line = View.TextSnapshot.GetLineFromPosition(currentRequest.Position);
+            var line = RequestedPoint.GetContainingLine();
             SyntaxNodeOrToken lineSyntax = root.FindNode(TextSpan.FromBounds(line.Start, line.End));
-            var nodes = lineSyntax.ChildNodesAndTokens();
-
             var methods = new List<SyntaxNodeOrToken>();
-            TraversideNodes(nodes, methods);
+            TraversideNodes(lineSyntax.ChildNodesAndTokens(), methods);
 
             if (!methods.Any())
             {
