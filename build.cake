@@ -4,8 +4,8 @@
 // ARGUMENTS
 ///////////////////////////////////////////////////////////////////////////////
 
-var output=Argument<string>("output", "Output");
-var version=Argument<string>("version", "4.0.2");
+var output=Argument<string>("output", "./Output");
+var version=Argument<string>("version", "4.0.3");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
@@ -57,7 +57,9 @@ Task("Build").Does(()=>{
 Task("CleanPackage").Does(()=>{
    if(DirectoryExists(output))
    {
-      DeleteDirectory(output,true);
+      DeleteDirectory(output,new DeleteDirectorySettings{
+         Recursive=true
+      });
    }
 });
 
