@@ -1,11 +1,11 @@
-#addin Cake.Git
+#addin nuget:?package=Cake.Git&version=1.1.0
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 ///////////////////////////////////////////////////////////////////////////////
 
 var output=Argument<string>("output", "./Output");
-var version=Argument<string>("version", "4.0.3");
+var version=Argument<string>("version", "4.0.4");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
@@ -37,9 +37,9 @@ Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file
    XmlPoke(file,"/Project/PropertyGroup/Version",version);
    XmlPoke(file,"/Project/PropertyGroup/GeneratePackageOnBuild","false");
    XmlPoke(file,"/Project/PropertyGroup/Description","A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.");
-   XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/1100100/Dapper.Extensions");
+   XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/ZeeLyn/Dapper.Extensions");
    XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching");
-   XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/1100100/Dapper.Extensions/master/icon.jpg");
+   XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/icon.jpg");
    XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
    XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");
 });

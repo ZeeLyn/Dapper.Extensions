@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Dapper.Extensions
 {
@@ -24,6 +23,16 @@ namespace Dapper.Extensions
         public static string False(this string sql, Func<bool> func)
         {
             return sql.False(func());
+        }
+
+        public static bool IsNullOrWhiteSpace(this string text)
+        {
+            return string.IsNullOrWhiteSpace(text);
+        }
+
+        public static bool IsNotNullOrWhiteSpace(this string text)
+        {
+            return !string.IsNullOrWhiteSpace(text);
         }
 
         public static string Splice(this string sql, char elseSplitChar, params bool[] conditions)
