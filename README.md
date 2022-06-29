@@ -62,6 +62,25 @@ The default connection name is 'DefaultConnection'
     }
 }
 ```
+If you need to customize the source of the database connection string, you can implement the IConnectionStringProvider interface.
+```csharp
+
+public class CustomConnectionStringProvider : IConnectionStringProvider
+{
+	public string GetConnectionString(string connectionName, bool enableMasterSlave = false, bool readOnly = false)
+	{
+		throw new NotImplementedException();
+	}
+}
+
+```
+
+Register custom provider
+
+```csharp
+services.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
+```
+
 
 # Using Dependency Injection
 
