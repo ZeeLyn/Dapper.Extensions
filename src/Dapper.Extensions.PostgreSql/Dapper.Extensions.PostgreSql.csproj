@@ -8,7 +8,7 @@
     <RepositoryUrl />
     <PackageIconUrl>https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
-    <Version>4.0.4</Version>
+    <Version>4.0.5</Version>
     <Authors>Owen</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Dapper.Extensions.PostgreSQL</PackageId>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.4" />
+    <PackageReference Include="Npgsql" Version="6.0.5" />
   </ItemGroup>
 
   <ItemGroup>
