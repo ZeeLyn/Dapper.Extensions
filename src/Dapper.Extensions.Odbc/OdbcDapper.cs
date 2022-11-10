@@ -32,24 +32,22 @@ namespace Dapper.Extensions.Odbc
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return await CommandExecuteAsync(enableCache, async () =>
             {
-                using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
+                using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
+                var count = (await multi.ReadAsync<int>()).FirstOrDefault();
+                var data = (await multi.ReadAsync<TReturn>()).ToList();
+                var result = new PageResult<TReturn>
                 {
-                    var count = (await multi.ReadAsync<int>()).FirstOrDefault();
-                    var data = (await multi.ReadAsync<TReturn>()).ToList();
-                    var result = new PageResult<TReturn>
-                    {
-                        TotalCount = count,
-                        Page = pageindex,
-                        PageSize = pageSize,
-                        Contents = data
-                    };
-                    result.TotalPage = result.TotalCount % pageSize == 0
-                        ? result.TotalCount / pageSize
-                        : result.TotalCount / pageSize + 1;
-                    if (result.Page > result.TotalPage)
-                        result.Page = result.TotalPage;
-                    return result;
-                }
+                    TotalCount = count,
+                    Page = pageindex,
+                    PageSize = pageSize,
+                    Contents = data
+                };
+                result.TotalPage = result.TotalCount % pageSize == 0
+                    ? result.TotalCount / pageSize
+                    : result.TotalCount / pageSize + 1;
+                if (result.Page > result.TotalPage)
+                    result.Page = result.TotalPage;
+                return result;
             }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
         }
 
@@ -74,24 +72,22 @@ namespace Dapper.Extensions.Odbc
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return await CommandExecuteAsync(enableCache, async () =>
             {
-                using (var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout))
+                using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
+                var count = (await multi.ReadAsync<int>()).FirstOrDefault();
+                var data = (await multi.ReadAsync()).ToList();
+                var result = new PageResult<dynamic>
                 {
-                    var count = (await multi.ReadAsync<int>()).FirstOrDefault();
-                    var data = (await multi.ReadAsync()).ToList();
-                    var result = new PageResult<dynamic>
-                    {
-                        TotalCount = count,
-                        Page = pageindex,
-                        PageSize = pageSize,
-                        Contents = data
-                    };
-                    result.TotalPage = result.TotalCount % pageSize == 0
-                        ? result.TotalCount / pageSize
-                        : result.TotalCount / pageSize + 1;
-                    if (result.Page > result.TotalPage)
-                        result.Page = result.TotalPage;
-                    return result;
-                }
+                    TotalCount = count,
+                    Page = pageindex,
+                    PageSize = pageSize,
+                    Contents = data
+                };
+                result.TotalPage = result.TotalCount % pageSize == 0
+                    ? result.TotalCount / pageSize
+                    : result.TotalCount / pageSize + 1;
+                if (result.Page > result.TotalPage)
+                    result.Page = result.TotalPage;
+                return result;
             }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
 
         }
@@ -116,24 +112,22 @@ namespace Dapper.Extensions.Odbc
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return CommandExecute(enableCache, () =>
             {
-                using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
+                using var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout);
+                var count = multi.Read<int>().FirstOrDefault();
+                var data = multi.Read<TReturn>().ToList();
+                var result = new PageResult<TReturn>
                 {
-                    var count = multi.Read<int>().FirstOrDefault();
-                    var data = multi.Read<TReturn>().ToList();
-                    var result = new PageResult<TReturn>
-                    {
-                        TotalCount = count,
-                        Page = pageindex,
-                        PageSize = pageSize,
-                        Contents = data
-                    };
-                    result.TotalPage = result.TotalCount % pageSize == 0
-                        ? result.TotalCount / pageSize
-                        : result.TotalCount / pageSize + 1;
-                    if (result.Page > result.TotalPage)
-                        result.Page = result.TotalPage;
-                    return result;
-                }
+                    TotalCount = count,
+                    Page = pageindex,
+                    PageSize = pageSize,
+                    Contents = data
+                };
+                result.TotalPage = result.TotalCount % pageSize == 0
+                    ? result.TotalCount / pageSize
+                    : result.TotalCount / pageSize + 1;
+                if (result.Page > result.TotalPage)
+                    result.Page = result.TotalPage;
+                return result;
             }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
         }
 
@@ -158,24 +152,22 @@ namespace Dapper.Extensions.Odbc
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return CommandExecute(enableCache, () =>
             {
-                using (var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout))
+                using var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout);
+                var count = multi.Read<int>().FirstOrDefault();
+                var data = multi.Read().ToList();
+                var result = new PageResult<dynamic>
                 {
-                    var count = multi.Read<int>().FirstOrDefault();
-                    var data = multi.Read().ToList();
-                    var result = new PageResult<dynamic>
-                    {
-                        TotalCount = count,
-                        Page = pageindex,
-                        PageSize = pageSize,
-                        Contents = data
-                    };
-                    result.TotalPage = result.TotalCount % pageSize == 0
-                        ? result.TotalCount / pageSize
-                        : result.TotalCount / pageSize + 1;
-                    if (result.Page > result.TotalPage)
-                        result.Page = result.TotalPage;
-                    return result;
-                }
+                    TotalCount = count,
+                    Page = pageindex,
+                    PageSize = pageSize,
+                    Contents = data
+                };
+                result.TotalPage = result.TotalCount % pageSize == 0
+                    ? result.TotalCount / pageSize
+                    : result.TotalCount / pageSize + 1;
+                if (result.Page > result.TotalPage)
+                    result.Page = result.TotalPage;
+                return result;
             }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
 
         }

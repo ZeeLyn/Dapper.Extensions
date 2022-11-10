@@ -1,17 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.</Description>
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/icon.jpg</PackageIconUrl>
     <Authors>Owen</Authors>
-    <Version>4.0.7</Version>
+    <Version>4.1.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Dapper.Extensions.ODBC</PackageId>
     <Product>Dapper.Extensions.ODBC</Product>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
