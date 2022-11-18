@@ -89,7 +89,20 @@ Note:Dependency injection only supports a single database and the default connec
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
+	//For Sqlite
 	services.AddDapperForSQLite();
+
+	//For sql server
+ 	services.AddDapperForMSSQL();
+
+	//For MySql
+ 	services.AddDapperForMySQL();
+
+	//For ODBC
+ 	services.AddDapperForODBC();
+	
+	//For Postgre
+ 	services.AddDapperForPostgreSQL();
 }
 ```
 
