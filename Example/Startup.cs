@@ -21,6 +21,7 @@ using StackExchange.Profiling.Storage;
 using StackExchange.Redis;
 using Autofac.Core;
 using Dapper.Extensions.Monitor;
+using Dapper.Extensions.Caching.Memory;
 
 namespace Example
 {
@@ -77,11 +78,11 @@ namespace Example
             //    Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
             //});
 
-            //services.AddDapperCachingInMemory(new MemoryConfiguration
-            //{
-            //    AllMethodsEnableCache = false,
-            //    Expire = TimeSpan.FromHours(1)
-            //});
+            services.AddDapperCachingInMemory(new MemoryConfiguration
+            {
+                AllMethodsEnableCache = false,
+                Expire = TimeSpan.FromHours(1)
+            });
 
             #endregion
 

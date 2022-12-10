@@ -39,8 +39,6 @@ namespace Dapper.Extensions
 
         private IConnectionStringProvider ConnectionStringProvider { get; }
 
-        //private static readonly object Lock = new object();
-
         private static readonly Lazy<SemaphoreSlim> SemaphoreSlim = new(() => new SemaphoreSlim(1, 1));
 
         protected ILogger Logger { get; }
@@ -52,13 +50,16 @@ namespace Dapper.Extensions
             EnableMasterSlave = enableMasterSlave;
             ReadOnly = readOnly;
             Configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            Cache = serviceProvider.GetService<ICacheProvider>();
             CacheConfiguration = serviceProvider.GetService<CacheConfiguration>();
-            CacheKeyBuilder = serviceProvider.GetService<ICacheKeyBuilder>();
+            if (CacheConfiguration is not null)
+            {
+                Cache = serviceProvider.GetRequiredService<ICacheProvider>();
+                CacheKeyBuilder = serviceProvider.GetRequiredService<ICacheKeyBuilder>();
+            }
+
             DbMiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
             SQLManager = serviceProvider.GetService<ISQLManager>();
             Conn = new Lazy<IDbConnection>(() => CreateConnection(connectionName));
-
             ConnectionStringProvider = serviceProvider.GetRequiredService<IConnectionStringProvider>();
             Logger = serviceProvider.GetRequiredService<ILogger<BaseDapper<TDbConnection>>>();
         }
@@ -462,7 +463,12 @@ namespace Dapper.Extensions
             Transaction = null;
         }
 
-
+        public virtual void RemoveCache(params string[] cacheKeys)
+        {
+            if (CacheConfiguration is null || Cache is null)
+                return;
+            Cache.Remove(cacheKeys);
+        }
 
         #endregion
 
@@ -479,7 +485,7 @@ namespace Dapper.Extensions
 
         protected bool IsEnableCache(bool? enable)
         {
-            if (CacheConfiguration == null)
+            if (CacheConfiguration is null)
                 return false;
             if (enable.HasValue)
                 return enable.Value;
@@ -492,23 +498,29 @@ namespace Dapper.Extensions
                 return execQuery();
             cacheKey = CacheKeyBuilder.Generate(sql, param, cacheKey, pageIndex, pageSize);
             Logger.LogDebug("Get query results from cache.");
-            var cache = Cache.TryGet<TReturn>(cacheKey);
-            if (cache.ExistKey)
+            if (!forceUpdateCache)
             {
-                Logger.LogDebug("Get value from cache successfully.");
-                return cache.Value;
+                var cache = Cache.TryGet<TReturn>(cacheKey);
+                if (cache.ExistKey)
+                {
+                    Logger.LogDebug("Get value from cache successfully.");
+                    return cache.Value;
+                }
             }
 
             Logger.LogDebug("The cache does not exist, acquire a lock, queue to query data from the database.");
             SemaphoreSlim.Value.Wait(TimeSpan.FromSeconds(5));
             try
             {
-                Logger.LogDebug("The lock has been acquired, try again to get the value from the cache.");
-                var cacheResult = Cache.TryGet<TReturn>(cacheKey);
-                if (cacheResult.ExistKey)
+                if (!forceUpdateCache)
                 {
-                    Logger.LogDebug("Try again, get value from cache successfully.");
-                    return cacheResult.Value;
+                    Logger.LogDebug("The lock has been acquired, try again to get the value from the cache.");
+                    var cacheResult = Cache.TryGet<TReturn>(cacheKey);
+                    if (cacheResult.ExistKey)
+                    {
+                        Logger.LogDebug("Try again, get value from cache successfully.");
+                        return cacheResult.Value;
+                    }
                 }
 
                 Logger.LogDebug(

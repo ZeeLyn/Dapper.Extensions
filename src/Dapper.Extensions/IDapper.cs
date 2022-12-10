@@ -1441,6 +1441,13 @@ namespace Dapper.Extensions
         TReturn ExecuteScalar<TReturn>(SQLName name, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
         /// <summary>
+        /// 删除缓存
+        /// </summary>
+        /// <param name="cacheKeys"></param>
+        void RemoveCache(params string[] cacheKeys);
+
+
+        /// <summary>
         /// Begin transaction.
         /// </summary>
         /// <returns></returns>

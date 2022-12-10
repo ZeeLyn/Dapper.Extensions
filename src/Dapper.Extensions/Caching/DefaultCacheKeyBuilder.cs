@@ -10,7 +10,7 @@ namespace Dapper.Extensions.Caching
 {
     public class DefaultCacheKeyBuilder : ICacheKeyBuilder, IDisposable
     {
-        private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ParamProperties = new ConcurrentDictionary<Type, List<PropertyInfo>>();
+        private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ParamProperties = new();
 
         private static readonly char[] Digitals = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 

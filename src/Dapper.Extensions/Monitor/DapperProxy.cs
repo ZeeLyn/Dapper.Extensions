@@ -684,6 +684,11 @@ namespace Dapper.Extensions.Monitor
                 () => Dapper.ExecuteScalar<TReturn>(name, param, commandTimeout, commandType));
         }
 
+        public void RemoveCache(params string[] cacheKeys)
+        {
+            Dapper.RemoveCache(cacheKeys);
+        }
+
         public IDbTransaction BeginTransaction()
         {
             return Dapper.BeginTransaction();

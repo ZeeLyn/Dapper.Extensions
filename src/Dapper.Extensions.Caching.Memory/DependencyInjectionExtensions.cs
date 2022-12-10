@@ -13,7 +13,8 @@ namespace Dapper.Extensions.Caching.Memory
             service.AddSingleton(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire
+                Expire = config.Expire,
+                KeyPrefix= config.KeyPrefix
             });
             service.AddMemoryCache();
             service.AddSingleton<ICacheProvider, MemoryCacheProvider>();
@@ -28,7 +29,8 @@ namespace Dapper.Extensions.Caching.Memory
             service.AddSingleton(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire
+                Expire = config.Expire,
+                KeyPrefix= config.KeyPrefix
             });
             service.AddMemoryCache();
             service.AddSingleton<ICacheProvider, MemoryCacheProvider>();

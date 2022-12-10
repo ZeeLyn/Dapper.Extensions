@@ -19,6 +19,12 @@ namespace Dapper.Extensions.Caching.Memory
             return new CacheValue<TResult>(default, false);
         }
 
+        public void Remove(params string[] keys)
+        {
+            foreach (var key in keys)
+                Cache.Remove(key);
+        }
+
         public bool TrySet<TResult>(string key, TResult result, TimeSpan? expired = null)
         {
             if (expired.HasValue)

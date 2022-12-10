@@ -17,7 +17,7 @@ namespace Dapper.Extensions.Caching.Redis
 
         public bool TrySet<TResult>(string key, TResult result, TimeSpan? expired = null)
         {
-            Client.Set(key, Serializer.Serialize(new CacheValue<TResult>(result)) , expired.HasValue ? (int)expired.Value.TotalSeconds : 0);
+            Client.Set(key, Serializer.Serialize(new CacheValue<TResult>(result)), expired.HasValue ? (int)expired.Value.TotalSeconds : 0);
             return true;
         }
 
@@ -27,6 +27,11 @@ namespace Dapper.Extensions.Caching.Redis
             if (string.IsNullOrWhiteSpace(val))
                 return new CacheValue<TResult>(default, false);
             return Serializer.Deserialize<CacheValue<TResult>>(val);
+        }
+
+        public void Remove(params string[] keys)
+        {
+            Client.Del(keys);
         }
     }
 }

@@ -7,5 +7,7 @@ namespace Dapper.Extensions.Caching
         bool TrySet<TResult>(string key, TResult result, TimeSpan? expired = null);
 
         CacheValue<TResult> TryGet<TResult>(string key);
+
+        void Remove(params string[] keys);
     }
 }
