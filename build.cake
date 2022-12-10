@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var output=Argument<string>("output", "./Output");
-var version=Argument<string>("version", "4.1.0");
+var version=Argument<string>("version", "4.2.0");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
@@ -39,7 +39,7 @@ Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file
    XmlPoke(file,"/Project/PropertyGroup/Description","A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.");
    XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/ZeeLyn/Dapper.Extensions");
    XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching");
-   XmlPoke(file,"/Project/PropertyGroup/PackageIconUrl","https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/icon.jpg");
+   XmlPoke(file,"/Project/PropertyGroup/icon","https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/icon.jpg");
    XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
    XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");
 });

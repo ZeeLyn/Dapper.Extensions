@@ -5,8 +5,25 @@ using Autofac.Core;
 namespace Dapper.Extensions
 {
 
-    [Obsolete("Please use IResolveContext")]
-    public interface IResolveKeyed
+    //[Obsolete("Please use IResolveContext")]
+    //public interface IResolveKeyed
+    //{
+    //    IComponentContext ComponentContext { get; }
+
+    //    T Resolve<T>();
+
+    //    T Resolve<T>(params Parameter[] parameters);
+
+    //    T Resolve<T>(string serviceKey);
+
+    //    T Resolve<T>(string serviceKey, params Parameter[] parameters);
+
+    //    IDapper ResolveDapper(bool readOnly = false);
+
+    //    IDapper ResolveDapper(string serviceKey, bool readOnly = false);
+    //}
+
+    public interface IResolveContext //: IResolveKeyed
     {
         IComponentContext ComponentContext { get; }
 
@@ -21,11 +38,6 @@ namespace Dapper.Extensions
         IDapper ResolveDapper(bool readOnly = false);
 
         IDapper ResolveDapper(string serviceKey, bool readOnly = false);
-    }
-
-    public interface IResolveContext : IResolveKeyed
-    {
-
     }
 
     [Obsolete("Please use ResolveContext")]

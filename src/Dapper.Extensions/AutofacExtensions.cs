@@ -16,7 +16,7 @@ namespace Dapper.Extensions
         public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", string serviceKey = null, bool enableMasterSlave = false, Action<MonitorBuilder> monitorBuilder = null) where TDbProvider : IDapper
         {
             container.RegisterType<ResolveContext>().As<IResolveContext>().IfNotRegistered(typeof(IResolveContext)).InstancePerLifetimeScope();
-            container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
+            //container.RegisterType<ResolveKeyed>().As<IResolveKeyed>().IfNotRegistered(typeof(IResolveKeyed)).InstancePerLifetimeScope();
             container.RegisterType<DefaultConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
             container.RegisterType<WeightedPolling>().As<ILoadBalancing>().SingleInstance();
 
