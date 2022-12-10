@@ -22,7 +22,7 @@ namespace Dapper.Extensions
                     HasCustomMonitorHandler = builder.HasCustomMonitorHandler
                 });
                 services.AddScoped(typeof(TDbProvider))
-                    .AddScoped<IDapper>(sc => new DapperProxy(sc.GetRequiredService<TDbProvider>(), sc.GetRequiredService<IServiceProvider>()));
+                    .AddScoped<IDapper>(sc => new DapperProxy(sc.GetRequiredService<TDbProvider>(), sc));
             }
             else
                 services.AddScoped(typeof(IDapper), typeof(TDbProvider));

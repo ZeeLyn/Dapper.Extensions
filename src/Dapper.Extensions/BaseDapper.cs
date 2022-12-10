@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper.Extensions.MasterSlave;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace Dapper.Extensions
 {
@@ -38,7 +39,9 @@ namespace Dapper.Extensions
 
         private IConnectionStringProvider ConnectionStringProvider { get; }
 
-        private static readonly object Lock = new object();
+        //private static readonly object Lock = new object();
+
+        private static readonly Lazy<SemaphoreSlim> SemaphoreSlim = new(() => new SemaphoreSlim(1, 1));
 
         protected ILogger Logger { get; }
 
@@ -74,160 +77,160 @@ namespace Dapper.Extensions
         }
 
 
-        public virtual List<TReturn> Query<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+        public virtual List<TReturn> Query<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query<TReturn>(sql, param, Transaction, buffered, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query<TReturn>(sql, param, Transaction, buffered, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TReturn>(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return Query<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id",
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TReturn>(SQLName name, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id",
-            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false,
             CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id",
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TReturn>(SQLName name, Func<TFirst, TSecond, TThird, TReturn> map, object param = null, string splitOn = "Id",
-            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false,
             CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
         public virtual List<TResult> Query<TFirst, TSecond, TThird, TFourth, TResult>(string sql, Func<TFirst, TSecond, TThird, TFourth, TResult> map, object param = null, string splitOn = "Id",
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TReturn>(SQLName name, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null,
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null,
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(SQLName name, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, object param = null,
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null,
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(SQLName name, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null,
             string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map,
             object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, map, param, Transaction, buffered, splitOn, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<TReturn> Query<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(SQLName name, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map,
             object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), map, param, splitOn, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
 
-        public virtual List<dynamic> Query(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+        public virtual List<dynamic> Query(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, param, Transaction, buffered, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, param, Transaction, buffered, commandTimeout, commandType).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual List<dynamic> Query(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null, bool buffered = true)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true)
         {
-            return Query(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType, buffered);
+            return Query(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, buffered);
         }
 
 
-        public virtual TReturn QueryFirstOrDefault<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+        public virtual TReturn QueryFirstOrDefault<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
-            return CommandExecute(enableCache, () => Conn.Value.QueryFirstOrDefault<TReturn>(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QueryFirstOrDefault<TReturn>(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual TReturn QueryFirstOrDefault<TReturn>(SQLName name, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false,
             CommandType? commandType = null)
         {
-            return QueryFirstOrDefault<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QueryFirstOrDefault<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType);
         }
 
 
-        public virtual dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+        public virtual dynamic QueryFirstOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
-            return CommandExecute(enableCache, () => Conn.Value.QueryFirstOrDefault(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QueryFirstOrDefault(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual dynamic QueryFirstOrDefault(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
-            return QueryFirstOrDefault(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QueryFirstOrDefault(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType);
         }
 
-        public virtual dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+        public virtual dynamic QuerySingleOrDefault(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
-            return CommandExecute(enableCache, () => Conn.Value.QuerySingleOrDefault(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QuerySingleOrDefault(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual dynamic QuerySingleOrDefault(SQLName name, object param = null, int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
-            return QuerySingleOrDefault(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QuerySingleOrDefault(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType);
         }
 
 
-        public virtual TReturn QuerySingleOrDefault<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, CommandType? commandType = null)
+        public virtual TReturn QuerySingleOrDefault<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
-            return CommandExecute(enableCache, () => Conn.Value.QuerySingleOrDefault<TReturn>(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire);
+            return CommandExecute(enableCache, () => Conn.Value.QuerySingleOrDefault<TReturn>(sql, param, Transaction, commandTimeout, commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache);
         }
 
         public virtual TReturn QuerySingleOrDefault<TReturn>(SQLName name, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false,
             CommandType? commandType = null)
         {
-            return QuerySingleOrDefault<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, commandType);
+            return QuerySingleOrDefault<TReturn>(GetSQL(name), param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType);
         }
 
 
@@ -255,7 +258,7 @@ namespace Dapper.Extensions
         }
 
 
-        public virtual PageResult<TReturn> QueryPage<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        public virtual PageResult<TReturn> QueryPage<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -291,19 +294,19 @@ namespace Dapper.Extensions
                 if (result.Page > result.TotalPage)
                     result.Page = result.TotalPage;
                 return result;
-            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
         }
 
         public virtual PageResult<TReturn> QueryPage<TReturn>(SQLName name, int pageindex, int pageSize, object param = null,
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default)
+            string cacheKey = default, bool forceUpdateCache = false)
         {
             var (countSql, querySql) = GetPagingSQL(name);
-            return QueryPage<TReturn>(countSql, querySql, pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey);
+            return QueryPage<TReturn>(countSql, querySql, pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache);
         }
 
         public virtual List<TReturn> QueryPlainPage<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -321,17 +324,17 @@ namespace Dapper.Extensions
                 Take = pageSize
             });
 
-            return CommandExecute(enableCache, () => Conn.Value.Query<TReturn>(sql, pars, Transaction, true, commandTimeout).ToList(), sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            return CommandExecute(enableCache, () => Conn.Value.Query<TReturn>(sql, pars, Transaction, true, commandTimeout).ToList(), sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
         }
 
         public virtual List<TReturn> QueryPlainPage<TReturn>(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
-            return QueryPlainPage<TReturn>(GetSQL(name), pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey);
+            return QueryPlainPage<TReturn>(GetSQL(name), pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache);
         }
 
         public virtual PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
-            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -367,19 +370,19 @@ namespace Dapper.Extensions
                 if (result.Page > result.TotalPage)
                     result.Page = result.TotalPage;
                 return result;
-            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
 
         }
 
         public virtual PageResult<dynamic> QueryPage(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             var (countSql, querySql) = GetPagingSQL(name);
-            return QueryPage(countSql, querySql, pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey);
+            return QueryPage(countSql, querySql, pageindex, pageSize, param, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache);
         }
 
         public virtual List<dynamic> QueryPlainPage(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -397,13 +400,13 @@ namespace Dapper.Extensions
                 Take = pageSize
             });
 
-            return CommandExecute(enableCache, () => Conn.Value.Query(sql, pars, Transaction, true, commandTimeout).ToList(), sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            return CommandExecute(enableCache, () => Conn.Value.Query(sql, pars, Transaction, true, commandTimeout).ToList(), sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
         }
 
         public virtual List<dynamic> QueryPlainPage(SQLName name, int pageindex, int pageSize, object param = null, int? commandTimeout = null,
-            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
-            return QueryPlainPage(GetSQL(name), pageindex, pageSize, pageSize, commandTimeout, enableCache, cacheExpire, cacheKey);
+            return QueryPlainPage(GetSQL(name), pageindex, pageSize, pageSize, commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache);
         }
 
 
@@ -483,7 +486,7 @@ namespace Dapper.Extensions
             return CacheConfiguration.AllMethodsEnableCache;
         }
 
-        protected TReturn CommandExecute<TReturn>(bool? enableCache, Func<TReturn> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, int? pageIndex = default, int? pageSize = default)
+        protected TReturn CommandExecute<TReturn>(bool? enableCache, Func<TReturn> execQuery, string sql, object param, string cacheKey, TimeSpan? expire, bool forceUpdateCache, int? pageIndex = default, int? pageSize = default)
         {
             if (!IsEnableCache(enableCache))
                 return execQuery();
@@ -495,8 +498,10 @@ namespace Dapper.Extensions
                 Logger.LogDebug("Get value from cache successfully.");
                 return cache.Value;
             }
+
             Logger.LogDebug("The cache does not exist, acquire a lock, queue to query data from the database.");
-            lock (Lock)
+            SemaphoreSlim.Value.Wait(TimeSpan.FromSeconds(5));
+            try
             {
                 Logger.LogDebug("The lock has been acquired, try again to get the value from the cache.");
                 var cacheResult = Cache.TryGet<TReturn>(cacheKey);
@@ -505,12 +510,20 @@ namespace Dapper.Extensions
                     Logger.LogDebug("Try again, get value from cache successfully.");
                     return cacheResult.Value;
                 }
-                Logger.LogDebug("Try again, still fail to get the value from the cache, start to get the value from the data.");
+
+                Logger.LogDebug(
+                    "Try again, still fail to get the value from the cache, start to get the value from the data.");
                 var result = execQuery();
                 Cache.TrySet(cacheKey, result, expire ?? CacheConfiguration.Expire);
                 Logger.LogDebug("Get value from data and write to cache.");
                 return result;
             }
+            finally
+            {
+                Logger.LogDebug("Release lock.");
+                SemaphoreSlim.Value.Release();
+            }
+
         }
 
         #endregion

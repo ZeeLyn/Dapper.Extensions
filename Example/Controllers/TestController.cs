@@ -26,10 +26,9 @@ namespace Example.Controllers
         }
         // GET: api/<TestController>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-
-            var r = Dapper.Query("select * from COMPANY where id=1 LIMIT 1 OFFSET 0;");
+            var r = await Dapper.QueryAsync("select * from COMPANY where id=1 LIMIT 1 OFFSET 0;");
             return Ok(new { r, DI.Value });
         }
 

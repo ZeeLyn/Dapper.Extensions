@@ -11,7 +11,7 @@ namespace Dapper.Extensions.Odbc
         {
         }
 
-        public override async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        public override async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -48,11 +48,11 @@ namespace Dapper.Extensions.Odbc
                 if (result.Page > result.TotalPage)
                     result.Page = result.TotalPage;
                 return result;
-            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
         }
 
         public override async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
-            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -88,11 +88,11 @@ namespace Dapper.Extensions.Odbc
                 if (result.Page > result.TotalPage)
                     result.Page = result.TotalPage;
                 return result;
-            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
 
         }
 
-        public override PageResult<TReturn> QueryPage<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+        public override PageResult<TReturn> QueryPage<TReturn>(string countSql, string dataSql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -128,11 +128,11 @@ namespace Dapper.Extensions.Odbc
                 if (result.Page > result.TotalPage)
                     result.Page = result.TotalPage;
                 return result;
-            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
         }
 
         public override PageResult<dynamic> QueryPage(string countSql, string dataSql, int pageindex, int pageSize, object param = null,
-            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default)
+            int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -168,7 +168,7 @@ namespace Dapper.Extensions.Odbc
                 if (result.Page > result.TotalPage)
                     result.Page = result.TotalPage;
                 return result;
-            }, sql, pars, cacheKey, cacheExpire, pageindex, pageSize);
+            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize);
 
         }
     }
