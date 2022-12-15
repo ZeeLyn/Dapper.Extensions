@@ -69,13 +69,13 @@ namespace Example
             //services.AddDapperCachingInRedis(new RedisConfiguration
             //{
             //    AllMethodsEnableCache = false,
-            //    ConnectionString = "localhost:6379,password=nihao123#@!"
+            //    ConnectionString = "localhost:6379,password=nihao123"
             //});
 
             //services.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
             //{
             //    AllMethodsEnableCache = false,
-            //    Connections = new[] { "localhost:6379,password=nihao123#@!,defaultDatabase=1", "localhost:6379,password=nihao123#@!,defaultDatabase=2" }
+            //    Connections = new[] { "localhost:6379,password=nihao123,defaultDatabase=1", "localhost:6379,password=nihao123,defaultDatabase=2" }
             //});
 
             services.AddDapperCachingInMemory(new MemoryConfiguration

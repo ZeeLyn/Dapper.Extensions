@@ -467,7 +467,9 @@ namespace Dapper.Extensions
         {
             if (CacheConfiguration is null || Cache is null)
                 return;
-            Cache.Remove(cacheKeys);
+            Cache.Remove(cacheKeys.Select(x =>
+                    $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{x}")
+                .ToArray());
         }
 
         #endregion

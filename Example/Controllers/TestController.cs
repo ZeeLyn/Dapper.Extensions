@@ -34,9 +34,10 @@ namespace Example.Controllers
 
         // GET api/<TestController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            Dapper.RemoveCache("758347f54594c0d45e070b95d5220b7f");
+            return Ok();
         }
 
         // POST api/<TestController>
