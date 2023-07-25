@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var output=Argument<string>("output", "./Output");
-var version=Argument<string>("version", "4.2.3");
+var version=Argument<string>("version", "4.2.4");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
