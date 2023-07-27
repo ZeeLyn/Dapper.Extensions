@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Dapper.Extensions
 {
@@ -79,6 +80,7 @@ namespace Dapper.Extensions
                     }
                 }
             }
+
             return sql;
         }
 
@@ -86,6 +88,7 @@ namespace Dapper.Extensions
         {
             return sql.Splice(':', conditions);
         }
+
         public static string Splice(this string sql, params Func<bool>[] conditions)
         {
             return sql.Splice(conditions.Select(p => p()).ToArray());
