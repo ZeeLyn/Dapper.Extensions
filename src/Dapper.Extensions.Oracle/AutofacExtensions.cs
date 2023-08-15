@@ -6,7 +6,7 @@ namespace Dapper.Extensions.Oracle
 {
     public static class AutofacExtensions
     {
-        public static ContainerBuilder AddDapperForODBC(this ContainerBuilder container,
+        public static ContainerBuilder AddDapperForOracle(this ContainerBuilder container,
             string connectionName = "DefaultConnection", string serviceKey = null, bool enableMasterSlave = false,
             Action<MonitorBuilder> monitorBuilder = null)
         {
@@ -14,7 +14,8 @@ namespace Dapper.Extensions.Oracle
             return container;
         }
 
-        public static ContainerBuilder AddDapperForODBC(this ContainerBuilder container, Action<DapperBuilder> builder,
+        public static ContainerBuilder AddDapperForOracle(this ContainerBuilder container,
+            Action<DapperBuilder> builder,
             Action<MonitorBuilder> monitorBuilder = null)
         {
             var configure = new DapperBuilder();

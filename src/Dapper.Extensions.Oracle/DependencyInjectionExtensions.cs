@@ -6,7 +6,7 @@ namespace Dapper.Extensions.Oracle
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddDapperForODBC(this IServiceCollection services,
+        public static IServiceCollection AddDapperForOracle(this IServiceCollection services,
             Action<MonitorBuilder> monitorBuilder = null)
         {
             return services.AddDapper<OracleDapper>(monitorBuilder);
