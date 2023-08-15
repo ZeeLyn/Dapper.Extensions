@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0</TargetFrameworks>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+    <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.</Description>
+    <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
+    <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
+    <Authors>Owen</Authors>
+    <Version>4.2.4</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>Dapper.Extensions.Oracle</PackageId>
+    <Product>Dapper.Extensions.Oracle</Product>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.110" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dapper.Extensions\Dapper.Extensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <PackageReference Include="Oracle.ManagedDataAccess.Core">
+      <Version>3.21.110</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Oracle.ManagedDataAccess.Core">
+      <Version>3.21.110</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Oracle.ManagedDataAccess.Core">
+      <Version>3.21.110</Version>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

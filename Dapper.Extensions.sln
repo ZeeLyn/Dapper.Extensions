@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTest", "XUnitTest\XUni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{DA4B26E4-310A-40A0-A874-A2E23838AE73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Extensions.Oracle", "src\Dapper.Extensions.Oracle\Dapper.Extensions.Oracle.csproj", "{7D625245-CDEC-4075-8C9C-8436F43F7A95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,14 @@ Global
 		{DA4B26E4-310A-40A0-A874-A2E23838AE73}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA4B26E4-310A-40A0-A874-A2E23838AE73}.Release|x86.ActiveCfg = Release|Any CPU
 		{DA4B26E4-310A-40A0-A874-A2E23838AE73}.Release|x86.Build.0 = Release|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Debug|x86.Build.0 = Debug|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Release|x86.ActiveCfg = Release|Any CPU
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,6 +160,7 @@ Global
 		{01ADC116-B7CE-41DF-99C3-E94BABE081FC} = {052F9750-3DC4-4D32-9E99-AFCA88FB23AC}
 		{D7C3A1B2-D58B-4713-B64E-ACC517CEA62D} = {052F9750-3DC4-4D32-9E99-AFCA88FB23AC}
 		{665BAB62-9C7D-4AEE-9041-3BA63E2B12EC} = {052F9750-3DC4-4D32-9E99-AFCA88FB23AC}
+		{7D625245-CDEC-4075-8C9C-8436F43F7A95} = {052F9750-3DC4-4D32-9E99-AFCA88FB23AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72C2F8A8-B622-4FB1-8B87-3B240B9CC58F}
