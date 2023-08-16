@@ -2,6 +2,7 @@
 using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Example.Controllers
 {
@@ -23,13 +24,22 @@ namespace Example.Controllers
 
         private IDapper MasterWriter { get; }
 
+        private IDapper MySql { get; }
 
-        public ValuesController(IResolveContext context, [DependencyDapper("master_slave")] IDapper writer, [DependencyDapper("master_slave", true)] IDapper reader)
+        private IDapper MsSql { get; }
+
+
+        public ValuesController(IResolveContext context, [DependencyDapper("master_slave")] IDapper writer,
+            [DependencyDapper("master_slave", true)]
+            IDapper reader, [DependencyDapper("mysql-conn")] IDapper mySql,
+            [DependencyDapper("mssql-conn")] IDapper msSql)
         {
             MasterReader = reader;
             MasterWriter = writer;
-            //SQLiteRepo1 = context.ResolveDapper("sqlite1-conn");
-            //SQLiteRepo2 = context.ResolveDapper("sqlite2-conn");
+            SQLiteRepo1 = context.ResolveDapper("sqlite1-conn");
+            SQLiteRepo2 = context.ResolveDapper("sqlite2-conn");
+            MySql = mySql;
+            MsSql = msSql;
 
             //Repo1 = rep1;
             //Repo2 = rep2;
@@ -53,6 +63,13 @@ namespace Example.Controllers
             return Ok(new { writer, reader });
         }
 
+        private static T ConvertTo<T>(object value) => value switch
+        {
+            T typed => typed,
+            null or DBNull => default,
+            _ => (T)Convert.ChangeType(value, Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T),
+                CultureInfo.InvariantCulture),
+        };
 
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -63,8 +80,15 @@ namespace Example.Controllers
             //return Ok(result);
 
             //var r1 = await Repo1.QueryAsync<object>("select * from COMPANY where id=1 LIMIT 1 OFFSET 0", enableCache: true, cacheExpire: TimeSpan.FromSeconds(100));
-            //int pageindex = 1;
-            //var page = await Repo2.QueryPageAsync<object>("select count(*) from COMPANY;", "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true, cacheKey: $"page:{pageindex}");
+            int pageindex = 1;
+            //var page = await MySql.QueryPageAsync<object>("select count(*) from COMPANY;",
+            //    "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true,
+            //    cacheKey: $"page:{pageindex}");
+
+            var page = await MsSql.QueryPageAsync<object>("select COUNT_BIG(*) from COMPANY;",
+                "select * from COMPANY order by id offset @Skip rows fetch next @Take rows only;", pageindex, 20,
+                enableCache: true,
+                cacheKey: $"page:{pageindex}");
             ////var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
             //return Ok(new
             //{
@@ -84,8 +108,11 @@ namespace Example.Controllers
             //    return contact;
             //}, null, "PassportNumber");
 
-            return Ok();
-
+            return Ok(new
+            {
+                page,
+                convert = ConvertTo<long>("11")
+            });
         }
 
         //[HttpGet("Masterslave")]
@@ -113,17 +140,20 @@ namespace Example.Controllers
             var result = await Repo1.QueryFirstOrDefaultAsync("select * from COMPANY where id=1;");
             if (result != null)
             {
-                await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;", new { name = Guid.NewGuid().ToString() });
+                await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;",
+                    new { name = Guid.NewGuid().ToString() });
                 Repo1.CommitTransaction();
             }
-            return Ok();
 
+            return Ok();
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] string name = "")
         {
-            var result = await MasterReader.QueryAsync("select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)), new { name });
+            var result = await MasterReader.QueryAsync(
+                "select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)),
+                new { name });
             return Ok(result);
         }
 
@@ -137,10 +167,11 @@ namespace Example.Controllers
         [HttpGet("splice")]
         public IActionResult Splice()
         {
-            return Ok("select * from tab where 0=1 {and id=@id} {and type=@type#and status=@status};".Splice('#', true, false));
+            return Ok("select * from tab where 0=1 {and id=@id} {and type=@type#and status=@status};".Splice('#', true,
+                false));
         }
-
     }
+
     public class Contact
     {
         public int Id { get; set; }

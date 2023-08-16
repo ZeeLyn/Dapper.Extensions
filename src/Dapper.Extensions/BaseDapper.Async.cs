@@ -450,7 +450,7 @@ namespace Dapper.Extensions
 #else
                 using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
 #endif
-                var count = (await multi.ReadAsync<long>()).FirstOrDefault();
+                var count = await multi.ReadSingleOrDefaultAsync<long>();
                 var data = (await multi.ReadAsync<TReturn>()).ToList();
                 var result = new PageResult<TReturn>
                 {
@@ -541,7 +541,7 @@ namespace Dapper.Extensions
 #else
                 using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
 #endif
-                var count = (await multi.ReadAsync<long>()).FirstOrDefault();
+                var count = await multi.ReadSingleOrDefaultAsync<long>();
                 var data = (await multi.ReadAsync()).ToList();
                 var result = new PageResult<dynamic>
                 {

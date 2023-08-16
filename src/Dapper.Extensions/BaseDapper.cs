@@ -377,7 +377,7 @@ namespace Dapper.Extensions
             return CommandExecute(enableCache, () =>
             {
                 using var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout);
-                var count = multi.Read<long>().FirstOrDefault();
+                var count = multi.ReadSingleOrDefault<long>();
                 var data = multi.Read<TReturn>().ToList();
                 var result = new PageResult<TReturn>
                 {
@@ -464,7 +464,7 @@ namespace Dapper.Extensions
             return CommandExecute(enableCache, () =>
             {
                 using var multi = Conn.Value.QueryMultiple(sql, pars, Transaction, commandTimeout);
-                var count = multi.Read<long>().FirstOrDefault();
+                var count = multi.ReadSingleOrDefault<long>();
                 var data = multi.Read().ToList();
                 var result = new PageResult<dynamic>
                 {
