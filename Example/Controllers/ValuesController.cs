@@ -3,6 +3,7 @@ using Dapper.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Example.Controllers
 {
@@ -74,6 +75,9 @@ namespace Example.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            var sql =
+                "{insert into task_data_with_day(project,task,day,count) values(@project,@task,@day,@Count) on duplicate key update count=count+@Count;insert into task_data_with_hour(project,task,day,hour,count) values(@project,@task,@day,@hour,@Count) on duplicate key update count=count+@Count;}update task set lastreport=now(){,count=count+@Count} where id=@task;"
+                    .Splice(false, false);
             //Repo.BeginTransaction();
             //var result = await Repo.QueryFirstOrDefaultAsync("select * from goods ;");
             //Repo.CommitTransaction();
@@ -85,10 +89,10 @@ namespace Example.Controllers
             //    "select * from COMPANY limit @Take OFFSET @Skip;", pageindex, 20, enableCache: true,
             //    cacheKey: $"page:{pageindex}");
 
-            var page = await MsSql.QueryPageAsync<object>("select COUNT_BIG(*) from COMPANY;",
-                "select * from COMPANY order by id offset @Skip rows fetch next @Take rows only;", pageindex, 20,
-                enableCache: true,
-                cacheKey: $"page:{pageindex}");
+            //var page = await MsSql.QueryPageAsync<object>("select COUNT_BIG(*) from COMPANY;",
+            //    "select * from COMPANY order by id offset @Skip rows fetch next @Take rows only;", pageindex, 20,
+            //    enableCache: true,
+            //    cacheKey: $"page:{pageindex}");
             ////var r2 = await Repo2.QueryAsync("select * from COMPANY where id=2 LIMIT 1 OFFSET 0");
             //return Ok(new
             //{
@@ -110,8 +114,9 @@ namespace Example.Controllers
 
             return Ok(new
             {
-                page,
-                convert = ConvertTo<long>("11")
+                sql,
+                //page,
+                //convert = ConvertTo<long>("11")
             });
         }
 
