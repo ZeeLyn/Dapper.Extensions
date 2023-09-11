@@ -9,7 +9,7 @@ using Dapper.Extensions.MasterSlave;
 
 namespace Dapper.Extensions
 {
-    public class DefaultConnectionStringProvider: IConnectionStringProvider
+    public class DefaultConnectionStringProvider : IConnectionStringProvider
     {
         private IConfiguration Configuration { get; }
 
@@ -17,10 +17,10 @@ namespace Dapper.Extensions
 
         private IServiceProvider Service { get; }
 
-        private readonly ConcurrentDictionary<string, ConnectionConfiguration> _connections =
-            new ConcurrentDictionary<string, ConnectionConfiguration>();
+        private readonly ConcurrentDictionary<string, ConnectionConfiguration> _connections = new();
 
-        public DefaultConnectionStringProvider(IConfiguration configuration, IServiceProvider service, ILogger<DefaultConnectionStringProvider> logger)
+        public DefaultConnectionStringProvider(IConfiguration configuration, IServiceProvider service,
+            ILogger<DefaultConnectionStringProvider> logger)
         {
             Configuration = configuration;
             Service = service;
@@ -49,27 +49,30 @@ namespace Dapper.Extensions
                 Logger.LogError($"Configuration node 'ConnectionStrings:{connectionName}' not found.");
                 throw new Exception($"Configuration node 'ConnectionStrings:{connectionName}' not found.");
             }
+
             var configure = section.Get<ConnectionConfiguration>();
             if (configure == null || string.IsNullOrWhiteSpace(configure.Master))
             {
                 Logger.LogError($"The connection named '{connectionName}' master cannot be empty.");
                 throw new Exception($"The connection named '{connectionName}' master cannot be empty.");
             }
+
             if (configure.Slaves == null || !configure.Slaves.Any())
             {
-                Logger.LogError($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
-                throw new Exception($"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
+                Logger.LogError(
+                    $"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
+                throw new Exception(
+                    $"The connection named '{connectionName}' slaves cannot be null,and at least one node.");
             }
+
             return configure;
         }
 
         private void Configure(string connectionName)
         {
             var section = Configuration.GetSection($"ConnectionStrings:{connectionName}");
-            ChangeToken.OnChange(() => section.GetReloadToken(), name =>
-            {
-                _connections[name] = Bind(name);
-            }, connectionName);
+            ChangeToken.OnChange(() => section.GetReloadToken(), name => { _connections[name] = Bind(name); },
+                connectionName);
         }
     }
 }
