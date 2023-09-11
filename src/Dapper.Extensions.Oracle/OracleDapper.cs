@@ -1,7 +1,5 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dapper.Extensions.Oracle
 {
