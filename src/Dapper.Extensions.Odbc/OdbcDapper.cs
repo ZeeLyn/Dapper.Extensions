@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Odbc;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dapper.Extensions.Odbc
@@ -15,7 +16,7 @@ namespace Dapper.Extensions.Odbc
 
         public override async Task<PageResult<TReturn>> QueryPageAsync<TReturn>(string countSql, string dataSql,
             int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default,
-            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CancellationToken cancellationToken = default)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
@@ -62,7 +63,7 @@ namespace Dapper.Extensions.Odbc
         public override async Task<PageResult<dynamic>> QueryPageAsync(string countSql, string dataSql, int pageindex,
             int pageSize, object param = null,
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
-            string cacheKey = default, bool forceUpdateCache = false)
+            string cacheKey = default, bool forceUpdateCache = false, CancellationToken cancellationToken = default)
         {
             if (pageindex < 1)
                 throw new ArgumentException("The pageindex cannot be less then 1.");
