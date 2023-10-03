@@ -6,6 +6,7 @@ using Dapper.Extensions.SQLite;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Dapper.Extensions;
+using Autofac.Core;
 
 namespace ConsoleApp
 {
@@ -13,17 +14,17 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            DapperFactory.CreateInstance().ConfigureServices(service =>
-            {
-                service.AddDapperForSQLite();
-            }).ConfigureContainer(container =>
-            {
-                container.AddDapperForSQLite("Sqlite2", "sqlite2");
-            }).ConfigureConfiguration(builder =>
-            {
-                builder.SetBasePath(Directory.GetCurrentDirectory());
-                builder.AddJsonFile("appsettings.json");
-            }).Build();
+            DapperFactory.CreateInstance().ConfigureServices(service => { })
+                .ConfigureContainer(container =>
+                {
+                    container.AddDapperForSQLite();
+                    container.AddDapperForSQLite("Sqlite2", "sqlite2");
+                })
+                .ConfigureConfiguration(builder =>
+                {
+                    builder.SetBasePath(Directory.GetCurrentDirectory());
+                    builder.AddJsonFile("appsettings.json");
+                }).Build();
 
             DapperFactory.Step(dapper =>
             {
@@ -40,15 +41,16 @@ namespace ConsoleApp
                 Console.WriteLine(JsonConvert.SerializeObject(query));
             }).Wait();
 
-            var result8 = DapperFactory.StepAsync(async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result8 = DapperFactory.StepAsync(async dapper => await dapper.QueryAsync("select * from Contact;"))
+                .Result;
             Console.WriteLine(JsonConvert.SerializeObject(result8));
 
 
             DapperFactory.Step("sqlite2", dapper =>
-             {
-                 var query = dapper.Query("select * from Contact;");
-                 Console.WriteLine(JsonConvert.SerializeObject(query));
-             });
+            {
+                var query = dapper.Query("select * from Contact;");
+                Console.WriteLine(JsonConvert.SerializeObject(query));
+            });
 
             var result9 = DapperFactory.Step("sqlite2", dapper => { return dapper.Query("select * from Contact;"); });
             Console.WriteLine(JsonConvert.SerializeObject(result9));
@@ -59,9 +61,9 @@ namespace ConsoleApp
                 Console.WriteLine(JsonConvert.SerializeObject(query));
             }).Wait();
 
-            var result10 = DapperFactory.StepAsync("sqlite2", async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result10 = DapperFactory
+                .StepAsync("sqlite2", async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result10));
-
 
 
             DapperFactory.Step(context =>
@@ -119,13 +121,15 @@ namespace ConsoleApp
             var result3 = DapperFactory.Step((context, dapper) => dapper.Query("select * from Contact;"));
             Console.WriteLine(JsonConvert.SerializeObject(result3));
 
-            var result4 = DapperFactory.StepAsync(async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result4 = DapperFactory
+                .StepAsync(async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result4));
 
             var result5 = DapperFactory.Step("sqlite2", (context, dapper) => dapper.Query("select * from Contact;"));
             Console.WriteLine(JsonConvert.SerializeObject(result5));
 
-            var result6 = DapperFactory.StepAsync("sqlite2", async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result6 = DapperFactory.StepAsync("sqlite2",
+                async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
             Console.WriteLine(JsonConvert.SerializeObject(result6));
 
             Console.ReadKey();
