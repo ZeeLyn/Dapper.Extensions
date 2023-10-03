@@ -12,6 +12,7 @@ namespace XUnitTest
         private ITestOutputHelper Output { get; }
         private IServiceProvider Services { get; }
         private IDapper Dapper { get; }
+
         public ExecuteTest(ITestOutputHelper output, TestStartupFixture fixture)
         {
             Output = output;
@@ -20,24 +21,27 @@ namespace XUnitTest
         }
 
         [Fact]
-        public void Execute()
+        public async void Execute()
         {
             var newName = Guid.NewGuid().ToString();
             var rows = Dapper.Execute("update contact set name=@name where id=@id;",
-                 new { name = newName, id = 1 });
+                new { name = newName, id = 1 });
             Assert.True(rows > 0);
-            var name = Dapper.QueryFirstOrDefaultAsync<string>("select name from contact where id=@id;", new { id = 1 }).Result;
+            var name = await Dapper.QueryFirstOrDefaultAsync<string>("select name from contact where id=@id;",
+                new { id = 1 });
             Assert.Equal(name, newName);
         }
 
         [Fact]
-        public void ExecuteAsync()
+        public async void ExecuteAsync()
         {
             var newName = Guid.NewGuid().ToString();
-            var rows = Dapper.ExecuteAsync("update contact set name=@name where id=@id;",
-                new { name = newName, id = 1 }).Result;
+            var rows = await Dapper.ExecuteAsync("update contact set name=@name where id=@id;",
+                new { name = newName, id = 1 });
             Assert.True(rows > 0);
-            var name = Dapper.QueryFirstOrDefaultAsync<string>("select name from contact where id=@id;", new { id = 1 }).Result;
+            var name = await Dapper.QueryFirstOrDefaultAsync<string>("select name from contact where id=@id;",
+                    new { id = 1 })
+                ;
             Assert.Equal(name, newName);
         }
 
@@ -46,16 +50,18 @@ namespace XUnitTest
         {
             var newName = Guid.NewGuid().ToString();
             var name = Dapper.ExecuteScalar<string>(
-                "update contact set name=@name where id=@id; select name from contact where id=@id;", new { id = 1, name = newName });
+                "update contact set name=@name where id=@id; select name from contact where id=@id;",
+                new { id = 1, name = newName });
             Assert.Equal(name, newName);
         }
 
         [Fact]
-        public void ExecuteScalarAsync()
+        public async void ExecuteScalarAsync()
         {
             var newName = Guid.NewGuid().ToString();
-            var name = Dapper.ExecuteScalarAsync<string>(
-                "update contact set name=@name where id=@id; select name from contact where id=@id;", new { id = 1, name = newName }).Result;
+            var name = await Dapper.ExecuteScalarAsync<string>(
+                "update contact set name=@name where id=@id; select name from contact where id=@id;",
+                new { id = 1, name = newName });
             Assert.Equal(name, newName);
         }
 

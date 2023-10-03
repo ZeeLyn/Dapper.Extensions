@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Autofac;
 using Dapper.Extensions;
 using Dapper.Extensions.Factory;
@@ -15,30 +16,28 @@ using Xunit.Abstractions;
 
 namespace XUnitTest
 {
-
     public class DapperFactoryTest
     {
         private ITestOutputHelper Output { get; }
+
         public DapperFactoryTest(ITestOutputHelper output)
         {
             Output = output;
-            DapperFactory.CreateInstance().ConfigureServices(service =>
-            {
-                service.AddDapperForSQLite();
-            }).ConfigureContainer(container =>
-            {
-                container.AddDapperForSQLite("Sqlite2", "sqlite2");
-                container.AddDapperForSQLite("master_slave", "master_slave", true);
-            }).ConfigureConfiguration(builder =>
-            {
-                builder.SetBasePath(Directory.GetCurrentDirectory());
-                builder.AddJsonFile("appsettings.json");
-            }).Build();
+            DapperFactory.CreateInstance().ConfigureServices(service => { service.AddDapperForSQLite(); })
+                .ConfigureContainer(container =>
+                {
+                    container.AddDapperForSQLite("Sqlite2", "sqlite2");
+                    container.AddDapperForSQLite("master_slave", "master_slave", true);
+                }).ConfigureConfiguration(builder =>
+                {
+                    builder.SetBasePath(Directory.GetCurrentDirectory());
+                    builder.AddJsonFile("appsettings.json");
+                }).Build();
         }
 
 
         [Fact]
-        public void Test()
+        public async void Test()
         {
             DapperFactory.Step(dapper =>
             {
@@ -51,14 +50,16 @@ namespace XUnitTest
             Assert.NotNull(result7);
             Assert.True(result7.Any());
 
-            DapperFactory.StepAsync(async dapper =>
+            await DapperFactory.StepAsync(async dapper =>
             {
                 var query = await dapper.QueryAsync("select * from Contact;");
                 Assert.NotNull(query);
                 Assert.True(query.Any());
-            }).Wait();
+            });
 
-            var result8 = DapperFactory.StepAsync(async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result8 =
+                    await DapperFactory.StepAsync(async dapper => await dapper.QueryAsync("select * from Contact;"))
+                ;
             Assert.NotNull(result8);
             Assert.True(result8.Any());
 
@@ -74,14 +75,15 @@ namespace XUnitTest
             Assert.NotNull(result9);
             Assert.True(result9.Any());
 
-            DapperFactory.StepAsync("sqlite2", async dapper =>
+            await DapperFactory.StepAsync("sqlite2", async dapper =>
             {
                 var query = await dapper.QueryAsync("select * from Contact;");
                 Assert.NotNull(query);
                 Assert.True(query.Any());
-            }).Wait();
+            });
 
-            var result10 = DapperFactory.StepAsync("sqlite2", async dapper => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result10 = await DapperFactory
+                .StepAsync("sqlite2", async dapper => await dapper.QueryAsync("select * from Contact;"));
             Assert.NotNull(result10);
             Assert.True(result10.Any());
 
@@ -94,13 +96,13 @@ namespace XUnitTest
                 Assert.True(query.Any());
             });
 
-            DapperFactory.StepAsync(async context =>
+            await DapperFactory.StepAsync(async context =>
             {
                 var dapper = context.ResolveDapper();
                 var queryAsync = await dapper.QueryAsync("select * from Contact;");
                 Assert.NotNull(queryAsync);
                 Assert.True(queryAsync.Any());
-            }).Wait();
+            });
 
             DapperFactory.Step((context, dapper) =>
             {
@@ -112,7 +114,8 @@ namespace XUnitTest
             DapperFactory.Step(context =>
             {
                 var master = context.ResolveDapper("master_slave");
-                var rows = master.Execute("update COMPANY set name=@name where id=@id;", new { name = Guid.NewGuid().ToString(), id = 1 });
+                var rows = master.Execute("update COMPANY set name=@name where id=@id;",
+                    new { name = Guid.NewGuid().ToString(), id = 1 });
                 Assert.True(rows > 0);
                 Output.WriteLine("Master:" + master.Conn.Value.ConnectionString);
 
@@ -124,12 +127,12 @@ namespace XUnitTest
                 Output.WriteLine("Slave:" + slave.Conn.Value.ConnectionString);
             });
 
-            DapperFactory.StepAsync(async (context, dapper) =>
+            await DapperFactory.StepAsync(async (context, dapper) =>
             {
                 var query = await dapper.QueryAsync("select * from Contact;");
                 Assert.NotNull(query);
                 Assert.True(query.Any());
-            }).Wait();
+            });
 
             DapperFactory.Step("sqlite2", (context, dapper) =>
             {
@@ -138,12 +141,12 @@ namespace XUnitTest
                 Assert.True(query.Any());
             });
 
-            DapperFactory.StepAsync("sqlite2", async (context, dapper) =>
+            await DapperFactory.StepAsync("sqlite2", async (context, dapper) =>
             {
                 var query = await dapper.QueryAsync("select * from Contact;");
                 Assert.NotNull(query);
                 Assert.True(query.Any());
-            }).Wait();
+            });
 
             var result1 = DapperFactory.Step(context =>
             {
@@ -153,11 +156,11 @@ namespace XUnitTest
             Assert.NotNull(result1);
             Assert.True(result1.Any());
 
-            var result2 = DapperFactory.StepAsync(context =>
+            var result2 = await DapperFactory.StepAsync(context =>
             {
                 var dapper = context.ResolveDapper();
                 return dapper.QueryAsync("select * from Contact;");
-            }).Result;
+            });
             Assert.NotNull(result2);
             Assert.True(result2.Any());
 
@@ -165,7 +168,8 @@ namespace XUnitTest
             Assert.NotNull(result3);
             Assert.True(result3.Any());
 
-            var result4 = DapperFactory.StepAsync(async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result4 = await DapperFactory
+                .StepAsync(async (context, dapper) => await dapper.QueryAsync("select * from Contact;"));
             Assert.NotNull(result4);
             Assert.True(result4.Any());
 
@@ -173,7 +177,8 @@ namespace XUnitTest
             Assert.NotNull(result5);
             Assert.True(result5.Any());
 
-            var result6 = DapperFactory.StepAsync("sqlite2", async (context, dapper) => await dapper.QueryAsync("select * from Contact;")).Result;
+            var result6 = await DapperFactory.StepAsync("sqlite2",
+                async (context, dapper) => await dapper.QueryAsync("select * from Contact;"));
             Assert.NotNull(result6);
             Assert.True(result6.Any());
         }

@@ -24,11 +24,13 @@ namespace Example.Controllers
             Dapper = dapper;
             DI = di;
         }
+
         // GET: api/<TestController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var r = await Dapper.QueryAsync("select * from COMPANY where id=1 LIMIT 1 OFFSET 0;", enableCache: true, forceUpdateCache: true);
+            var r = await Dapper.QueryAsync("select * from COMPANY where id=1 LIMIT 1 OFFSET 0;", enableCache: true,
+                forceUpdateCache: false);
             return Ok(new { r, DI.Value });
         }
 

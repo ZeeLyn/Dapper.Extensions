@@ -653,7 +653,9 @@ namespace Dapper.Extensions
             }
 
             Logger.LogDebug("The cache does not exist, acquire a lock, queue to query data from the database.");
-            await SemaphoreSlim.Value.WaitAsync(TimeSpan.FromSeconds(5));
+            var got = await SemaphoreSlim.Value.WaitAsync(TimeSpan.FromSeconds(5));
+            if (!got)
+                throw new DapperCacheException("Failed to acquire the lock");
             try
             {
                 if (!forceUpdateCache)

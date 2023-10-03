@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-
 using Autofac;
 using Dapper.Extensions;
 using Dapper.Extensions.MySql;
@@ -44,6 +43,7 @@ namespace Example
             SnowflakeUtils.Initialization(1, 1);
 
             #region Add Dapper
+
             services.AddDapperForSQLite(monitorBuilder =>
             {
                 monitorBuilder.Threshold = 10;
@@ -55,6 +55,7 @@ namespace Example
             //services.AddDapperForMySQL();
             //services.AddDapperForMSSQL();
             //services.AddDapperConnectionStringProvider<CustomConnectionStringProvider>();
+
             #endregion
 
             //services.AddAspectScope();
@@ -66,6 +67,7 @@ namespace Example
             //services.AddScopedInterfaceProxy<ITest>();
 
             #region Enable Caching
+
             //services.AddDapperCachingInRedis(new RedisConfiguration
             //{
             //    AllMethodsEnableCache = false,
@@ -106,6 +108,7 @@ namespace Example
         public void ConfigureContainer(ContainerBuilder builder)
         {
             #region Add Dapper
+
             //builder.AddDapperForMySQL();
 
             //builder.AddDapperForMySQL("MySqlConnection", "mysql-conn");
@@ -116,12 +119,12 @@ namespace Example
 
             //builder.AddDapperForSQLite("SQLite2Connection", "sqlite2-conn");
 
-            //builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
-            //{
-            //    monitorBuilder.Threshold = 0;
-            //    monitorBuilder.EnableLog = true;
-            //    monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
-            //});
+            builder.AddDapperForSQLite("master_slave", "master_slave", true, monitorBuilder =>
+            {
+                monitorBuilder.Threshold = 0;
+                monitorBuilder.EnableLog = true;
+                monitorBuilder.AddMonitorHandler<MyMonitorHandler>();
+            });
 
             //builder.AddDapperForSQLite("SQLite1Connection", monitorBuilder: monitorBuilder =>
             // {
@@ -174,10 +177,7 @@ namespace Example
             app.UseRouting();
             app.UseStaticFiles();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
