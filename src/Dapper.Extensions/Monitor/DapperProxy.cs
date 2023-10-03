@@ -29,6 +29,37 @@ namespace Dapper.Extensions.Monitor
 
         public Lazy<IDbConnection> Conn => Dapper.Conn;
 
+        public async Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        {
+            return await AsyncCommandExecuteMonitor("QuerySingleOrDefaultAsync<TReturn>", command.CommandText, command.Parameters,
+              async () => await Dapper.QuerySingleOrDefaultAsync<TReturn>(command.CommandText, command.Parameters, command.CommandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, command.CommandType));
+        }
+
+        public async Task<TReturn> QuerySingleAsync<TReturn>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        {
+            return await AsyncCommandExecuteMonitor("QuerySingleAsync<TReturn>", command.CommandText, command.Parameters,
+              async () => await Dapper.QuerySingleAsync<TReturn>(command, enableCache, cacheExpire, cacheKey, forceUpdateCache));
+        }
+
+        public async Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        {
+            return await AsyncCommandExecuteMonitor("QueryFirstOrDefaultAsync<TReturn>", command.CommandText, command.Parameters,
+                async () => await Dapper.QueryFirstOrDefaultAsync<TReturn>(command.CommandText, command.Parameters, command.CommandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache,
+                    command.CommandType));
+        }
+
+        public async Task<TReturn> QueryFirstAsync<TReturn>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        {
+            return await AsyncCommandExecuteMonitor("QueryFirstOrDefaultAsync<TReturn>", command.CommandText, command.Parameters,
+                async () => await Dapper.QueryFirstAsync<TReturn>(command, enableCache, cacheExpire, cacheKey, forceUpdateCache));
+        }
+
+        public async Task<List<TReturn>> QueryAsync<TReturn>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        {
+            return await AsyncCommandExecuteMonitor("QueryAsync<TReturn>", command.CommandText, command.Parameters, 
+                async () => await Dapper.QueryAsync<TReturn>(command, enableCache, cacheExpire, cacheKey, forceUpdateCache));
+        }
+
         public async Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)
         {
