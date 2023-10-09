@@ -4,13 +4,13 @@
 // ARGUMENTS
 ///////////////////////////////////////////////////////////////////////////////
 
-var output=Argument<string>("output", "./Output");
-var version=Argument<string>("version", "4.2.5");
+var output = Argument<string>("output", "./Output");
+var version = Argument<string>("version", "4.2.6");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
 var currentBranch = Argument<string>("currentBranch", GitBranchCurrent("./").FriendlyName);
-var configuration=release?"Release":"Debug";
+var configuration = release ? "Release" : "Debug";
 
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
@@ -32,33 +32,39 @@ Teardown(ctx =>
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
-Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file)=>{
-   Information("Update Version:"+file);
-   XmlPoke(file,"/Project/PropertyGroup/Version",version);
-   XmlPoke(file,"/Project/PropertyGroup/GeneratePackageOnBuild","false");
-   XmlPoke(file,"/Project/PropertyGroup/Description","A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.");
-   XmlPoke(file,"/Project/PropertyGroup/PackageProjectUrl","https://github.com/ZeeLyn/Dapper.Extensions");
-   XmlPoke(file,"/Project/PropertyGroup/PackageTags","Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching");
-   XmlPoke(file,"/Project/PropertyGroup/icon","https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png");
-   XmlPoke(file,"/Project/PropertyGroup/Authors","Owen");
-   XmlPoke(file,"/Project/PropertyGroup/PackageLicenseExpression","MIT");
+Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"), (file) =>
+{
+   Information("Update Version:" + file);
+   XmlPoke(file, "/Project/PropertyGroup/Version", version);
+   XmlPoke(file, "/Project/PropertyGroup/GeneratePackageOnBuild", "false");
+   XmlPoke(file, "/Project/PropertyGroup/Description", "A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC, Support cache.");
+   XmlPoke(file, "/Project/PropertyGroup/PackageProjectUrl", "https://github.com/ZeeLyn/Dapper.Extensions");
+   XmlPoke(file, "/Project/PropertyGroup/PackageTags", "Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching");
+   XmlPoke(file, "/Project/PropertyGroup/icon", "https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png");
+   XmlPoke(file, "/Project/PropertyGroup/Authors", "Owen");
+   XmlPoke(file, "/Project/PropertyGroup/PackageLicenseExpression", "MIT");
 });
 
-Task("Restore").Does(()=>{
+Task("Restore").Does(() =>
+{
    DotNetCoreRestore();
 });
 
-Task("Build").Does(()=>{
-   DotNetCoreBuild("Dapper.Extensions.sln",new DotNetCoreBuildSettings{
-      Configuration=configuration
+Task("Build").Does(() =>
+{
+   DotNetCoreBuild("Dapper.Extensions.sln", new DotNetCoreBuildSettings
+   {
+      Configuration = configuration
    });
 });
 
-Task("CleanPackage").Does(()=>{
-   if(DirectoryExists(output))
+Task("CleanPackage").Does(() =>
+{
+   if (DirectoryExists(output))
    {
-      DeleteDirectory(output,new DeleteDirectorySettings{
-         Recursive=true
+      DeleteDirectory(output, new DeleteDirectorySettings
+      {
+         Recursive = true
       });
    }
 });
@@ -66,25 +72,29 @@ Task("CleanPackage").Does(()=>{
 Task("Pack")
 .IsDependentOn("CleanPackage")
 .IsDependentOn("UpdateVersion")
-.DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"),(file)=>{
-   DotNetCorePack(file.ToString(),new DotNetCorePackSettings{
-      OutputDirectory=output,
-      Configuration=configuration
+.DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"), (file) =>
+{
+   DotNetCorePack(file.ToString(), new DotNetCorePackSettings
+   {
+      OutputDirectory = output,
+      Configuration = configuration
    });
 });
 
 Task("Push")
 .IsDependentOn("Pack")
-.Does(()=>{
-   var nuGetPushSettings= new NuGetPushSettings {
-      Source="https://www.nuget.org/api/v2/package",
-      ApiKey=nugetApiKey
+.Does(() =>
+{
+   var nuGetPushSettings = new NuGetPushSettings
+   {
+      Source = "https://www.nuget.org/api/v2/package",
+      ApiKey = nugetApiKey
    };
-   if(currentBranch=="master")
+   if (currentBranch == "master")
    {
       foreach (var package in GetFiles("Output/*.nupkg"))
       {
-         NuGetPush(package,nuGetPushSettings);
+         NuGetPush(package, nuGetPushSettings);
       }
    }
    else
@@ -96,7 +106,8 @@ Task("Push")
 Task("Default")
 .IsDependentOn("Restore")
 .IsDependentOn("Build")
-.Does(() => {
+.Does(() =>
+{
 
 });
 
