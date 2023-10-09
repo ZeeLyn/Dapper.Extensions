@@ -40,6 +40,7 @@ namespace Dapper.Extensions
             var startIndex = 0;
             foreach (var condition in conditions)
             {
+                if (startIndex < 0) startIndex = 0;
                 var start = sql.IndexOf('{', startIndex);
                 if (start < 0)
                     return sql;
