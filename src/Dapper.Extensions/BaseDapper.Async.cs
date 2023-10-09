@@ -11,7 +11,47 @@ using Microsoft.Extensions.Logging;
 namespace Dapper.Extensions
 {
     public abstract partial class BaseDapper<TDbConnection> where TDbConnection : DbConnection, new()
-    {
+    {        
+        public virtual async Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
+        {
+            return await CommandExecuteAsync(enableCache,
+                async () => (await Conn.Value.QuerySingleOrDefaultAsync<TReturn>(command))
+                , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
+        }                 
+        
+        public virtual async Task<TReturn> QuerySingleAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
+        {
+            return await CommandExecuteAsync(enableCache,
+                async () => (await Conn.Value.QuerySingleAsync<TReturn>(command))
+                , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
+        }         
+        
+        public virtual async Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
+        {
+            return await CommandExecuteAsync(enableCache,
+                async () => (await Conn.Value.QueryFirstOrDefaultAsync<TReturn>(command))
+                , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
+        }             
+        
+        public virtual async Task<TReturn> QueryFirstAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
+        {
+            return await CommandExecuteAsync(enableCache,
+                async () => (await Conn.Value.QueryFirstAsync<TReturn>(command))
+                , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
+        }        
+        
+        public virtual async Task<List<TReturn>> QueryAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+            TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
+        {
+            return await CommandExecuteAsync(enableCache,
+                async () => (await Conn.Value.QueryAsync<TReturn>(command))
+                    .ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
+        }
+
         public virtual async Task<List<TReturn>> QueryAsync<TReturn>(string sql, object param = null,
             int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default,
             string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null)

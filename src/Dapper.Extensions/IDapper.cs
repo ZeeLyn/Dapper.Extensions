@@ -11,6 +11,69 @@ namespace Dapper.Extensions
         Lazy<IDbConnection> Conn { get; }
 
         /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="TReturn">The type to return.</typeparam>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="forceUpdateCache">Force Update Cache</param>
+        /// <returns></returns>
+        Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="TReturn">The type to return.</typeparam>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="forceUpdateCache">Force Update Cache</param>
+        /// <returns></returns>
+        Task<TReturn> QuerySingleAsync<TReturn>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="TReturn">The type to return.</typeparam>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="forceUpdateCache">Force Update Cache</param>
+        /// <returns></returns>
+        Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Execute a single-row query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="TReturn">The type to return.</typeparam>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="forceUpdateCache">Force Update Cache</param>
+        /// <returns></returns>
+        Task<TReturn> QueryFirstAsync<TReturn>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Execute a query asynchronously using Task.
+        /// </summary>
+        /// <typeparam name="TReturn">The type to return.</typeparam>
+        /// <param name="command">The command used to query on this connection.</param>
+        /// <param name="enableCache">Enable cache</param>
+        /// <param name="cacheExpire">Cache expiration time</param>
+        /// <param name="cacheKey">Custom cache key</param>
+        /// <param name="forceUpdateCache">Force Update Cache</param>
+        /// <returns>
+        /// A sequence of data of <typeparamref name="TReturn"/>; if a basic type (int, string, etc) is queried then the data from the first column is assumed, otherwise an instance is
+        /// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+        /// </returns>
+        Task<List<TReturn>> QueryAsync<TReturn>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
         /// Execute a query asynchronously, returning the data typed as T.
         /// </summary>
         /// <typeparam name="TReturn"></typeparam>
