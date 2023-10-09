@@ -125,6 +125,22 @@ namespace Dapper.Extensions
         Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(string sql, Func<TFirst, TSecond, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true, CancellationToken cancellationToken = default);
 
         /// <summary>
+        ///  Perform a multi-mapping query with 2 input types.
+        /// </summary>
+        /// <typeparam name="TFirst"></typeparam>
+        /// <typeparam name="TSecond"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="map"></param>
+        /// <param name="splitOn"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TReturn> map,  string splitOn = "Id", bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
         /// Perform a multi-mapping query with 2 input types.
         /// </summary>
         /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
@@ -168,6 +184,23 @@ namespace Dapper.Extensions
         /// <summary>
         /// Perform a multi-mapping query with 3 input types.
         /// </summary>
+        /// <typeparam name="TFirst"></typeparam>
+        /// <typeparam name="TSecond"></typeparam>
+        /// <typeparam name="TThird"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="map"></param>
+        /// <param name="splitOn"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TReturn> map, string splitOn = "Id", bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 3 input types.
+        /// </summary>
         /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
         /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
         /// <typeparam name="TThird">The third type in the recordset.</typeparam>
@@ -207,6 +240,24 @@ namespace Dapper.Extensions
         /// <param name="buffered">Whether to buffer the results in memory.</param>
         /// <returns></returns>
         Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 4 input types.
+        /// </summary>
+        /// <typeparam name="TFirst"></typeparam>
+        /// <typeparam name="TSecond"></typeparam>
+        /// <typeparam name="TThird"></typeparam>
+        /// <typeparam name="TFourth"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="map"></param>
+        /// <param name="splitOn"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, string splitOn = "Id", bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
 
         /// <summary>
         /// Perform a multi-mapping query with 4 input types.
@@ -256,6 +307,25 @@ namespace Dapper.Extensions
         /// <summary>
         /// Perform a multi-mapping query with 5 input types.
         /// </summary>
+        /// <typeparam name="TFirst"></typeparam>
+        /// <typeparam name="TSecond"></typeparam>
+        /// <typeparam name="TThird"></typeparam>
+        /// <typeparam name="TFourth"></typeparam>
+        /// <typeparam name="TFifth"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="map"></param>
+        /// <param name="splitOn"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, string splitOn = "Id", bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 5 input types.
+        /// </summary>
         /// <typeparam name="TFirst">The first type in the recordset.</typeparam>
         /// <typeparam name="TSecond">The second type in the recordset.</typeparam>
         /// <typeparam name="TThird">The third type in the recordset.</typeparam>
@@ -300,6 +370,27 @@ namespace Dapper.Extensions
         /// <param name="buffered">Whether to buffer the results in memory.</param>
         /// <returns></returns>
         Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true, CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// Perform a multi-mapping query with 6 input types.
+        /// </summary>
+        /// <typeparam name="TFirst"></typeparam>
+        /// <typeparam name="TSecond"></typeparam>
+        /// <typeparam name="TThird"></typeparam>
+        /// <typeparam name="TFourth"></typeparam>
+        /// <typeparam name="TFifth"></typeparam>
+        /// <typeparam name="TSixth"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="map"></param>
+        /// <param name="splitOn"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, string splitOn = "Id",  bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
 
         /// <summary>
         /// Perform a multi-mapping query with 6 input types.
@@ -349,6 +440,27 @@ namespace Dapper.Extensions
         /// <param name="buffered">Whether to buffer the results in memory.</param>
         /// <returns></returns>
         Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, bool buffered = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Perform a multi-mapping query with 7 input types.
+        /// </summary>
+        /// <typeparam name="TFirst"></typeparam>
+        /// <typeparam name="TSecond"></typeparam>
+        /// <typeparam name="TThird"></typeparam>
+        /// <typeparam name="TFourth"></typeparam>
+        /// <typeparam name="TFifth"></typeparam>
+        /// <typeparam name="TSixth"></typeparam>
+        /// <typeparam name="TSeventh"></typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="map"></param>
+        /// <param name="splitOn"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string splitOn = "Id", bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
 
         /// <summary>
         /// Perform a multi-mapping query with 7 input types.
@@ -689,6 +801,18 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default);
 
+
+        /// <summary>
+        /// Return a sequence of dynamic objects with properties matching the columns.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<List<dynamic>> QueryAsync(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
         /// <summary>
         /// Return a sequence of dynamic objects with properties matching the columns.
         /// </summary>
@@ -802,6 +926,17 @@ namespace Dapper.Extensions
         /// <summary>
         /// Execute a single-row query asynchronously,return a dynamic object with properties matching the columns.
         /// </summary>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<dynamic> QueryFirstOrDefaultAsync(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Execute a single-row query asynchronously,return a dynamic object with properties matching the columns.
+        /// </summary>
         /// <param name="name">SQL separated xml file node name.</param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -876,6 +1011,17 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         Task<dynamic> QuerySingleOrDefaultAsync(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Execute a single-row query asynchronously.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<dynamic> QuerySingleOrDefaultAsync(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
 
         /// <summary>
         /// Execute a single-row query asynchronously.
@@ -958,6 +1104,14 @@ namespace Dapper.Extensions
         /// <summary>
         /// Execute a command that returns multiple result sets, and access each in turn.
         /// </summary>
+        /// <param name="command"></param>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        Task QueryMultipleAsync(CommandDefinition command, Action<SqlMapper.GridReader> reader);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets, and access each in turn.
+        /// </summary>
         /// <param name="name">SQL separated xml file node name.</param>
         /// <param name="reader"></param>
         /// <param name="param"></param>
@@ -1003,6 +1157,20 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default);
 
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
         /// <summary>
         /// Execute a command that returns multiple result sets.
         /// </summary>
@@ -1034,6 +1202,20 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(string sql,
                object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -1077,6 +1259,22 @@ namespace Dapper.Extensions
         /// <typeparam name="TReturn2"></typeparam>
         /// <typeparam name="TReturn3"></typeparam>
         /// <typeparam name="TReturn4"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)> QueryMultipleAsync
+               <TReturn1, TReturn2, TReturn3, TReturn4>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <typeparam name="TReturn4"></typeparam>
         /// <param name="name">SQL separated xml file node name.</param>
         /// <param name="param"></param>
         /// <param name="commandTimeout"></param>
@@ -1105,6 +1303,23 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(string sql, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// Execute a command that returns multiple result sets.
+        /// </summary>
+        /// <typeparam name="TReturn1"></typeparam>
+        /// <typeparam name="TReturn2"></typeparam>
+        /// <typeparam name="TReturn3"></typeparam>
+        /// <typeparam name="TReturn4"></typeparam>
+        /// <typeparam name="TReturn5"></typeparam>
+        /// <param name="command"></param>
+        /// <param name="enableCache"></param>
+        /// <param name="cacheExpire"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="forceUpdateCache"></param>
+        /// <returns></returns>
+        Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(CommandDefinition command, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false);
 
         /// <summary>
         /// Execute a command that returns multiple result sets.
@@ -1153,6 +1368,13 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         Task<IDataReader> ExecuteReaderAsync(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+        /// <summary>
+        /// Execute parameterized SQL and return an System.Data.IDataReader.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        Task<IDataReader> ExecuteReaderAsync(CommandDefinition command);
 
         /// <summary>
         ///  Execute parameterized SQL and return an System.Data.IDataReader.
@@ -1213,6 +1435,7 @@ namespace Dapper.Extensions
         /// <param name="cacheKey">Custom cache key</param>
         /// <returns></returns>
         Task<List<TReturn>> QueryPlainPageAsync<TReturn>(string sql, int pageindex, int pageSize, object param = null, int? commandTimeout = null, bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false, CancellationToken cancellationToken = default);
+
 
         /// <summary>
         /// Paging query.
@@ -1430,6 +1653,14 @@ namespace Dapper.Extensions
         /// <returns></returns>
         Task<int> ExecuteAsync(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
 
+
+        /// <summary>
+        /// Execute a command asynchronously.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        Task<int> ExecuteAsync(CommandDefinition command);
+
         /// <summary>
         /// Execute a command asynchronously.
         /// </summary>
@@ -1470,6 +1701,15 @@ namespace Dapper.Extensions
         /// <param name="commandType">Is it a stored proc or a batch?</param>
         /// <returns></returns>
         Task<TReturn> ExecuteScalarAsync<TReturn>(string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null);
+
+
+        /// <summary>
+        /// Execute parameterized SQL that selects a single value.
+        /// </summary>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        Task<TReturn> ExecuteScalarAsync<TReturn>(CommandDefinition command);
 
         /// <summary>
         /// Execute parameterized SQL that selects a single value.

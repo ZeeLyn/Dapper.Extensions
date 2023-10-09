@@ -327,9 +327,9 @@ public async Task<IActionResult> Get()
 
 ---
 
-### **_NOTE_**
+### **_WARNING_**
 
-**_If the cache does not exist, it adds a lock when reading data from the database to prevent cache breakdown. Dapper.Extensions is just a low-level data access library. Preventing malicious attacks is not its responsibility. You can add Bloom filters before this._**
+**_If the cache does not exist, it adds a lock when reading data from the database to prevent cache breakdown.If the lock cannot be acquired, a DapperCacheException will be thrown, which needs to be caught in your business code. At this time, you need to consider the issues of Cache Penetration and Cache Breakdown and Cache Avalanche. Dapper.Extensions is just a low-level data access library. Preventing malicious attacks is not its responsibility. You can add Bloom filters before this._**
 
 ---
 
