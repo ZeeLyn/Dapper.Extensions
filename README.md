@@ -11,7 +11,7 @@
 
 A dapper extension library.
 
-1.Support MySQL,SQL Server,PostgreSQL,SQLite and ODBC.
+1.Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC.
 
 2.Support cache.
 
@@ -31,6 +31,7 @@ A dapper extension library.
 | Dapper.Extensions.PostgreSQL     | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSQL)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSQL)         |
 | Dapper.Extensions.ODBC           | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.ODBC)](https://www.nuget.org/packages/Dapper.Extensions.ODBC)                     |
 | Dapper.Extensions.SQLite         | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)                 |
+| Dapper.Extensions.Oracle         | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Oracle)](https://www.nuget.org/packages/Dapper.Extensions.Oracle)                 |
 | Dapper.Extensions.Caching.Redis  | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)   |
 | Dapper.Extensions.Caching.Memory | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory) |
 | Dapper.Extensions.MiniProfiler   | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MiniProfiler)](https://www.nuget.org/packages/Dapper.Extensions.MiniProfiler)     |
