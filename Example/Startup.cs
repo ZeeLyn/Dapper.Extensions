@@ -68,11 +68,11 @@ namespace Example
 
             #region Enable Caching
 
-            //services.AddDapperCachingInRedis(new RedisConfiguration
-            //{
-            //    AllMethodsEnableCache = false,
-            //    ConnectionString = "localhost:6379,password=nihao123"
-            //});
+            services.AddDapperCachingInRedis(new RedisConfiguration
+            {
+                AllMethodsEnableCache = false,
+                ConnectionString = "localhost:6379,password=nihao123"
+            });
 
             //services.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
             //{
