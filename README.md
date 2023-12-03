@@ -104,24 +104,28 @@ public void ConfigureServices(IServiceCollection services)
 	
 	//For Postgre
  	services.AddDapperForPostgreSQL();
+
+	//For Oracle
+ 	services.AddDapperForOracle();
+
 }
 ```
 
 ```csharp
 public class ValuesController : ControllerBase
 {
-	private IDapper Repo { get;}
+	private IDapper Dapper { get;}
 
-	public ValuesController(IDapper repo)
+	public ValuesController(IDapper dapper)
 	{
-		Repo = repo;
+    		Dapper = dapper;
 	}
 
 	// GET api/values
 	[HttpGet]
 	public async Task<IActionResult> Get()
 	{
-		var result = await Repo.QueryAsync("select * from tab;");
+  		var result = await Dapper.QueryAsync("select * from tab;");
 		return Ok(result);
 	}
 }

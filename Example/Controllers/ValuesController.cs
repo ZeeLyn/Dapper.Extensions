@@ -24,7 +24,8 @@ namespace Example.Controllers
         private IDapper MasterWriter { get; }
 
 
-        public ValuesController(IResolveContext context, [DependencyDapper("master_slave")] IDapper writer, [DependencyDapper("master_slave", true)] IDapper reader)
+        public ValuesController(IResolveContext context, [DependencyDapper("master_slave")] IDapper writer,
+            [DependencyDapper("master_slave", true)] IDapper reader)
         {
             MasterReader = reader;
             MasterWriter = writer;
@@ -85,7 +86,6 @@ namespace Example.Controllers
             //}, null, "PassportNumber");
 
             return Ok();
-
         }
 
         //[HttpGet("Masterslave")]
@@ -113,17 +113,20 @@ namespace Example.Controllers
             var result = await Repo1.QueryFirstOrDefaultAsync("select * from COMPANY where id=1;");
             if (result != null)
             {
-                await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;", new { name = Guid.NewGuid().ToString() });
+                await Repo1.ExecuteAsync("update COMPANY set name=@name where id=1;",
+                    new { name = Guid.NewGuid().ToString() });
                 Repo1.CommitTransaction();
             }
-            return Ok();
 
+            return Ok();
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] string name = "")
         {
-            var result = await MasterReader.QueryAsync("select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)), new { name });
+            var result = await MasterReader.QueryAsync(
+                "select * from company {where name like '%'||@name||'%'};".Splice(!string.IsNullOrWhiteSpace(name)),
+                new { name });
             return Ok(result);
         }
 
@@ -137,10 +140,11 @@ namespace Example.Controllers
         [HttpGet("splice")]
         public IActionResult Splice()
         {
-            return Ok("select * from tab where 0=1 {and id=@id} {and type=@type#and status=@status};".Splice('#', true, false));
+            return Ok("select * from tab where 0=1 {and id=@id} {and type=@type#and status=@status};".Splice('#', true,
+                false));
         }
-
     }
+
     public class Contact
     {
         public int Id { get; set; }

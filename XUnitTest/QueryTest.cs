@@ -240,7 +240,7 @@ namespace XUnitTest
                     "select * from contact limit @Take OFFSET @Skip;", 0, 1);
             });
 
-            Assert.ThrowsAsync<ArgumentException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await Dapper.QueryPageAsync("select count(*) from contact;",
                     "select * from contact limit @Take OFFSET @Skip;", 0, 2);
@@ -251,7 +251,7 @@ namespace XUnitTest
                     "select * from contact limit @Take OFFSET @Skip;", 0, 1);
             });
 
-            Assert.ThrowsAsync<ArgumentException>(async () =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 await Dapper.QueryPageAsync<Contact>("select count(*) from contact;",
                     "select * from contact limit @Take OFFSET @Skip;", 0, 2);

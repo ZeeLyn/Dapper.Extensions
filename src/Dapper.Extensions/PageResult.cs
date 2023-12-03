@@ -30,10 +30,14 @@ namespace Dapper.Extensions
         /// </summary>
         public long TotalPage { get; set; }
 
+
+        public List<T> Result { get; set; }
+
+
         /// <summary>
         /// 内容数组
         /// </summary>
-
-        public List<T> Contents { get; set; }
+        [Obsolete("Please use Result")]
+        public List<T> Contents => Result;
     }
 }

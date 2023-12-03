@@ -11,40 +11,45 @@ using Microsoft.Extensions.Logging;
 namespace Dapper.Extensions
 {
     public abstract partial class BaseDapper<TDbConnection> where TDbConnection : DbConnection, new()
-    {        
-        public virtual async Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+    {
+        public virtual async Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(CommandDefinition command,
+            bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QuerySingleOrDefaultAsync<TReturn>(command)
                 , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
-        }                 
-        
-        public virtual async Task<TReturn> QuerySingleAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+        }
+
+        public virtual async Task<TReturn> QuerySingleAsync<TReturn>(CommandDefinition command,
+            bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QuerySingleAsync<TReturn>(command)
                 , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
-        }         
-        
-        public virtual async Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+        }
+
+        public virtual async Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(CommandDefinition command,
+            bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QueryFirstOrDefaultAsync<TReturn>(command)
                 , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
-        }             
-        
-        public virtual async Task<TReturn> QueryFirstAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+        }
+
+        public virtual async Task<TReturn> QueryFirstAsync<TReturn>(CommandDefinition command,
+            bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QueryFirstAsync<TReturn>(command)
                 , command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache);
-        }        
-        
-        public virtual async Task<List<TReturn>> QueryAsync<TReturn>(CommandDefinition command, bool? enableCache = default,
+        }
+
+        public virtual async Task<List<TReturn>> QueryAsync<TReturn>(CommandDefinition command,
+            bool? enableCache = default,
             TimeSpan? cacheExpire = default, string cacheKey = default, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
@@ -60,7 +65,7 @@ namespace Dapper.Extensions
             return await CommandExecuteAsync(enableCache,
                 async () => (await Conn.Value.QueryAsync<TReturn>(sql, param, Transaction, commandTimeout, commandType))
                     .ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache
-                    , cancellationToken: cancellationToken);
+                , cancellationToken: cancellationToken);
         }
 
         public virtual async Task<List<TReturn>> QueryAsync<TReturn>(SQLName name, object param = null,
@@ -82,14 +87,17 @@ namespace Dapper.Extensions
             return await CommandExecuteAsync(enableCache,
                 async () => (await Conn.Value.QueryAsync(sql, map, param, Transaction, buffered, splitOn,
                     commandTimeout, commandType)).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache
-                    , cancellationToken: cancellationToken);
+                , cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TReturn> map, string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(CommandDefinition command,
+            Func<TFirst, TSecond, TReturn> map, string splitOn = "Id", bool? enableCache = null,
+            TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-               async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache
-                   , cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache
+                , cancellationToken: command.CancellationToken);
         }
 
         public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TReturn>(SQLName name,
@@ -115,10 +123,14 @@ namespace Dapper.Extensions
         }
 
 
-        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TReturn> map, string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(CommandDefinition command,
+            Func<TFirst, TSecond, TThird, TReturn> map, string splitOn = "Id", bool? enableCache = null,
+            TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-               async () => (await Conn.Value.QueryAsync(command, map,  splitOn)).ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
         public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TReturn>(SQLName name,
@@ -144,11 +156,15 @@ namespace Dapper.Extensions
                 cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(
+            CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, string splitOn = "Id",
+            bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null,
+            bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-               async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
-               cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
         public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TReturn>(SQLName name,
@@ -175,10 +191,15 @@ namespace Dapper.Extensions
                 forceUpdateCache, cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map, string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(
+            CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TReturn> map,
+            string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null,
+            bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
         public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TReturn>(
@@ -202,16 +223,20 @@ namespace Dapper.Extensions
             return await CommandExecuteAsync(enableCache,
                 async () => (await Conn.Value.QueryAsync(sql, map, param, Transaction, buffered, splitOn,
                     commandTimeout, commandType)).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache
-                    , cancellationToken: cancellationToken);
+                , cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(
+            CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map,
+            string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null,
+            bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-               async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
-       
 
         public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(
             SQLName name, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, object param = null,
@@ -234,14 +259,21 @@ namespace Dapper.Extensions
             return await CommandExecuteAsync(enableCache,
                 async () => (await Conn.Value.QueryAsync(sql, map, param, Transaction, buffered, splitOn,
                     commandTimeout, commandType)).ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache
-                    , cancellationToken: cancellationToken);
+                , cancellationToken: cancellationToken);
         }
-        public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(CommandDefinition command, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string splitOn = "Id", bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+
+        public virtual async Task<List<TReturn>>
+            QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(CommandDefinition command,
+                Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string splitOn = "Id",
+                bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null,
+                bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache
-                    , cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command, map, splitOn)).ToList(), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache
+                , cancellationToken: command.CancellationToken);
         }
+
         public virtual async Task<List<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh,
             TReturn>(SQLName name, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map,
             object param = null, string splitOn = "Id", int? commandTimeout = null, bool? enableCache = default,
@@ -255,18 +287,22 @@ namespace Dapper.Extensions
 
         public virtual async Task<List<dynamic>> QueryAsync(string sql, object param = null, int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
-            bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default)
+            bool forceUpdateCache = false, CommandType? commandType = null,
+            CancellationToken cancellationToken = default)
         {
             return await CommandExecuteAsync(enableCache,
                 async () => (await Conn.Value.QueryAsync(sql, param, Transaction, commandTimeout, commandType))
-                    .ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
+                    .ToList(), sql, param, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<List<dynamic>> QueryAsync(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<List<dynamic>> QueryAsync(CommandDefinition command, bool? enableCache = null,
+            TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-               async () => (await Conn.Value.QueryAsync(command))
-                   .ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                async () => (await Conn.Value.QueryAsync(command))
+                    .ToList(), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
         public virtual async Task<List<dynamic>> QueryAsync(SQLName name, object param = null,
@@ -286,13 +322,15 @@ namespace Dapper.Extensions
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QueryFirstOrDefaultAsync<TReturn>(sql, param, Transaction, commandTimeout,
-                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
+                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: cancellationToken);
         }
 
         public virtual async Task<TReturn> QueryFirstOrDefaultAsync<TReturn>(SQLName name, object param = null,
             int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
-            bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default)
+            bool forceUpdateCache = false, CommandType? commandType = null,
+            CancellationToken cancellationToken = default)
         {
             return await QueryFirstOrDefaultAsync<TReturn>(GetSQL(name), param, commandTimeout, enableCache,
                 cacheExpire, cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
@@ -306,21 +344,24 @@ namespace Dapper.Extensions
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QueryFirstOrDefaultAsync(sql, param, Transaction, commandTimeout,
-                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
+                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<dynamic> QueryFirstOrDefaultAsync(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<dynamic> QueryFirstOrDefaultAsync(CommandDefinition command, bool? enableCache = null,
+            TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-                 async () => await Conn.Value.QueryFirstOrDefaultAsync(command), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                async () => await Conn.Value.QueryFirstOrDefaultAsync(command), command.CommandText, command.Parameters,
+                cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
         }
 
-        
 
         public virtual async Task<dynamic> QueryFirstOrDefaultAsync(SQLName name, object param = null,
             int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
-            bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default)
+            bool forceUpdateCache = false, CommandType? commandType = null,
+            CancellationToken cancellationToken = default)
         {
             return await QueryFirstOrDefaultAsync(GetSQL(name), param, commandTimeout, enableCache, cacheExpire,
                 cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
@@ -334,19 +375,25 @@ namespace Dapper.Extensions
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QuerySingleOrDefaultAsync(sql, param, Transaction, commandTimeout,
-                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
+                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<dynamic> QuerySingleOrDefaultAsync(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<dynamic> QuerySingleOrDefaultAsync(CommandDefinition command,
+            bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null,
+            bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache,
-                async () => await Conn.Value.QuerySingleOrDefaultAsync(command), command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                async () => await Conn.Value.QuerySingleOrDefaultAsync(command), command.CommandText,
+                command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
         public virtual async Task<dynamic> QuerySingleOrDefaultAsync(SQLName name, object param = null,
             int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
-            bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default)
+            bool forceUpdateCache = false, CommandType? commandType = null,
+            CancellationToken cancellationToken = default)
         {
             return await QuerySingleOrDefaultAsync(GetSQL(name), param, commandTimeout, enableCache, cacheExpire,
                 cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
@@ -360,13 +407,15 @@ namespace Dapper.Extensions
         {
             return await CommandExecuteAsync(enableCache,
                 async () => await Conn.Value.QuerySingleOrDefaultAsync<TReturn>(sql, param, Transaction, commandTimeout,
-                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
+                    commandType), sql, param, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: cancellationToken);
         }
 
         public virtual async Task<TReturn> QuerySingleOrDefaultAsync<TReturn>(SQLName name, object param = null,
             int? commandTimeout = null,
             bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
-            bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default)
+            bool forceUpdateCache = false, CommandType? commandType = null,
+            CancellationToken cancellationToken = default)
         {
             return await QuerySingleOrDefaultAsync<TReturn>(GetSQL(name), param, commandTimeout, enableCache,
                 cacheExpire, cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
@@ -395,7 +444,6 @@ namespace Dapper.Extensions
             reader(multi);
         }
 
- 
 
         public virtual async Task QueryMultipleAsync(SQLName name, Action<SqlMapper.GridReader> reader,
             object param = null, int? commandTimeout = null,
@@ -424,22 +472,24 @@ namespace Dapper.Extensions
             }, sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2)> QueryMultipleAsync<TReturn1, TReturn2>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2)>
+            QueryMultipleAsync<TReturn1, TReturn2>(CommandDefinition command, bool? enableCache = null,
+                TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache, async () =>
-            {
+                {
 #if NET5_0_OR_GREATER
-                await using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    await using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #else
                 using var multi =
                     await Conn.Value.QueryMultipleAsync(command);
 #endif
-                return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList());
-            }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                    return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList());
+                }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
-       
 
         public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2)>
             QueryMultipleAsync<TReturn1, TReturn2>(SQLName name, object param = null, int? commandTimeout = null,
@@ -472,31 +522,36 @@ namespace Dapper.Extensions
             }, sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)>
+            QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(CommandDefinition command, bool? enableCache = null,
+                TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache, async () =>
-            {
+                {
 #if NET5_0_OR_GREATER
-                await using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    await using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #else
                 using var multi =
                     await Conn.Value.QueryMultipleAsync(command);
 #endif
-                return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
-                    (await multi.ReadAsync<TReturn3>()).ToList());
-            }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                    return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
+                        (await multi.ReadAsync<TReturn3>()).ToList());
+                }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
-       
+
         public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3)>
             QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(SQLName name, object param = null,
                 int? commandTimeout = null,
                 bool? enableCache = default, TimeSpan? cacheExpire = default, string cacheKey = default,
-                bool forceUpdateCache = false, CommandType? commandType = null, CancellationToken cancellationToken = default)
+                bool forceUpdateCache = false, CommandType? commandType = null,
+                CancellationToken cancellationToken = default)
         {
             return await QueryMultipleAsync<TReturn1, TReturn2, TReturn3>(GetSQL(name), param, commandTimeout,
-                enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
+                enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType,
+                cancellationToken: cancellationToken);
         }
 
         public virtual async
@@ -520,23 +575,27 @@ namespace Dapper.Extensions
             }, sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async
+            Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)>
+            QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4>(CommandDefinition command,
+                bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null,
+                bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache, async () =>
-            {
+                {
 #if NET5_0_OR_GREATER
-                await using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    await using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #else
                 using var multi =
                     await Conn.Value.QueryMultipleAsync(command);
 #endif
-                return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
-                    (await multi.ReadAsync<TReturn3>()).ToList(), (await multi.ReadAsync<TReturn4>()).ToList());
-            }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                    return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
+                        (await multi.ReadAsync<TReturn3>()).ToList(), (await multi.ReadAsync<TReturn4>()).ToList());
+                }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
-       
 
         public virtual async
             Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4)>
@@ -546,7 +605,8 @@ namespace Dapper.Extensions
                 CommandType? commandType = null, CancellationToken cancellationToken = default)
         {
             return await QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4>(GetSQL(name), param, commandTimeout,
-                enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
+                enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType,
+                cancellationToken: cancellationToken);
         }
 
         public virtual async
@@ -573,21 +633,26 @@ namespace Dapper.Extensions
             }, sql, param, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: cancellationToken);
         }
 
-        public virtual async Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4, List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null, string cacheKey = null, bool forceUpdateCache = false)
+        public virtual async
+            Task<(List<TReturn1> Result1, List<TReturn2> Result2, List<TReturn3> Result3, List<TReturn4> Result4,
+                List<TReturn5> Result5)> QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(
+                CommandDefinition command, bool? enableCache = null, TimeSpan? cacheExpire = null,
+                string cacheKey = null, bool forceUpdateCache = false)
         {
             return await CommandExecuteAsync(enableCache, async () =>
-            {
+                {
 #if NET5_0_OR_GREATER
-                await using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    await using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #else
                 using var multi =
                     await Conn.Value.QueryMultipleAsync(command);
 #endif
-                return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
-                    (await multi.ReadAsync<TReturn3>()).ToList(), (await multi.ReadAsync<TReturn4>()).ToList(),
-                    (await multi.ReadAsync<TReturn5>()).ToList());
-            }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache, cancellationToken: command.CancellationToken);
+                    return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
+                        (await multi.ReadAsync<TReturn3>()).ToList(), (await multi.ReadAsync<TReturn4>()).ToList(),
+                        (await multi.ReadAsync<TReturn5>()).ToList());
+                }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
+                cancellationToken: command.CancellationToken);
         }
 
         public virtual async
@@ -599,7 +664,8 @@ namespace Dapper.Extensions
                 CommandType? commandType = null, CancellationToken cancellationToken = default)
         {
             return await QueryMultipleAsync<TReturn1, TReturn2, TReturn3, TReturn4, TReturn5>(GetSQL(name), param,
-                commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType, cancellationToken: cancellationToken);
+                commandTimeout, enableCache, cacheExpire, cacheKey, forceUpdateCache, commandType,
+                cancellationToken: cancellationToken);
         }
 
         public virtual async Task<IDataReader> ExecuteReaderAsync(string sql, object param = null,
@@ -655,7 +721,7 @@ namespace Dapper.Extensions
                     TotalCount = count,
                     Page = pageindex,
                     PageSize = pageSize,
-                    Contents = data
+                    Result = data
                 };
                 result.TotalPage = result.TotalCount % pageSize == 0
                     ? result.TotalCount / pageSize
@@ -699,7 +765,8 @@ namespace Dapper.Extensions
 
             return await CommandExecuteAsync(enableCache,
                 async () => (await Conn.Value.QueryAsync<TReturn>(sql, pars, Transaction, commandTimeout)).ToList(),
-                sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize, cancellationToken: cancellationToken);
+                sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize,
+                cancellationToken: cancellationToken);
         }
 
 
@@ -734,28 +801,29 @@ namespace Dapper.Extensions
             });
             var sql = $"{countSql}{(countSql.EndsWith(";") ? "" : ";")}{dataSql}";
             return await CommandExecuteAsync(enableCache, async () =>
-            {
+                {
 #if NET5_0_OR_GREATER
-                await using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
+                    await using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
 #else
                 using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
 #endif
-                var count = await multi.ReadSingleOrDefaultAsync<long>();
-                var data = (await multi.ReadAsync()).ToList();
-                var result = new PageResult<dynamic>
-                {
-                    TotalCount = count,
-                    Page = pageindex,
-                    PageSize = pageSize,
-                    Contents = data
-                };
-                result.TotalPage = result.TotalCount % pageSize == 0
-                    ? result.TotalCount / pageSize
-                    : result.TotalCount / pageSize + 1;
-                if (result.Page > result.TotalPage)
-                    result.Page = result.TotalPage;
-                return result;
-            }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize, cancellationToken: cancellationToken);
+                    var count = await multi.ReadSingleOrDefaultAsync<long>();
+                    var data = (await multi.ReadAsync()).ToList();
+                    var result = new PageResult<dynamic>
+                    {
+                        TotalCount = count,
+                        Page = pageindex,
+                        PageSize = pageSize,
+                        Result = data
+                    };
+                    result.TotalPage = result.TotalCount % pageSize == 0
+                        ? result.TotalCount / pageSize
+                        : result.TotalCount / pageSize + 1;
+                    if (result.Page > result.TotalPage)
+                        result.Page = result.TotalPage;
+                    return result;
+                }, sql, pars, cacheKey, cacheExpire, forceUpdateCache, pageindex, pageSize,
+                cancellationToken: cancellationToken);
         }
 
         public virtual async Task<PageResult<dynamic>> QueryPageAsync(SQLName name, int pageindex, int pageSize,
@@ -817,7 +885,7 @@ namespace Dapper.Extensions
             return await Conn.Value.ExecuteAsync(command);
         }
 
-      
+
         public virtual async Task<int> ExecuteAsync(SQLName name, object param = null, int? commandTimeout = null,
             CommandType? commandType = null)
         {
