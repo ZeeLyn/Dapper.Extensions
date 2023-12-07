@@ -10,9 +10,10 @@
     <Authors>Owen</Authors>
     <Version>5.0.0</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageId>Dapper.Extensions.Oracle</PackageId>
+    <PackageId>ZeeLyn.Dapper.Extensions.Oracle</PackageId>
     <Product>Dapper.Extensions.Oracle</Product>
     <LangVersion>latest</LangVersion>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

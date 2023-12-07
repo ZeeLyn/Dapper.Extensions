@@ -23,18 +23,18 @@ A dapper extension library.
 
 # Packages & Status
 
-| Packages                         | NuGet                                                                                                                                               |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dapper.Extensions.NetCore        | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)               |
-| Dapper.Extensions.MySQL          | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySQL)](https://www.nuget.org/packages/Dapper.Extensions.MySQL)                   |
-| Dapper.Extensions.MSSQL          | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/Dapper.Extensions.MSSQL)                   |
-| Dapper.Extensions.PostgreSQL     | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSQL)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSQL)         |
-| Dapper.Extensions.ODBC           | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.ODBC)](https://www.nuget.org/packages/Dapper.Extensions.ODBC)                     |
-| Dapper.Extensions.SQLite         | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)                 |
-| Dapper.Extensions.Oracle         | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Oracle)](https://www.nuget.org/packages/Dapper.Extensions.Oracle)                 |
-| Dapper.Extensions.Caching.Redis  | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)   |
-| Dapper.Extensions.Caching.Memory | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory) |
-| Dapper.Extensions.MiniProfiler   | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MiniProfiler)](https://www.nuget.org/packages/Dapper.Extensions.MiniProfiler)     |
+| Packages                         | NuGet                                                                                                                                               |Note|
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |---|
+| Dapper.Extensions.NetCore        | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.NetCore)](https://www.nuget.org/packages/Dapper.Extensions.NetCore)               ||
+| Dapper.Extensions.MySQL          | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MySQL)](https://www.nuget.org/packages/Dapper.Extensions.MySQL)                   ||
+| Dapper.Extensions.MSSQL          | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MSSQL)](https://www.nuget.org/packages/Dapper.Extensions.MSSQL)                   ||
+| Dapper.Extensions.PostgreSQL     | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.PostgreSQL)](https://www.nuget.org/packages/Dapper.Extensions.PostgreSQL)         ||
+| Dapper.Extensions.ODBC           | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.ODBC)](https://www.nuget.org/packages/Dapper.Extensions.ODBC)                     ||
+| Dapper.Extensions.SQLite         | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.SQLite)](https://www.nuget.org/packages/Dapper.Extensions.SQLite)                 ||
+| ZeeLyn.Dapper.Extensions.Oracle         | [![NuGet package](https://buildstats.info/nuget/ZeeLyn.Dapper.Extensions.Oracle)](https://www.nuget.org/packages/ZeeLyn.Dapper.Extensions.Oracle)                 |Nuget does not allow me to use Dapper.Extensions as the package ID of the prefix, so ......|
+| Dapper.Extensions.Caching.Redis  | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Redis)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Redis)   ||
+| Dapper.Extensions.Caching.Memory | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.Caching.Memory)](https://www.nuget.org/packages/Dapper.Extensions.Caching.Memory) ||
+| Dapper.Extensions.MiniProfiler   | [![NuGet package](https://buildstats.info/nuget/Dapper.Extensions.MiniProfiler)](https://www.nuget.org/packages/Dapper.Extensions.MiniProfiler)     ||
 
 # Database connection string configuration
 
