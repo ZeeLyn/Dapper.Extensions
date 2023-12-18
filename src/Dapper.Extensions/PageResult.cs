@@ -38,6 +38,6 @@ namespace Dapper.Extensions
         /// 内容数组
         /// </summary>
         [Obsolete("Please use Result")]
-        public List<T> Contents => Result;
+        public List<T> Contents { get; set; }
     }
 }
