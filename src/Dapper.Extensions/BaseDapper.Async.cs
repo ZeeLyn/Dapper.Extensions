@@ -721,7 +721,8 @@ namespace Dapper.Extensions
                     TotalCount = count,
                     Page = pageindex,
                     PageSize = pageSize,
-                    Result = data
+                    Result = data,
+                    Contents = data
                 };
                 result.TotalPage = result.TotalCount % pageSize == 0
                     ? result.TotalCount / pageSize
@@ -814,7 +815,8 @@ namespace Dapper.Extensions
                         TotalCount = count,
                         Page = pageindex,
                         PageSize = pageSize,
-                        Result = data
+                        Result = data,
+                        Contents = data
                     };
                     result.TotalPage = result.TotalCount % pageSize == 0
                         ? result.TotalCount / pageSize
