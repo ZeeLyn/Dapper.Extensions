@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections;
+using Newtonsoft.Json;
 
 namespace Dapper.Extensions.Caching
 {
@@ -12,7 +14,8 @@ namespace Dapper.Extensions.Caching
     {
         private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ParamProperties = new();
 
-        private static readonly char[] Digitals = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        private static readonly char[] Digitals =
+            { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
         private CacheConfiguration CacheConfiguration { get; }
 
@@ -22,10 +25,13 @@ namespace Dapper.Extensions.Caching
         {
             CacheConfiguration = configuration;
         }
-        public string Generate(string sql, object param, string customKey, int? pageIndex = default, int? pageSize = default)
+
+        public string Generate(string sql, object param, string customKey, int? pageIndex = default,
+            int? pageSize = default)
         {
             if (!string.IsNullOrWhiteSpace(customKey))
-                return $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{customKey}";
+                return
+                    $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{customKey}";
 
             if (string.IsNullOrWhiteSpace(sql))
                 throw new ArgumentNullException(nameof(sql));
@@ -34,30 +40,48 @@ namespace Dapper.Extensions.Caching
             builder.AppendFormat("{0}:", sql);
 
             if (param == null)
-                return $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{HashCacheKey(builder.ToString().TrimEnd(':'))}";
+                return
+                    $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{HashCacheKey(builder.ToString().TrimEnd(':'))}";
 
-            var prop = GetProperties(param);
-            foreach (var item in prop)
+            if (param.GetType().FullName == "Dapper.DynamicParameters")
             {
-                builder.AppendFormat("{0}={1}&", item.Name, item.GetValue(param));
+                if (param is DynamicParameters dynamicParameters)
+                    foreach (var paramName in dynamicParameters.ParameterNames)
+                    {
+                        var value = dynamicParameters.Get<object>(paramName);
+                        builder.AppendFormat("{0}={1}&", paramName,
+                            value is IEnumerable ? JsonConvert.SerializeObject(value) : value);
+                    }
             }
+            else
+            {
+                var prop = GetProperties(param);
+                foreach (var item in prop)
+                {
+                    var value = item.GetValue(param);
+                    builder.AppendFormat("{0}={1}&", item.Name,
+                        value is IEnumerable ? JsonConvert.SerializeObject(value) : value);
+                }
+            }
+
             if (pageIndex.HasValue)
             {
                 builder.AppendFormat("pageindex={0}&", pageIndex.Value);
             }
+
             if (pageSize.HasValue)
             {
                 builder.AppendFormat("pagesize={0}&", pageSize.Value);
             }
-            return $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{HashCacheKey(builder.ToString().TrimEnd('&'))}";
+
+            return
+                $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{HashCacheKey(builder.ToString().TrimEnd('&'))}";
         }
 
         private static IEnumerable<PropertyInfo> GetProperties(object param)
         {
-            return ParamProperties.GetOrAdd(param.GetType(), key =>
-            {
-                return key.GetProperties().Where(p => p.CanRead).ToList();
-            });
+            return ParamProperties.GetOrAdd(param.GetType(),
+                key => { return key.GetProperties().Where(p => p.CanRead).ToList(); });
         }
 
         private static string HashCacheKey(string source)
@@ -78,9 +102,12 @@ namespace Dapper.Extensions.Caching
             var index = 0;
             foreach (var item in bytes)
             {
-                chars[index] = Digitals[item >> 4/* byte high */]; ++index;
-                chars[index] = Digitals[item & 15/* byte low  */]; ++index;
+                chars[index] = Digitals[item >> 4 /* byte high */];
+                ++index;
+                chars[index] = Digitals[item & 15 /* byte low  */];
+                ++index;
             }
+
             return new string(chars);
         }
 

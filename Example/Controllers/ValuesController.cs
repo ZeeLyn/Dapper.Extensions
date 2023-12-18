@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dapper.Extensions;
+using Dapper.Extensions.Caching;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Dapper;
+using Newtonsoft.Json;
+using System.Collections;
 
 namespace Example.Controllers
 {
@@ -25,7 +30,8 @@ namespace Example.Controllers
 
 
         public ValuesController(IResolveContext context, [DependencyDapper("master_slave")] IDapper writer,
-            [DependencyDapper("master_slave", true)] IDapper reader)
+            [DependencyDapper("master_slave", true)]
+            IDapper reader)
         {
             MasterReader = reader;
             MasterWriter = writer;

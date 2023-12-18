@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <Version>5.0.1</Version>
+    <Version>5.0.2</Version>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
