@@ -39,7 +39,10 @@ namespace Dapper.Extensions
 
         private IConnectionStringProvider ConnectionStringProvider { get; }
 
-        private static readonly Lazy<SemaphoreSlim> SemaphoreSlim = new(() => new SemaphoreSlim(1, 1));
+        private CacheConcurrencyConfig CacheConcurrencyConfig { get; }
+
+        private SemaphoreSlim SemaphoreSlim { get; }
+
 
         protected ILogger Logger { get; }
 
@@ -57,6 +60,8 @@ namespace Dapper.Extensions
             {
                 Cache = serviceProvider.GetRequiredService<ICacheProvider>();
                 CacheKeyBuilder = serviceProvider.GetRequiredService<ICacheKeyBuilder>();
+                CacheConcurrencyConfig = serviceProvider.GetRequiredService<CacheConcurrencyConfig>();
+                SemaphoreSlim = serviceProvider.GetRequiredService<CacheSemaphoreSlim>().SemaphoreSlim;
             }
 
             DbMiniProfiler = serviceProvider.GetService<IDbMiniProfiler>();
@@ -634,7 +639,7 @@ namespace Dapper.Extensions
             }
 
             Logger.LogDebug("The cache does not exist, acquire a lock, queue to query data from the database.");
-            var got = SemaphoreSlim.Value.Wait(TimeSpan.FromSeconds(5));
+            var got = SemaphoreSlim.Wait(TimeSpan.FromSeconds(CacheConcurrencyConfig.AcquireLockTimeout));
             if (!got)
                 throw new DapperCacheException("Failed to acquire the lock");
             try
@@ -660,7 +665,7 @@ namespace Dapper.Extensions
             finally
             {
                 Logger.LogDebug("Release lock.");
-                SemaphoreSlim.Value.Release();
+                SemaphoreSlim.Release();
             }
         }
 

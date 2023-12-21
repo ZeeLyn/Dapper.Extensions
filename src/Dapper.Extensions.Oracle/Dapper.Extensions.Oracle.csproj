@@ -8,7 +8,7 @@
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
     <Authors>Owen</Authors>
-    <Version>5.1.0</Version>
+    <Version>5.1.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>ZeeLyn.Dapper.Extensions.Oracle</PackageId>
     <Product>Dapper.Extensions.Oracle</Product>

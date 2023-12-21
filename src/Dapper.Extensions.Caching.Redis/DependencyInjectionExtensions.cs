@@ -2,13 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using FreeRedis;
+using System.Threading;
 
 
 namespace Dapper.Extensions.Caching.Redis
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddDapperCachingInRedis(this IServiceCollection service, CacheConfiguration config, RedisClient client)
+        public static IServiceCollection AddDapperCachingInRedis(this IServiceCollection service,
+            CacheConfiguration config, RedisClient client, int maxConcurrent = 1, int acquireLockTimeoutSeconds = 5)
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -24,10 +26,17 @@ namespace Dapper.Extensions.Caching.Redis
             service.AddSingleton(client);
             service.AddSingleton<ICacheProvider, RedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
+            service.AddSingleton(new CacheConcurrencyConfig
+            {
+                MaxConcurrent = maxConcurrent,
+                AcquireLockTimeout = acquireLockTimeoutSeconds
+            });
+            service.AddSingleton(new CacheSemaphoreSlim(maxConcurrent));
             return service;
         }
 
-        public static IServiceCollection AddDapperCachingInRedis(this IServiceCollection service, RedisConfiguration config)
+        public static IServiceCollection AddDapperCachingInRedis(this IServiceCollection service,
+            RedisConfiguration config, int maxConcurrent = 1, int acquireLockTimeoutSeconds = 5)
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -36,10 +45,12 @@ namespace Dapper.Extensions.Caching.Redis
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire,
                 KeyPrefix = config.KeyPrefix
-            }, new RedisClient(config.ConnectionString));
+            }, new RedisClient(config.ConnectionString), maxConcurrent, acquireLockTimeoutSeconds);
         }
 
-        public static IServiceCollection AddDapperCachingInRedis<TCacheKeyBuilder>(this IServiceCollection service, RedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
+        public static IServiceCollection AddDapperCachingInRedis<TCacheKeyBuilder>(this IServiceCollection service,
+            RedisConfiguration config, int maxConcurrent = 1, int acquireLockTimeoutSeconds = 5)
+            where TCacheKeyBuilder : ICacheKeyBuilder
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -49,10 +60,11 @@ namespace Dapper.Extensions.Caching.Redis
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire,
                 KeyPrefix = config.KeyPrefix
-            }, new RedisClient(config.ConnectionString));
+            }, new RedisClient(config.ConnectionString), maxConcurrent, acquireLockTimeoutSeconds);
         }
 
-        public static IServiceCollection AddDapperCachingInPartitionRedis(this IServiceCollection service, PartitionRedisConfiguration config)
+        public static IServiceCollection AddDapperCachingInPartitionRedis(this IServiceCollection service,
+            PartitionRedisConfiguration config, int maxConcurrent = 1, int acquireLockTimeoutSeconds = 5)
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -66,14 +78,24 @@ namespace Dapper.Extensions.Caching.Redis
                 KeyPrefix = config.KeyPrefix
             });
             service.AddSingleton(config.PartitionPolicy != null
-                ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), config.PartitionPolicy)
+                ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),
+                    config.PartitionPolicy)
                 : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null));
             service.AddSingleton<ICacheProvider, RedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
+            service.AddSingleton(new CacheConcurrencyConfig
+            {
+                MaxConcurrent = maxConcurrent,
+                AcquireLockTimeout = acquireLockTimeoutSeconds
+            });
+            service.AddSingleton(new CacheSemaphoreSlim(maxConcurrent));
             return service;
         }
 
-        public static IServiceCollection AddDapperCachingInPartitionRedis<TCacheKeyBuilder>(this IServiceCollection service, PartitionRedisConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
+        public static IServiceCollection AddDapperCachingInPartitionRedis<TCacheKeyBuilder>(
+            this IServiceCollection service, PartitionRedisConfiguration config, int maxConcurrent = 1,
+            int acquireLockTimeoutSeconds = 5)
+            where TCacheKeyBuilder : ICacheKeyBuilder
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -87,10 +109,17 @@ namespace Dapper.Extensions.Caching.Redis
                 KeyPrefix = config.KeyPrefix
             });
             service.AddSingleton(config.PartitionPolicy != null
-                ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), config.PartitionPolicy)
+                ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),
+                    config.PartitionPolicy)
                 : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null));
             service.AddSingleton<ICacheProvider, RedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
+            service.AddSingleton(new CacheConcurrencyConfig
+            {
+                MaxConcurrent = maxConcurrent,
+                AcquireLockTimeout = acquireLockTimeoutSeconds
+            });
+            service.AddSingleton(new CacheSemaphoreSlim(maxConcurrent));
             return service;
         }
     }

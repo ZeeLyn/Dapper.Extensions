@@ -80,11 +80,11 @@ namespace Example
             //    Connections = new[] { "localhost:6379,password=nihao123,defaultDatabase=1", "localhost:6379,password=nihao123,defaultDatabase=2" }
             //});
 
-            services.AddDapperCachingInMemory(new MemoryConfiguration
-            {
-                AllMethodsEnableCache = false,
-                Expire = TimeSpan.FromHours(1)
-            });
+            //services.AddDapperCachingInMemory(new MemoryConfiguration
+            //{
+            //    AllMethodsEnableCache = false,
+            //    Expire = TimeSpan.FromHours(1)
+            //});
 
             #endregion
 

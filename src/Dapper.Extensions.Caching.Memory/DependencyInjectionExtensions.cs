@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dapper.Extensions.Caching.Memory
 {
     public static class DependencyInjectionExtensions
     {
-        public static IServiceCollection AddDapperCachingInMemory(this IServiceCollection service, MemoryConfiguration config)
+        public static IServiceCollection AddDapperCachingInMemory(this IServiceCollection service,
+            MemoryConfiguration config, int maxConcurrent = 1, int acquireLockTimeoutSeconds = 5)
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -14,14 +16,22 @@ namespace Dapper.Extensions.Caching.Memory
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire,
-                KeyPrefix= config.KeyPrefix
+                KeyPrefix = config.KeyPrefix
             });
             service.AddMemoryCache();
             service.AddSingleton<ICacheProvider, MemoryCacheProvider>();
+            service.AddSingleton(new CacheConcurrencyConfig
+            {
+                MaxConcurrent = maxConcurrent,
+                AcquireLockTimeout = acquireLockTimeoutSeconds
+            });
+            service.AddSingleton(new CacheSemaphoreSlim(maxConcurrent));
             return service;
         }
 
-        public static IServiceCollection AddDapperCachingInMemory<TCacheKeyBuilder>(this IServiceCollection service, MemoryConfiguration config) where TCacheKeyBuilder : ICacheKeyBuilder
+        public static IServiceCollection AddDapperCachingInMemory<TCacheKeyBuilder>(this IServiceCollection service,
+            MemoryConfiguration config, int maxConcurrent = 1, int acquireLockTimeoutSeconds = 5)
+            where TCacheKeyBuilder : ICacheKeyBuilder
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
@@ -30,10 +40,16 @@ namespace Dapper.Extensions.Caching.Memory
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
                 Expire = config.Expire,
-                KeyPrefix= config.KeyPrefix
+                KeyPrefix = config.KeyPrefix
             });
             service.AddMemoryCache();
             service.AddSingleton<ICacheProvider, MemoryCacheProvider>();
+            service.AddSingleton(new CacheConcurrencyConfig
+            {
+                MaxConcurrent = maxConcurrent,
+                AcquireLockTimeout = acquireLockTimeoutSeconds
+            });
+            service.AddSingleton(new CacheSemaphoreSlim(maxConcurrent));
             return service;
         }
     }
