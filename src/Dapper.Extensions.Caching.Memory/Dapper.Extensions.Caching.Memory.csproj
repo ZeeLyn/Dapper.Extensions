@@ -7,7 +7,7 @@
     <PackageId>Dapper.Extensions.Caching.Memory</PackageId>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
     <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
-    <Version>5.1.2</Version>
+    <Version>5.1.3</Version>
     <Authors>Owen</Authors>
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
