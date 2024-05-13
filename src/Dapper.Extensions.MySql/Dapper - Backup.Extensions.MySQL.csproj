@@ -2,21 +2,22 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-    <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
     <Authors>Owen</Authors>
+    <Company>Owen</Company>
     <Version>5.1.4</Version>
+    <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageId>Dapper.Extensions.ODBC</PackageId>
-    <Product>Dapper.Extensions.ODBC</Product>
+    <PackageId>Dapper.Extensions.MySQL</PackageId>
+    <Product>Dapper.Extensions.MySQL</Product>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.Odbc" Version="8.0.0" />
+    <PackageReference Include="MySqlConnector" Version="2.3.4" />
   </ItemGroup>
 
   <ItemGroup>

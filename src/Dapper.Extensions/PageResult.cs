@@ -30,12 +30,13 @@ namespace Dapper.Extensions
         /// </summary>
         public long TotalPage { get; set; }
 
-
+        /// <summary>
+        /// 结果集
+        /// </summary>
         public List<T> Result { get; set; }
 
-
         /// <summary>
-        /// 内容数组
+        /// 内容数组，已启用，请使用<typeparamref name="Result">Result</typeparamref>
         /// </summary>
         [Obsolete("Please use Result")]
         public List<T> Contents { get; set; }

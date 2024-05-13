@@ -75,7 +75,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterInstance(config.PartitionPolicy != null
                     ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),
                         config.PartitionPolicy)
-                    : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null))
+                    : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),redirectRule: null))
                 .SingleInstance();
 
             service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
@@ -107,7 +107,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.RegisterInstance(config.PartitionPolicy != null
                     ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),
                         config.PartitionPolicy)
-                    : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null))
+                    : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), redirectRule: null))
                 .SingleInstance();
             service.RegisterType<RedisCacheProvider>().As<ICacheProvider>().SingleInstance();
             service.RegisterType<DataSerializer>().As<IDataSerializer>().SingleInstance();

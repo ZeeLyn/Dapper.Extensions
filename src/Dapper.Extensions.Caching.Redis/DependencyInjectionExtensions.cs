@@ -80,7 +80,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.AddSingleton(config.PartitionPolicy != null
                 ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),
                     config.PartitionPolicy)
-                : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null));
+                : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), redirectRule: null));
             service.AddSingleton<ICacheProvider, RedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
             service.AddSingleton(new CacheConcurrencyConfig
@@ -111,7 +111,7 @@ namespace Dapper.Extensions.Caching.Redis
             service.AddSingleton(config.PartitionPolicy != null
                 ? new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(),
                     config.PartitionPolicy)
-                : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), null));
+                : new RedisClient(config.Connections.Select(ConnectionStringBuilder.Parse).ToArray(), redirectRule: null));
             service.AddSingleton<ICacheProvider, RedisCacheProvider>();
             service.AddSingleton<IDataSerializer, DataSerializer>();
             service.AddSingleton(new CacheConcurrencyConfig

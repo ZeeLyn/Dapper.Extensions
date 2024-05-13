@@ -2,20 +2,22 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
-    <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
-    <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
-    <RepositoryUrl></RepositoryUrl>
-    <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>5.1.4</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+    <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
+    <RepositoryUrl />
+    <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
+    <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
+    <Version>5.1.4</Version>
     <Authors>Owen</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>Dapper.Extensions.PostgreSQL</PackageId>
+    <Product>Dapper.Extensions.PostgreSQL</Product>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
+    <PackageReference Include="Npgsql" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>

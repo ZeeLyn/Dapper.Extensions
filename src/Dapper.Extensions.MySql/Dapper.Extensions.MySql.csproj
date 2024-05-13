@@ -8,7 +8,7 @@
     <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
     <Authors>Owen</Authors>
     <Company>Owen</Company>
-    <Version>5.1.3</Version>
+    <Version>5.1.4</Version>
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Dapper.Extensions.MySQL</PackageId>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySqlConnector" Version="2.3.4" />
+    <PackageReference Include="MySqlConnector" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>
