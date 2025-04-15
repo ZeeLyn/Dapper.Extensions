@@ -27,10 +27,9 @@ Documentation: [Learn Dapper - Dapper.Extensions](https://www.learndapper.com/ex
 
 ## ZZZ Projects - Sponsorship
 
-[Entity Framework Extensions](https://entityframework-extensions.net/) and [Dapper Plus](https://dapper-plus.net/) are major sponsors and are proud to contribute to the development of Audit.NET
+[Dapper Plus](https://dapper-plus.net/) and [Entity Framework Extensions](https://entityframework-extensions.net/) are major sponsors and are proud to contribute to the development of Dapper.Extensions
 
-Combine the power of auditing with the speed of Bulk Operations to get the best of both worlds — audit and performance.
+[![Dapper Plus - Sponsor](/blob/master/dapper-plus-sponsor.png?raw=true)](https://dapper-plus.net/bulk-insert)
 
-[![Entity Framework Extensions - Sponsor](https://raw.githubusercontent.com/thepirat000/Audit.NET/master/documents/entity-framework-extensions-sponsor.png)](https://entityframework-extensions.net/bulk-insert)
+[![Entity Framework Extensions - Sponsor](/blob/master/entity-framework-extensions-sponsor.png?raw=true))](https://entityframework-extensions.net/bulk-insert)
 
-[![Dapper Plus - Sponsor](https://raw.githubusercontent.com/thepirat000/Audit.NET/master/documents/dapper-plus-sponsor.png)](https://dapper-plus.net/bulk-insert)
