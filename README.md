@@ -31,6 +31,6 @@ A dapper extension library.
 
 [Dapper Plus](https://dapper-plus.net/) and [Entity Framework Extensions](https://entityframework-extensions.net/) are major sponsors and are proud to contribute to the development of Dapper.Extensions
 
-[![Dapper Plus - Sponsor](https://raw.githubusercontent.com/JonathanMagnan/Dapper.Extensions/master/dapper-plus-sponsor.png)](https://dapper-plus.net/bulk-insert)
+[![Dapper Plus - Sponsor](https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/dapper-plus-sponsor.png)](https://dapper-plus.net/bulk-insert)
 
-[![Entity Framework Extensions - Sponsor](https://raw.githubusercontent.com/JonathanMagnan/Dapper.Extensions/master/entity-framework-extensions-sponsor.png)](https://entityframework-extensions.net/bulk-insert)
+[![Entity Framework Extensions - Sponsor](https://raw.githubusercontent.com/ZeeLyn/Dapper.Extensions/master/entity-framework-extensions-sponsor.png)](https://entityframework-extensions.net/bulk-insert)
