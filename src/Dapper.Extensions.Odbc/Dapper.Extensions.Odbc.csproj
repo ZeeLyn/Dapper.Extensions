@@ -7,16 +7,24 @@
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
-    <Authors>Owen</Authors>
-    <Version>5.3.0</Version>
+    <Authors>ZeeLyn</Authors>
+    <Version>5.3.1</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Dapper.Extensions.ODBC</PackageId>
     <Product>Dapper.Extensions.ODBC</Product>
     <LangVersion>latest</LangVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.Odbc" Version="9.0.3" />
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.Odbc" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>

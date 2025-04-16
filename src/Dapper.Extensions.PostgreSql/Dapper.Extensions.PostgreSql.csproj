@@ -8,23 +8,32 @@
     <RepositoryUrl />
     <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
-    <Version>5.3.0</Version>
-    <Authors>Owen</Authors>
+    <Version>5.3.1</Version>
+    <Authors>ZeeLyn</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Dapper.Extensions.PostgreSQL</PackageId>
     <Product>Dapper.Extensions.PostgreSQL</Product>
     <LangVersion>latest</LangVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net8.0'">
-    <PackageReference Include="Npgsql" Version="9.0.3" />
-  </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'net5.0' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net9.0'">
     <PackageReference Include="Npgsql">
       <Version>8.0.7</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Npgsql" Version="9.0.3" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Dapper.Extensions\Dapper.Extensions.csproj" />
   </ItemGroup>

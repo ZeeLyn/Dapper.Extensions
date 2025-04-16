@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var output = Argument<string>("output", "./Output");
-var version = Argument<string>("version", "5.3.0");
+var version = Argument<string>("version", "5.3.1");
 var target = Argument<string>("target", "Default");
 var release = Argument<bool>("release", true);
 var nugetApiKey = Argument<string>("nugetApiKey", null);
@@ -41,7 +41,7 @@ Task("UpdateVersion").DoesForEach(GetFiles("**/Dapper.Extensions*.csproj"), (fil
    XmlPoke(file, "/Project/PropertyGroup/PackageProjectUrl", "https://github.com/ZeeLyn/Dapper.Extensions");
    XmlPoke(file, "/Project/PropertyGroup/PackageTags", "Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching");
    XmlPoke(file, "/Project/PropertyGroup/icon", "https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png");
-   XmlPoke(file, "/Project/PropertyGroup/Authors", "Owen");
+   XmlPoke(file, "/Project/PropertyGroup/Authors", "ZeeLyn");
    XmlPoke(file, "/Project/PropertyGroup/PackageLicenseExpression", "MIT");
 });
 

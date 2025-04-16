@@ -8,11 +8,19 @@
     <RepositoryUrl></RepositoryUrl>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>5.3.0</Version>
+    <Version>5.3.1</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Authors>Owen</Authors>
+    <Authors>ZeeLyn</Authors>
     <LangVersion>latest</LangVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Data.SQLite" Version="1.0.119" />

@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-    <Version>5.3.0</Version>
-    <Authors>Owen</Authors>
+    <Version>5.3.1</Version>
+    <Authors>ZeeLyn</Authors>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
@@ -11,7 +11,15 @@
     <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <LangVersion>latest</LangVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MiniProfiler.Shared" Version="4.5.4" />
