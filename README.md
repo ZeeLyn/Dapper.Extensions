@@ -1,3 +1,4 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O31DZRRR)
 # Dapper.Extensions
 
 A dapper extension library.
