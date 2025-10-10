@@ -8,7 +8,7 @@
     <RepositoryUrl></RepositoryUrl>
     <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>5.3.1</Version>
+    <Version>5.3.2</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>ZeeLyn</Authors>
     <LangVersion>latest</LangVersion>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
