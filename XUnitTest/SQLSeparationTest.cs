@@ -31,7 +31,7 @@ namespace XUnitTest
 
             var page = Dapper.QueryPage(name: "paging", 1, 20);
             Assert.NotNull(page);
-            Assert.True(page.Contents.Any());
+            Assert.True(page.Result.Any());
         }
     }
 }

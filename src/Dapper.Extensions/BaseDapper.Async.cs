@@ -482,8 +482,8 @@ namespace Dapper.Extensions
                     await using var multi =
                         await Conn.Value.QueryMultipleAsync(command);
 #else
-                using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #endif
                     return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList());
                 }, command.CommandText, command.Parameters, cacheKey, cacheExpire, forceUpdateCache,
@@ -532,8 +532,8 @@ namespace Dapper.Extensions
                     await using var multi =
                         await Conn.Value.QueryMultipleAsync(command);
 #else
-                using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #endif
                     return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
                         (await multi.ReadAsync<TReturn3>()).ToList());
@@ -587,8 +587,8 @@ namespace Dapper.Extensions
                     await using var multi =
                         await Conn.Value.QueryMultipleAsync(command);
 #else
-                using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #endif
                     return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
                         (await multi.ReadAsync<TReturn3>()).ToList(), (await multi.ReadAsync<TReturn4>()).ToList());
@@ -645,8 +645,8 @@ namespace Dapper.Extensions
                     await using var multi =
                         await Conn.Value.QueryMultipleAsync(command);
 #else
-                using var multi =
-                    await Conn.Value.QueryMultipleAsync(command);
+                    using var multi =
+                        await Conn.Value.QueryMultipleAsync(command);
 #endif
                     return ((await multi.ReadAsync<TReturn1>()).ToList(), (await multi.ReadAsync<TReturn2>()).ToList(),
                         (await multi.ReadAsync<TReturn3>()).ToList(), (await multi.ReadAsync<TReturn4>()).ToList(),
@@ -722,7 +722,7 @@ namespace Dapper.Extensions
                     Page = pageindex,
                     PageSize = pageSize,
                     Result = data,
-                    Contents = data
+                    //Contents = data
                 };
                 result.TotalPage = result.TotalCount % pageSize == 0
                     ? result.TotalCount / pageSize
@@ -806,7 +806,7 @@ namespace Dapper.Extensions
 #if NET5_0_OR_GREATER
                     await using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
 #else
-                using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
+                    using var multi = await Conn.Value.QueryMultipleAsync(sql, pars, Transaction, commandTimeout);
 #endif
                     var count = await multi.ReadSingleOrDefaultAsync<long>();
                     var data = (await multi.ReadAsync()).ToList();
@@ -816,7 +816,7 @@ namespace Dapper.Extensions
                         Page = pageindex,
                         PageSize = pageSize,
                         Result = data,
-                        Contents = data
+                        //Contents = data
                     };
                     result.TotalPage = result.TotalCount % pageSize == 0
                         ? result.TotalCount / pageSize

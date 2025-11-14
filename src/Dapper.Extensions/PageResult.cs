@@ -38,7 +38,7 @@ namespace Dapper.Extensions
         /// <summary>
         /// 内容数组，已启用，请使用<typeparamref name="Result">Result</typeparamref>
         /// </summary>
-        [Obsolete("Please use Result")]
-        public List<T> Contents { get; set; }
+        //[Obsolete("Please use Result")]
+        //public List<T> Contents { get; set; }
     }
 }

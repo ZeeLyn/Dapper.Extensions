@@ -199,22 +199,22 @@ namespace XUnitTest
             var result1 = Dapper.QueryPage("select count(*) from contact;",
                 "select * from contact limit @Take OFFSET @Skip;", 1, 1);
             Assert.NotNull(result1);
-            Assert.True(result1.Contents.Count == 1);
+            Assert.True(result1.Result.Count == 1);
 
             var result2 = await Dapper.QueryPageAsync("select count(*) from contact;",
                 "select * from contact limit @Take OFFSET @Skip;", 1, 2);
             Assert.NotNull(result2);
-            Assert.True(result2.Contents.Count == 2);
+            Assert.True(result2.Result.Count == 2);
 
             var result3 = Dapper.QueryPage<Contact>("select count(*) from contact;",
                 "select * from contact limit @Take OFFSET @Skip;", 1, 1);
             Assert.NotNull(result3);
-            Assert.True(result3.Contents.Count == 1);
+            Assert.True(result3.Result.Count == 1);
 
             var result4 = await Dapper.QueryPageAsync<Contact>("select count(*) from contact;",
                 "select * from contact limit @Take OFFSET @Skip;", 1, 2);
             Assert.NotNull(result4);
-            Assert.True(result4.Contents.Count == 2);
+            Assert.True(result4.Result.Count == 2);
 
             var result5 =
                     await Dapper.QueryPlainPageAsync<Contact>("select * from contact limit @Take OFFSET @Skip;", 1, 2)

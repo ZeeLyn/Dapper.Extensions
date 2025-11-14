@@ -1,34 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-    <PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
-    <PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
-    <icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
-    <RepositoryUrl></RepositoryUrl>
-    <Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>5.3.3</Version>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Authors>ZeeLyn</Authors>
-    <LangVersion>latest</LangVersion>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+		<PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
+		<icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
+		<RepositoryUrl></RepositoryUrl>
+		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Version>5.4.0</Version>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<Authors>ZeeLyn</Authors>
+		<LangVersion>latest</LangVersion>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SourceGear.sqlite3" Version="3.50.4.2" />
-    <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SourceGear.sqlite3" Version="3.50.4.5" />
+		<PackageReference Include="System.Data.SQLite" Version="2.0.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Dapper.Extensions\Dapper.Extensions.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Dapper.Extensions\Dapper.Extensions.csproj" />
+	</ItemGroup>
 
 </Project>
