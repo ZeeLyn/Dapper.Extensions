@@ -5,19 +5,23 @@
 		<PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-		<icon>https://raw.githubusercontent.com/DapperLib/Dapper/main/Dapper.png</icon>
 		<Authors>ZeeLyn</Authors>
 		<Company>Owen</Company>
-		<Version>5.4.0</Version>
+		<Version>5.4.1</Version>
 		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageId>Dapper.Extensions.MySQL</PackageId>
 		<Product>Dapper.Extensions.MySQL</Product>
 		<LangVersion>latest</LangVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>icon.jpg</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="..\..\icon.jpg">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 		<None Include="..\..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
