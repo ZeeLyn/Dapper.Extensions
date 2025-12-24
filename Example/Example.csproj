@@ -1,74 +1,77 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>8.0</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="db\test.master.db" />
-    <None Remove="db\test1.db" />
-    <None Remove="db\test2.db" />
-    <None Remove="db\test3.db" />
-    <None Remove="sql\test_sql.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="db\test.master.db" />
+		<None Remove="db\test1.db" />
+		<None Remove="db\test2.db" />
+		<None Remove="db\test3.db" />
+		<None Remove="sql\test_sql.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="db\test.master.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="db\test1.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="db\test2.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="db\test3.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="sql\test_sql.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="db/*.*">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="sql/*.*">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="AspectCore.Extensions.AspectScope" Version="2.4.0" />
-    <PackageReference Include="Autofac" Version="8.4.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
-    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.4" />
-    <PackageReference Include="MiniProfiler.Providers.Redis" Version="4.5.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="db\test.master.db">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="db\test1.db">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="db\test2.db">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="db\test3.db">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="sql\test_sql.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="db/*.*">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="sql/*.*">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AspectCore.Extensions.AspectScope" Version="2.4.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.1" />
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.4" />
+		<PackageReference Include="MiniProfiler.Providers.Redis" Version="4.5.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.Caching.Redis\Dapper.Extensions.Caching.Redis.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.MiniProfiler\Dapper.Extensions.MiniProfiler.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.MSSQL\Dapper.Extensions.MSSQL.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySQL.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSQL.csproj" />
-    <ProjectReference Include="..\src\Dapper.Extensions.SQLite\Dapper.Extensions.SQLite.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\src\Dapper.Extensions.Caching.Memory\Dapper.Extensions.Caching.Memory.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.Caching.Redis\Dapper.Extensions.Caching.Redis.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.MiniProfiler\Dapper.Extensions.MiniProfiler.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.MSSQL\Dapper.Extensions.MSSQL.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.MySql\Dapper.Extensions.MySQL.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.Odbc\Dapper.Extensions.Odbc.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.PostgreSql\Dapper.Extensions.PostgreSQL.csproj" />
+		<ProjectReference Include="..\src\Dapper.Extensions.SQLite\Dapper.Extensions.SQLite.csproj" />
+	</ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>

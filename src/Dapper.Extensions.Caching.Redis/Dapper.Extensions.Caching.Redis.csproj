@@ -6,7 +6,7 @@
 		<PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
 		<PackageId>Dapper.Extensions.Caching.Redis</PackageId>
 		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-		<Version>5.4.1</Version>
+		<Version>5.4.2</Version>
 		<Authors>ZeeLyn</Authors>
 		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FreeRedis" Version="1.5.2" />
+		<PackageReference Include="FreeRedis" Version="1.5.5" />
 	</ItemGroup>
 
 	<ItemGroup>

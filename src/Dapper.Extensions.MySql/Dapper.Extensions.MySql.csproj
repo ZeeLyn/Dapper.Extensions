@@ -7,7 +7,7 @@
 		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
 		<Authors>ZeeLyn</Authors>
 		<Company>Owen</Company>
-		<Version>5.4.1</Version>
+		<Version>5.4.2</Version>
 		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageId>Dapper.Extensions.MySQL</PackageId>

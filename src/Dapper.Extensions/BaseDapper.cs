@@ -601,12 +601,15 @@ namespace Dapper.Extensions
 
         #endregion
 
+        private bool disposed = false;
+
         public virtual void Dispose()
         {
-            if (!Conn.IsValueCreated) return;
+            if (!Conn.IsValueCreated||disposed) return;
             Transaction?.Dispose();
-            Conn.Value?.Close();
-            Conn.Value?.Dispose();
+            Conn?.Value?.Close();
+            Conn?.Value?.Dispose();
+            disposed=true;
         }
 
 
