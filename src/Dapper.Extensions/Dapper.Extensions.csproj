@@ -3,16 +3,23 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/agandiaortiz/Dapper.Extensions</PackageProjectUrl>
 		<PackageId>Dapper.Extensions.NetCore</PackageId>
 		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-		<Version>5.4.2</Version>
-		<Authors>ZeeLyn</Authors>
+		<Version>5.4.2-internal</Version>
+		<Authors>Vodafone Enabler España</Authors>
 		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<LangVersion>latest</LangVersion>
+		<AssemblyVersion>5.4.2.0</AssemblyVersion>
+		<FileVersion>5.4.2.0</FileVersion>
+		<InformationalVersion>5.4.2.0-internal</InformationalVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.jpg</PackageIcon>
+		<Company>Vodafone Enabler España</Company>
+		<Copyright>Copyright © Vodafone Enabler España 2026</Copyright>
+		<RepositoryUrl>https://github.com/agandiaortiz/Dapper.Extensions</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -29,7 +36,7 @@
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="9.0.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
-		<PackageReference Include="Dapper" Version="2.1.66" />
+		<PackageReference Include="Dapper" Version="2.1.79-internal" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
