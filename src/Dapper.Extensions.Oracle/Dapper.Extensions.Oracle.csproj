@@ -12,7 +12,7 @@
 		<FileVersion>5.4.2.0</FileVersion>
 		<InformationalVersion>5.4.2.0-internal</InformationalVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageId>ZeeLyn.Dapper.Extensions.Oracle</PackageId>
+		<PackageId>VFE.Dapper.Extensions.Oracle</PackageId>
 		<Product>Dapper.Extensions.Oracle</Product>
 		<LangVersion>latest</LangVersion>
 		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
