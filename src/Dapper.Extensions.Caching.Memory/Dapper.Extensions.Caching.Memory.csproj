@@ -3,16 +3,24 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/agandiaortiz/Dapper.Extensions</PackageProjectUrl>
 		<PackageId>Dapper.Extensions.Caching.Memory</PackageId>
 		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
-		<Version>5.4.2</Version>
-		<Authors>ZeeLyn</Authors>
+		<Version>5.4.2-internal</Version>
+		<InformationalVersion>5.4.2.0-internal</InformationalVersion>
+		<Authors>Vodafone Enabler España</Authors>
 		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<LangVersion>latest</LangVersion>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.jpg</PackageIcon>
+		<Company>Vodafone Enabler España</Company>
+		<RepositoryUrl>https://github.com/agandiaortiz/Dapper.Extensions</RepositoryUrl>
+		<Copyright>Copyright © Vodafone Enabler España 2026</Copyright>
+		<RepositoryType>git</RepositoryType>
+		<AssemblyVersion>5.4.2.0</AssemblyVersion>
+		<FileVersion>5.4.2.0</FileVersion>
+		
 	</PropertyGroup>
 
 	<ItemGroup>

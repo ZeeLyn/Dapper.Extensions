@@ -3,18 +3,25 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/ZeeLyn/Dapper.Extensions</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/agandiaortiz/Dapper.Extensions</PackageProjectUrl>
 		<Description>A dapper extension library. Support MySQL,SQL Server,PostgreSQL,SQLite,Oracle and ODBC, Support cache.</Description>
 		<PackageTags>Dapper,Dapper Extensions,DapperExtensions,Dapper.Extensions.NetCore,Extensions,DataBase,Sql Server,MSSQL,MySQL,PostgreSQL,SQLite,ODBC,Cahce,Caching,Redis,Memory,RedisCaching,MemoryCaching</PackageTags>
-		<Authors>ZeeLyn</Authors>
-		<Version>5.4.2</Version>
+		<Authors>Vodafone Enabler España</Authors>
+		<Version>5.4.2-internal</Version>
+		<AssemblyVersion>5.4.2.0</AssemblyVersion>
+		<FileVersion>5.4.2.0</FileVersion>
+		<InformationalVersion>5.4.2.0-internal</InformationalVersion>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageId>ZeeLyn.Dapper.Extensions.Oracle</PackageId>
+		<PackageId>VFE.Dapper.Extensions.Oracle</PackageId>
 		<Product>Dapper.Extensions.Oracle</Product>
 		<LangVersion>latest</LangVersion>
 		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.jpg</PackageIcon>
+		<Company>Vodafone Enabler España</Company>
+		<Copyright>Copyright © Vodafone Enabler España 2026</Copyright>
+		<RepositoryUrl>https://github.com/agandiaortiz/Dapper.Extensions</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -29,7 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.0" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.200" />
 	</ItemGroup>
 
 	<ItemGroup>
