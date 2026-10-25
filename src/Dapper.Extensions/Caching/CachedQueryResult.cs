@@ -15,6 +15,7 @@ namespace Dapper.Extensions.Caching
             set => json = value;
         }
 
-        public T Read<T>() => Value is T value ? value : JsonConvert.DeserializeObject<T>(Json);
+        public T Read<T>(IDataSerializer serializer) => Value is T value ? value
+            : serializer != null ? serializer.Deserialize<T>(Json) : JsonConvert.DeserializeObject<T>(Json);
     }
 }

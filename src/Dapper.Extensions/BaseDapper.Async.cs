@@ -929,7 +929,10 @@ namespace Dapper.Extensions
             using var load = CacheCoordinator.BeginLoad();
             var version = lease.GetVersion();
             var result = await execQuery().ConfigureAwait(false);
-            lease.Store(version, () => Cache.TrySet(cacheKey, new CachedQueryResult { Identity = identity, Value = result }, expire ?? CacheConfiguration.Expire));
+            lease.Store(version, () => Cache.TrySet(cacheKey, new CachedQueryResult
+            {
+                Identity = identity, Value = result, Json = CacheSerializer?.Serialize(result)
+            }, expire ?? CacheConfiguration.Expire));
             return result;
         }
     }

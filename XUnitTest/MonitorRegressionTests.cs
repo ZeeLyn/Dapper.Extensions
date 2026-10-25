@@ -16,6 +16,67 @@ namespace XUnitTest
     public class MonitorRegressionTests
     {
         [Theory]
+        [InlineData(false, false, false)]
+        [InlineData(true, false, false)]
+        [InlineData(false, true, false)]
+        [InlineData(true, true, false)]
+        [InlineData(false, true, true)]
+        [InlineData(true, true, true)]
+        public async Task AsyncOnlyMonitorResourcesAreAwaitedEvenWhenHandlerOrSqlFails(bool async, bool handlerFails, bool sqlFails)
+        {
+            var state = new MonitorState { Throw = handlerFails };
+            using var env = new RegressionEnvironment(s =>
+            {
+                s.AddSingleton(state);
+                s.AddScoped<AsyncOnlyDependency>();
+                s.AddScoped<IMonitorHandler, AsyncOnlyHandler>();
+                s.AddSingleton(new MonitorConfiguration { SlowCriticalValue = -1, HasCustomMonitorHandler = true, EnableLog = false });
+            });
+            var proxy = new DapperProxy(env.Db, env.Services);
+            var sql = sqlFails ? "select * from missing_table" : "select 1";
+            var pending = async ? proxy.QueryFirstOrDefaultAsync<int>(sql)
+                : Task.Run(() => proxy.QueryFirstOrDefault<int>(sql));
+            try
+            {
+                await state.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                Assert.False(pending.IsCompleted);
+                Assert.Equal(0, state.Disposed);
+            }
+            finally { state.Release.TrySetResult(true); }
+            if (sqlFails)
+                Assert.Contains("missing_table", (await Assert.ThrowsAsync<System.Data.SQLite.SQLiteException>(
+                    async () => await pending.WaitAsync(TimeSpan.FromSeconds(5)))).Message);
+            else Assert.Equal(1, await pending.WaitAsync(TimeSpan.FromSeconds(5)));
+            Assert.Equal(1, state.Calls);
+            Assert.Equal(2, state.Disposed);
+        }
+
+        public sealed class AsyncOnlyDependency : IAsyncDisposable
+        {
+            private readonly MonitorState state;
+            public AsyncOnlyDependency(MonitorState state) => this.state = state;
+            public async ValueTask DisposeAsync() { await Task.Yield(); state.Disposed++; }
+        }
+
+        public sealed class AsyncOnlyHandler : IMonitorHandler, IAsyncDisposable
+        {
+            private readonly MonitorState state;
+            public AsyncOnlyHandler(MonitorState state, AsyncOnlyDependency dependency) => this.state = state;
+            public async Task OnSlowSqlCommandAsync(string methodName, string sql, object param, long duration)
+            {
+                state.Calls++;
+                await Task.Yield();
+                if (state.Throw) throw new InvalidOperationException("monitor failure");
+            }
+            public async ValueTask DisposeAsync()
+            {
+                state.Started.TrySetResult(true);
+                await state.Release.Task;
+                state.Disposed++;
+            }
+        }
+
+        [Theory]
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(2)]

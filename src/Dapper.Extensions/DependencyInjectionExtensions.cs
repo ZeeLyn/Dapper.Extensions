@@ -1,5 +1,6 @@
 ﻿using System;
 using Dapper.Extensions.MasterSlave;
+using System.Linq;
 using Dapper.Extensions.Monitor;
 using Dapper.Extensions.SQL;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,8 @@ namespace Dapper.Extensions
     {
         public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services, Action<MonitorBuilder> monitorBuilder = null) where TDbProvider : IDapper
         {
+            if (services.Any(s => s.ServiceType == typeof(IDapper) && Equals(s.ServiceKey, DapperResolver.GetKey(null, true))))
+                throw new InvalidOperationException("The default master/slave connection is already registered.");
             if (monitorBuilder != null)
             {
                 var builder = new MonitorBuilder(services);
@@ -35,7 +38,7 @@ namespace Dapper.Extensions
         /// <summary>
         /// 注册独立连接。serviceKey 为 null 或空白时注册默认连接；主从实例分别按作用域管理。
         /// </summary>
-        /// <remarks>提供者构造器中的配置参数顺序为 string connectionName、bool enableMasterSlave、bool readOnly；其他依赖由 DI 提供。</remarks>
+        /// <remarks>同一 serviceKey（含默认连接）不可重复注册。提供者构造器中的配置参数顺序为 string connectionName、bool enableMasterSlave、bool readOnly；其他依赖由 DI 提供。</remarks>
         public static IServiceCollection AddDapper<TDbProvider>(this IServiceCollection services,
             string connectionName, string serviceKey, bool enableMasterSlave = false,
             Action<MonitorBuilder> monitorBuilder = null) where TDbProvider : IDapper
@@ -43,6 +46,9 @@ namespace Dapper.Extensions
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (string.IsNullOrWhiteSpace(connectionName)) throw new ArgumentException("A connection name is required.", nameof(connectionName));
             serviceKey = DapperResolver.NormalizeKey(serviceKey);
+            if (services.Any(s => s.ServiceType == typeof(IDapper) &&
+                (Equals(s.ServiceKey, serviceKey) || Equals(s.ServiceKey, DapperResolver.GetKey(serviceKey, true)))))
+                throw new InvalidOperationException($"A Dapper connection is already registered for service key '{serviceKey ?? "(default)"}'.");
             var factory = ActivatorUtilities.CreateFactory(typeof(TDbProvider),
                 new[] { typeof(string), typeof(bool), typeof(bool) });
             MonitorConfiguration configuration = null;

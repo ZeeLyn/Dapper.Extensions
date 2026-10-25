@@ -138,7 +138,7 @@ services.AddDapperForSQLite("Reporting", "reporting");
 services.AddDapperForSQLite("Orders", "orders", enableMasterSlave: true);
 ```
 
-`connectionName` selects a configuration entry; `serviceKey` identifies the registration. The new overload requires both arguments. Pass `serviceKey: null` to configure an unnamed default connection with additional options. The same overload is available for all six providers. Register each service key only once.
+`connectionName` selects a configuration entry; `serviceKey` identifies the registration. The new overload requires both arguments. Pass `serviceKey: null` to configure an unnamed default connection with additional options. The same overload is available for all six providers. Register each service key only once. The new overload rejects duplicate keys (including the default key) before changing any registration or invoking the monitoring callback. A default master/slave registration also cannot be overwritten by the legacy overload.
 
 ### Selecting the master or a slave
 
@@ -378,7 +378,7 @@ services.AddDapperCachingInPartitionRedis(new PartitionRedisConfiguration
 });
 ```
 
-The `CacheConfiguration, RedisClient` overload accepts an existing FreeRedis client. Generic cache registration overloads accept an `ICacheKeyBuilder` implementation when a custom key policy is needed.
+The `CacheConfiguration, RedisClient` overload accepts an existing FreeRedis client. Generic cache registration overloads accept an `ICacheKeyBuilder` implementation for automatic keys. An explicit `cacheKey` uses the connection namespace, `KeyPrefix`, and the supplied key directly, so queries and `RemoveCache` agree without passing a null SQL statement to a custom builder. Existing entries whose explicit keys were transformed by a custom builder will no longer be read; let them expire or remove them using the cache provider. Redis uses the registered `IDataSerializer` for both query payloads and cache envelopes, including configured converters and reference-loop handling.
 
 ### Query keys, expiration and invalidation
 
@@ -446,7 +446,7 @@ public sealed class SlowQueryHandler : IMonitorHandler
 }
 ```
 
-Handlers run in a separate scope. The query waits for the handler to complete, so keep it bounded. Monitoring failures do not replace the query result or its original exception. Built-in logging includes SQL and parameters; disable it and use a redacting handler when those values are sensitive.
+Handlers run in a separate scope. The query waits for the handler and asynchronous scope disposal to complete, including resources that implement only `IAsyncDisposable`, so keep both bounded. Monitoring failures do not replace the query result or its original exception. Built-in logging includes SQL and parameters; disable it and use a redacting handler when those values are sensitive.
 
 ### MiniProfiler
 

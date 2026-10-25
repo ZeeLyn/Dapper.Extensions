@@ -86,7 +86,7 @@ namespace Dapper.Extensions.Monitor
             {
                 if (!MonitorConfiguration.EnableLog && !MonitorConfiguration.HasCustomMonitorHandler)
                     return;
-                using var scope = Service.CreateScope();
+                await using var scope = Service.CreateAsyncScope();
                 if (MonitorConfiguration.EnableLog)
                 {
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<DapperProxy>>();

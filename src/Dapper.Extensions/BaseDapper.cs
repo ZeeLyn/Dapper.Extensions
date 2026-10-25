@@ -30,6 +30,8 @@ namespace Dapper.Extensions
 
         private ICacheKeyBuilder CacheKeyBuilder { get; }
 
+        private IDataSerializer CacheSerializer { get; }
+
         private IDbMiniProfiler DbMiniProfiler { get; }
 
         private ISQLManager SQLManager { get; }
@@ -64,6 +66,7 @@ namespace Dapper.Extensions
             {
                 Cache = serviceProvider.GetRequiredService<ICacheProvider>();
                 CacheKeyBuilder = serviceProvider.GetRequiredService<ICacheKeyBuilder>();
+                CacheSerializer = serviceProvider.GetService<IDataSerializer>();
                 CacheConcurrencyConfig = serviceProvider.GetRequiredService<CacheConcurrencyConfig>();
                 CacheCoordinator = serviceProvider.GetRequiredService<CacheSemaphoreSlim>();
             }
@@ -598,7 +601,7 @@ namespace Dapper.Extensions
         {
             if (CacheConfiguration is null || Cache is null)
                 return;
-            foreach (var key in cacheKeys.Select(x => cacheNamespace.Value + CacheKeyBuilder.Generate(null, null, x)))
+            foreach (var key in cacheKeys.Select(ExplicitCacheKey))
                 CacheCoordinator.Invalidate(key, () => Cache.Remove(key));
         }
 
@@ -645,15 +648,23 @@ namespace Dapper.Extensions
                 + ":" + typeof(T).AssemblyQualifiedName + ":" + (commandType ?? CommandType.Text);
 
         private string QueryCacheKey(string sql, object param, string key, int? pageIndex, int? pageSize, string identity)
-            => cacheNamespace.Value + (string.IsNullOrWhiteSpace(key) ? DefaultCacheKeyBuilder.Hash(identity) + ":" : "")
-                + CacheKeyBuilder.Generate(sql, param, key, pageIndex, pageSize);
+            => !string.IsNullOrWhiteSpace(key) ? ExplicitCacheKey(key)
+                : cacheNamespace.Value + DefaultCacheKeyBuilder.Hash(identity) + ":"
+                    + CacheKeyBuilder.Generate(sql, param, key, pageIndex, pageSize);
+
+        private string ExplicitCacheKey(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("A cache key is required.", nameof(key));
+            // 显式键不依赖 SQL；写入和删除共用规则，不要求自定义构建器接受空 SQL。
+            return cacheNamespace.Value + (string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : CacheConfiguration.KeyPrefix + ":") + key;
+        }
 
         private bool TryReadCache<T>(string key, string identity, out T result)
         {
             var cached = Cache.TryGet<CachedQueryResult>(key);
             if (cached.ExistKey && cached.Value != null && cached.Value.Identity == identity)
             {
-                result = cached.Value.Read<T>();
+                result = cached.Value.Read<T>(CacheSerializer);
                 return true;
             }
             result = default;
@@ -680,7 +691,10 @@ namespace Dapper.Extensions
             using var load = CacheCoordinator.BeginLoad();
             var version = lease.GetVersion();
             var result = execQuery();
-            lease.Store(version, () => Cache.TrySet(cacheKey, new CachedQueryResult { Identity = identity, Value = result }, expire ?? CacheConfiguration.Expire));
+            lease.Store(version, () => Cache.TrySet(cacheKey, new CachedQueryResult
+            {
+                Identity = identity, Value = result, Json = CacheSerializer?.Serialize(result)
+            }, expire ?? CacheConfiguration.Expire));
             return result;
         }
 

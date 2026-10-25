@@ -29,6 +29,49 @@ namespace XUnitTest
         }
 
         [Theory]
+        [InlineData(null, true, false)]
+        [InlineData(" ", false, true)]
+        [InlineData("orders", true, false)]
+        [InlineData("orders", false, true)]
+        [InlineData("orders", true, true)]
+        [InlineData("orders", false, false)]
+        public void DuplicateRegistrationIsRejectedWithoutChangingEitherRole(string key, bool firstSlave, bool secondSlave)
+        {
+            var services = CreateServices();
+            var state = new TrackingState();
+            services.AddSingleton(state);
+            services.AddDapper<TrackingDapper>("A", key, firstSlave);
+            var before = services.ToArray();
+            var callbackRan = false;
+            Assert.Throws<InvalidOperationException>(() => services.AddDapper<TrackingDapper>("B", key, secondSlave,
+                _ => callbackRan = true));
+            Assert.False(callbackRan);
+            Assert.Equal(before, services.ToArray());
+            using var provider = services.BuildServiceProvider();
+            using var scope = provider.CreateScope();
+            var resolver = scope.ServiceProvider.GetRequiredService<IDapperResolver>();
+            Assert.Equal("A", Assert.IsType<TrackingDapper>(resolver.ResolveDapper(key)).ConnectionName);
+            if (firstSlave)
+                Assert.Equal("A", Assert.IsType<TrackingDapper>(resolver.ResolveDapper(key, true)).ConnectionName);
+            else Assert.Throws<InvalidOperationException>(() => resolver.ResolveDapper(key, true));
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void LegacyAndNewDefaultRegistrationCannotLeaveAnOrphanSlave(bool legacyFirst)
+        {
+            var services = CreateServices();
+            if (legacyFirst) services.AddDapperForSQLite();
+            else services.AddDapperForSQLite("DefaultConnection", null, true);
+            var before = services.ToArray();
+            if (legacyFirst)
+                Assert.Throws<InvalidOperationException>(() => services.AddDapperForSQLite("DefaultConnection", " ", true));
+            else Assert.Throws<InvalidOperationException>(() => services.AddDapperForSQLite());
+            Assert.Equal(before, services.ToArray());
+        }
+
+        [Theory]
         [InlineData(false, false, false)]
         [InlineData(false, false, true)]
         [InlineData(false, true, false)]

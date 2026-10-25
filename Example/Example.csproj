@@ -53,6 +53,9 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.13" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+		<PackageReference Include="NuGet.Packaging" Version="6.12.5" />
+		<PackageReference Include="NuGet.Protocol" Version="6.12.5" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.4" />
 		<PackageReference Include="MiniProfiler.Providers.Redis" Version="4.5.4" />
 	</ItemGroup>
