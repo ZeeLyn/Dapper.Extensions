@@ -23,7 +23,7 @@ namespace Dapper.Extensions.Monitor
                 sw.Stop();
                 if (sw.ElapsedMilliseconds > MonitorConfiguration.SlowCriticalValue)
                 {
-                    SlowCommandNotification(methodName, sql, param, sw.ElapsedMilliseconds);
+                    Task.Run(() => SlowCommandNotificationAsync(methodName, sql, param, sw.ElapsedMilliseconds)).GetAwaiter().GetResult();
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace Dapper.Extensions.Monitor
                 sw.Stop();
                 if (sw.ElapsedMilliseconds > MonitorConfiguration.SlowCriticalValue)
                 {
-                    SlowCommandNotification(methodName, sql, param, sw.ElapsedMilliseconds);
+                    await SlowCommandNotificationAsync(methodName, sql, param, sw.ElapsedMilliseconds).ConfigureAwait(false);
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace Dapper.Extensions.Monitor
                 sw.Stop();
                 if (sw.ElapsedMilliseconds > MonitorConfiguration.SlowCriticalValue)
                 {
-                    SlowCommandNotification(methodName, sql, param, sw.ElapsedMilliseconds);
+                    Task.Run(() => SlowCommandNotificationAsync(methodName, sql, param, sw.ElapsedMilliseconds)).GetAwaiter().GetResult();
                 }
             }
         }
@@ -75,29 +75,37 @@ namespace Dapper.Extensions.Monitor
                 sw.Stop();
                 if (sw.ElapsedMilliseconds > MonitorConfiguration.SlowCriticalValue)
                 {
-                    SlowCommandNotification(methodName, sql, param, sw.ElapsedMilliseconds);
+                    await SlowCommandNotificationAsync(methodName, sql, param, sw.ElapsedMilliseconds).ConfigureAwait(false);
                 }
             }
         }
 
-        private void SlowCommandNotification(string methodName, string sql, object param, long duration)
+        private async Task SlowCommandNotificationAsync(string methodName, string sql, object param, long duration)
         {
-            if (MonitorConfiguration.EnableLog || MonitorConfiguration.HasCustomMonitorHandler)
+            try
             {
+                if (!MonitorConfiguration.EnableLog && !MonitorConfiguration.HasCustomMonitorHandler)
+                    return;
                 using var scope = Service.CreateScope();
                 if (MonitorConfiguration.EnableLog)
                 {
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<DapperProxy>>();
-                    logger.LogWarning("Slow SQL command  ---->\r\nMethod:{0}\r\nSQL/SQLName:{1}\r\nParam:{2}\r\nDuration:{3}ms", methodName, sql, JsonConvert.SerializeObject(param), duration);
+                    logger.LogWarning("Slow SQL command: Method:{Method} SQL/SQLName:{Sql} Param:{Param} Duration:{Duration}ms",
+                        methodName, sql, JsonConvert.SerializeObject(param), duration);
                 }
-
                 if (MonitorConfiguration.HasCustomMonitorHandler)
                 {
-                    var handler = scope.ServiceProvider.GetRequiredService<IMonitorHandler>();
-                    _ = handler.OnSlowSqlCommandAsync(methodName, sql, param, duration).ConfigureAwait(false);
+                    var handler = (IMonitorHandler)scope.ServiceProvider.GetRequiredService(
+                        MonitorConfiguration.HandlerType ?? typeof(IMonitorHandler));
+                    await handler.OnSlowSqlCommandAsync(methodName, sql, param, duration).ConfigureAwait(false);
                 }
             }
-
+            catch (Exception exception)
+            {
+                // 监控及其日志故障不能覆盖业务执行结果或原始数据库异常。
+                try { Service.GetService<ILogger<DapperProxy>>()?.LogError(exception, "Slow SQL monitoring failed."); }
+                catch { }
+            }
         }
     }
 }

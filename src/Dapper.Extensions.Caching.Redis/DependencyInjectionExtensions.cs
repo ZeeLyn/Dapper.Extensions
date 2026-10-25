@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using FreeRedis;
@@ -14,6 +14,10 @@ namespace Dapper.Extensions.Caching.Redis
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
@@ -40,6 +44,10 @@ namespace Dapper.Extensions.Caching.Redis
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
             return service.AddDapperCachingInRedis(new CacheConfiguration
             {
                 AllMethodsEnableCache = config.AllMethodsEnableCache,
@@ -54,13 +62,12 @@ namespace Dapper.Extensions.Caching.Redis
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
-            service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
-            return service.AddDapperCachingInRedis(new CacheConfiguration
-            {
-                AllMethodsEnableCache = config.AllMethodsEnableCache,
-                Expire = config.Expire,
-                KeyPrefix = config.KeyPrefix
-            }, new RedisClient(config.ConnectionString), maxConcurrent, acquireLockTimeoutSeconds);
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
+            service.AddDapperCachingInRedis(config, maxConcurrent, acquireLockTimeoutSeconds);
+            return service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
         }
 
         public static IServiceCollection AddDapperCachingInPartitionRedis(this IServiceCollection service,
@@ -68,6 +75,10 @@ namespace Dapper.Extensions.Caching.Redis
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
             if (config.Connections.Count() < 2)
                 throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
@@ -99,6 +110,10 @@ namespace Dapper.Extensions.Caching.Redis
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
             if (config.Connections.Count() < 2)
                 throw new ArgumentException("Need at least 2 redis nodes.", nameof(config.Connections));
             service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));

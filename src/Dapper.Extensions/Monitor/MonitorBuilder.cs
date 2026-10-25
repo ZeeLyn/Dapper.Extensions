@@ -10,6 +10,7 @@ namespace Dapper.Extensions.Monitor
     {
         private IServiceCollection Service { get; }
 
+        [Obsolete("Use IServiceCollection-based monitoring registration instead.", false)]
         protected ContainerBuilder ContainerBuilder { get; }
 
         /// <summary>
@@ -23,6 +24,7 @@ namespace Dapper.Extensions.Monitor
             Service = service;
 
         }
+        [Obsolete("Use MonitorBuilder(IServiceCollection) instead. Autofac support will be removed in a future major version.", false)]
         public MonitorBuilder(ContainerBuilder containerBuilder)
         {
             ContainerBuilder = containerBuilder;
@@ -34,10 +36,14 @@ namespace Dapper.Extensions.Monitor
         /// <typeparam name="TMonitorHandler"></typeparam>
         public void AddMonitorHandler<TMonitorHandler>() where TMonitorHandler : IMonitorHandler
         {
-            Service?.AddScoped(typeof(IMonitorHandler), typeof(TMonitorHandler));
-            ContainerBuilder?.RegisterType<TMonitorHandler>().As<IMonitorHandler>().InstancePerLifetimeScope();
+            Service?.AddScoped(typeof(TMonitorHandler));
+            Service?.AddScoped(typeof(IMonitorHandler), provider => provider.GetRequiredService<TMonitorHandler>());
+            HandlerType = typeof(TMonitorHandler);
+            ContainerBuilder?.RegisterType<TMonitorHandler>().AsSelf().As<IMonitorHandler>().InstancePerLifetimeScope();
             HasCustomMonitorHandler = true;
         }
+
+        internal Type HandlerType { get; private set; }
 
         protected internal bool HasCustomMonitorHandler { get; set; }
 
@@ -50,6 +56,7 @@ namespace Dapper.Extensions.Monitor
 
     public class MonitorConfiguration
     {
+        internal Type HandlerType { get; set; }
         public int SlowCriticalValue { get; set; }
 
         public bool EnableLog { get; set; }

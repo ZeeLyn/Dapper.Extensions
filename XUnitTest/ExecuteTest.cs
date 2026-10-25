@@ -1,4 +1,5 @@
-﻿using Dapper.Extensions;
+﻿using System.Threading.Tasks;
+using Dapper.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Xunit;
@@ -21,7 +22,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void Execute()
+        public async Task Execute()
         {
             var newName = Guid.NewGuid().ToString();
             var rows = Dapper.Execute("update contact set name=@name where id=@id;",
@@ -33,7 +34,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void ExecuteAsync()
+        public async Task ExecuteAsync()
         {
             var newName = Guid.NewGuid().ToString();
             var rows = await Dapper.ExecuteAsync("update contact set name=@name where id=@id;",
@@ -56,7 +57,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void ExecuteScalarAsync()
+        public async Task ExecuteScalarAsync()
         {
             var newName = Guid.NewGuid().ToString();
             var name = await Dapper.ExecuteScalarAsync<string>(
@@ -81,7 +82,7 @@ namespace XUnitTest
             Dapper.BeginTransaction();
             var oldName = Dapper.QueryFirstOrDefault<string>("select name from contact where id=@id;", new { id = 1 });
             var rows2 = Dapper.Execute("update contact set name=@name where id=@id;",
-                new { name = newName, id = 1 });
+                new { name = Guid.NewGuid().ToString(), id = 1 });
             Assert.True(rows2 > 0);
             Dapper.RollbackTransaction();
             var nowName = Dapper.QueryFirstOrDefault<string>("select name from contact where id=@id;", new { id = 1 });

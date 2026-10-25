@@ -37,7 +37,7 @@ namespace XUnitTest
 
 
         [Fact]
-        public async void Test()
+        public async Task Test()
         {
             DapperFactory.Step(dapper =>
             {

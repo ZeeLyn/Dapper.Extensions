@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +11,10 @@ namespace Dapper.Extensions.Caching.Memory
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
             service.AddSingleton<ICacheKeyBuilder, DefaultCacheKeyBuilder>();
             service.AddSingleton(new CacheConfiguration
             {
@@ -35,6 +39,10 @@ namespace Dapper.Extensions.Caching.Memory
         {
             if (config == null)
                 throw new ArgumentNullException(nameof(config));
+            if (maxConcurrent <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxConcurrent));
+            if (acquireLockTimeoutSeconds < 0 || acquireLockTimeoutSeconds > int.MaxValue / 1000)
+                throw new ArgumentOutOfRangeException(nameof(acquireLockTimeoutSeconds));
             service.AddSingleton(typeof(ICacheKeyBuilder), typeof(TCacheKeyBuilder));
             service.AddSingleton(new CacheConfiguration
             {

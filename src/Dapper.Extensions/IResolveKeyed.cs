@@ -23,6 +23,7 @@ namespace Dapper.Extensions
     //    IDapper ResolveDapper(string serviceKey, bool readOnly = false);
     //}
 
+    [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
     public interface IResolveContext //: IResolveKeyed
     {
         IComponentContext ComponentContext { get; }
@@ -40,7 +41,7 @@ namespace Dapper.Extensions
         IDapper ResolveDapper(string serviceKey, bool readOnly = false);
     }
 
-    [Obsolete("Please use ResolveContext")]
+    [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
     public class ResolveKeyed : IResolveContext
     {
 
@@ -83,6 +84,7 @@ namespace Dapper.Extensions
         }
     }
 
+    [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
     public class ResolveContext : ResolveKeyed
     {
         public ResolveContext(IComponentContext context) : base(context)

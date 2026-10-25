@@ -5,11 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dapper.Extensions.Factory
 {
+    [Obsolete("The Autofac-backed static factory is deprecated. Use IServiceCollection, IServiceScopeFactory and IDapperResolver instead.", false)]
     public class ExtensionBuilder
     {
         internal IServiceCollection Service { get; set; }
-
-        internal IServiceProvider ServiceProvider { get; set; }
 
         internal IConfigurationBuilder ConfigurationBuilder { get; set; }
 

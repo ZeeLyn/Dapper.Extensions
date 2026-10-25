@@ -13,6 +13,7 @@ namespace Dapper.Extensions
 {
     public static class AutofacExtensions
     {
+        [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
         public static ContainerBuilder AddDapper<TDbProvider>(this ContainerBuilder container, string connectionName = "DefaultConnection", string serviceKey = null, bool enableMasterSlave = false, Action<MonitorBuilder> monitorBuilder = null) where TDbProvider : IDapper
         {
             container.RegisterType<ResolveContext>().As<IResolveContext>().IfNotRegistered(typeof(IResolveContext)).InstancePerLifetimeScope();
@@ -20,16 +21,19 @@ namespace Dapper.Extensions
             container.RegisterType<DefaultConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
             container.RegisterType<WeightedPolling>().As<ILoadBalancing>().SingleInstance();
 
+            MonitorConfiguration configuration = null;
             if (monitorBuilder != null)
             {
                 var builder = new MonitorBuilder(container);
                 monitorBuilder.Invoke(builder);
-                container.RegisterInstance(new MonitorConfiguration
+                configuration = new MonitorConfiguration
                 {
                     SlowCriticalValue = builder.Threshold,
                     EnableLog = builder.EnableLog,
-                    HasCustomMonitorHandler = builder.HasCustomMonitorHandler
-                }).SingleInstance();
+                    HasCustomMonitorHandler = builder.HasCustomMonitorHandler,
+                    HandlerType = builder.HandlerType
+                };
+                container.RegisterInstance(configuration).SingleInstance();
             }
 
             if (string.IsNullOrWhiteSpace(serviceKey))
@@ -43,7 +47,7 @@ namespace Dapper.Extensions
                             new NamedParameter("connectionName", connectionName),
                             new NamedParameter("enableMasterSlave", true)
                         }).InstancePerLifetimeScope();
-                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.Resolve<TDbProvider>(@params), ctx.Resolve<IServiceProvider>())).InstancePerLifetimeScope();
+                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.Resolve<TDbProvider>(@params), ctx.Resolve<IServiceProvider>(), configuration)).InstancePerLifetimeScope();
 
 
 
@@ -52,8 +56,8 @@ namespace Dapper.Extensions
                             new NamedParameter("connectionName", connectionName),
                             new NamedParameter("enableMasterSlave", true)
                         }).InstancePerLifetimeScope();
-                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.ResolveKeyed<TDbProvider>("_slave", @params), ctx.Resolve<IServiceProvider>()))
-                            .InstancePerLifetimeScope();
+                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.ResolveKeyed<TDbProvider>("_slave", @params), ctx.Resolve<IServiceProvider>(), configuration))
+                            .Keyed<IDapper>("_slave").InstancePerLifetimeScope();
 
                     }
                     else
@@ -75,7 +79,7 @@ namespace Dapper.Extensions
                     if (monitorBuilder != null)
                     {
                         container.RegisterType<TDbProvider>().WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
-                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.Resolve<TDbProvider>(@params), ctx.Resolve<IServiceProvider>())).InstancePerLifetimeScope();
+                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.Resolve<TDbProvider>(@params), ctx.Resolve<IServiceProvider>(), configuration)).InstancePerLifetimeScope();
                     }
                     else
                         container.RegisterType<TDbProvider>().As<IDapper>().WithParameter("connectionName", connectionName)
@@ -93,14 +97,14 @@ namespace Dapper.Extensions
                             new NamedParameter("connectionName", connectionName),
                             new NamedParameter("enableMasterSlave", true)
                         }).InstancePerLifetimeScope();
-                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.ResolveKeyed<TDbProvider>(serviceKey, @params), ctx.Resolve<IServiceProvider>())).Keyed<IDapper>(serviceKey).InstancePerLifetimeScope();
+                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.ResolveKeyed<TDbProvider>(serviceKey, @params), ctx.Resolve<IServiceProvider>(), configuration)).Keyed<IDapper>(serviceKey).InstancePerLifetimeScope();
 
                         container.RegisterType<TDbProvider>().Keyed<TDbProvider>($"{serviceKey}_slave").WithParameters(new[]
                         {
                             new NamedParameter("connectionName", connectionName),
                             new NamedParameter("enableMasterSlave", true)
                         }).InstancePerLifetimeScope();
-                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.ResolveKeyed<TDbProvider>($"{serviceKey}_slave", @params), ctx.Resolve<IServiceProvider>())).Keyed<IDapper>($"{serviceKey}_slave").InstancePerLifetimeScope();
+                        container.Register<IDapper>((ctx, @params) => new DapperProxy(ctx.ResolveKeyed<TDbProvider>($"{serviceKey}_slave", @params), ctx.Resolve<IServiceProvider>(), configuration)).Keyed<IDapper>($"{serviceKey}_slave").InstancePerLifetimeScope();
                     }
                     else
                     {
@@ -123,7 +127,7 @@ namespace Dapper.Extensions
                         container.RegisterType<TDbProvider>().Keyed<TDbProvider>(serviceKey)
                             .WithParameter("connectionName", connectionName).InstancePerLifetimeScope();
                         container.Register<IDapper>((ctx, @params) =>
-                            new DapperProxy(ctx.ResolveKeyed<TDbProvider>(serviceKey, @params), ctx.Resolve<IServiceProvider>())).InstancePerLifetimeScope();
+                            new DapperProxy(ctx.ResolveKeyed<TDbProvider>(serviceKey, @params), ctx.Resolve<IServiceProvider>(), configuration)).Keyed<IDapper>(serviceKey).InstancePerLifetimeScope();
                     }
                     else
                         container.RegisterType<TDbProvider>().Keyed<IDapper>(serviceKey)
@@ -135,12 +139,14 @@ namespace Dapper.Extensions
             return container;
         }
 
+        [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
         public static ContainerBuilder AddDapperConnectionStringProvider<TConnectionStringProvider>(this ContainerBuilder container) where TConnectionStringProvider : IConnectionStringProvider
         {
             container.RegisterType<TConnectionStringProvider>().As<IConnectionStringProvider>().SingleInstance();
             return container;
         }
 
+        [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
         public static ContainerBuilder AddAllControllers(this ContainerBuilder container)
         {
             container.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
@@ -149,6 +155,7 @@ namespace Dapper.Extensions
             return container;
         }
 
+        [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
         public static IHostBuilder UseAutofac(this IHostBuilder builder)
         {
             return builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -160,6 +167,7 @@ namespace Dapper.Extensions
         /// <param name="services"></param>
         /// <param name="xmlRootDir">The root directory of the xml file</param>
         /// <returns></returns>
+        [Obsolete("Autofac integration is deprecated and will be removed in a future major version. Use IServiceCollection registration and IDapperResolver instead.", false)]
         public static ContainerBuilder AddSQLSeparationForDapper(this ContainerBuilder services, string xmlRootDir)
         {
             services.RegisterInstance(new SQLSeparateConfigure

@@ -17,10 +17,15 @@ namespace Dapper.Extensions.Monitor
         private IServiceProvider Service { get; }
 
         public DapperProxy(IDapper dapper, IServiceProvider service)
+            : this(dapper, service, service.GetRequiredService<MonitorConfiguration>())
+        {
+        }
+
+        internal DapperProxy(IDapper dapper, IServiceProvider service, MonitorConfiguration configuration)
         {
             Dapper = dapper;
             Service = service;
-            MonitorConfiguration = service.GetRequiredService<MonitorConfiguration>();
+            MonitorConfiguration = configuration;
         }
 
         public void Dispose()

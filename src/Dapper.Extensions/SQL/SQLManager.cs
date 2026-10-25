@@ -10,11 +10,11 @@ using Microsoft.Extensions.Primitives;
 
 namespace Dapper.Extensions.SQL
 {
-    public class SQLManager : ISQLManager
+    public class SQLManager : ISQLManager, IDisposable
     {
-        private ConcurrentDictionary<string, string[]> SqlCache { get; }
-
-        private ConcurrentDictionary<string, string[]> SqlTempCache { get; }
+        private ConcurrentDictionary<string, string[]> sqlCache;
+        private readonly object reloadLock = new object();
+        private IDisposable subscription;
 
         private ILogger Logger { get; }
 
@@ -27,31 +27,29 @@ namespace Dapper.Extensions.SQL
             Logger = logger;
             Configure = configure;
             FileProvider = new PhysicalFileProvider(Configure.RootDir);
-            SqlCache = new ConcurrentDictionary<string, string[]>();
-            SqlTempCache = new ConcurrentDictionary<string, string[]>(); ;
-            Initialize();
+            sqlCache = new ConcurrentDictionary<string, string[]>();
+            try { Initialize(); }
+            catch { (FileProvider as IDisposable)?.Dispose(); throw; }
         }
 
         private void Initialize()
         {
-            ReadXmlFiles(SqlCache);
-            ChangeToken.OnChange(() => FileProvider.Watch("**/*.xml"), () =>
+            ReadXmlFiles(sqlCache);
+            subscription = ChangeToken.OnChange(() => FileProvider.Watch("**/*.xml"), () =>
             {
                 Thread.Sleep(500);
-                try
+                lock (reloadLock)
                 {
-                    ReadXmlFiles(SqlTempCache);
-                    SqlCache.Clear();
-                    foreach (var item in SqlTempCache)
+                    try
                     {
-                        SqlCache.TryAdd(item.Key, item.Value);
+                        var snapshot = new ConcurrentDictionary<string, string[]>();
+                        ReadXmlFiles(snapshot);
+                        Volatile.Write(ref sqlCache, snapshot);
                     }
-                    SqlTempCache.Clear();
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError($"Sql separate xml file error:{ex.Message}");
-                    SqlTempCache.Clear();
+                    catch (Exception ex)
+                    {
+                        Logger.LogError($"Sql separate xml file error:{ex.Message}");
+                    }
                 }
             });
         }
@@ -67,7 +65,7 @@ namespace Dapper.Extensions.SQL
                     {
                         ReadFiles(file.PhysicalPath);
                     }
-                    else
+                    else if (string.Equals(Path.GetExtension(file.PhysicalPath), ".xml", StringComparison.OrdinalIgnoreCase))
                     {
                         ReadXml(file.PhysicalPath, dic);
                     }
@@ -105,16 +103,22 @@ namespace Dapper.Extensions.SQL
             return (T)xz.Deserialize(reader);
         }
 
+        void IDisposable.Dispose()
+        {
+            subscription?.Dispose();
+            (FileProvider as IDisposable)?.Dispose();
+        }
+
         public string GetSQL(string name)
         {
-            if (SqlCache.TryGetValue(name, out var value))
+            if (Volatile.Read(ref sqlCache).TryGetValue(name, out var value))
                 return value[0];
             throw new KeyNotFoundException($"SQL element with name {name} is not found.");
         }
 
         public (string CountSQL, string QuerySQL) GetPagingSQL(string name)
         {
-            if (!SqlCache.TryGetValue(name, out var value))
+            if (!Volatile.Read(ref sqlCache).TryGetValue(name, out var value))
                 throw new KeyNotFoundException($"SQL element with name {name} is not found.");
             if (value.Length != 2)
                 throw new ArgumentException("Wrong paging SQL configuration.");

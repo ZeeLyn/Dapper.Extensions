@@ -5,21 +5,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Security.Cryptography;
-using System.Collections;
 using Newtonsoft.Json;
 
 namespace Dapper.Extensions.Caching
 {
     public class DefaultCacheKeyBuilder : ICacheKeyBuilder, IDisposable
     {
-        private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ParamProperties = new();
-
-        private static readonly char[] Digitals =
-            { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
+        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> ParamProperties = new();
         private CacheConfiguration CacheConfiguration { get; }
-
-        [ThreadStatic] private static MD5 _md5Hasher;
 
         public DefaultCacheKeyBuilder(CacheConfiguration configuration)
         {
@@ -29,91 +22,37 @@ namespace Dapper.Extensions.Caching
         public string Generate(string sql, object param, string customKey, int? pageIndex = default,
             int? pageSize = default)
         {
+            var prefix = string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : CacheConfiguration.KeyPrefix + ":";
             if (!string.IsNullOrWhiteSpace(customKey))
-                return
-                    $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{customKey}";
-
+                return prefix + customKey;
             if (string.IsNullOrWhiteSpace(sql))
                 throw new ArgumentNullException(nameof(sql));
+            // Dapper 模板参数在绑定前不可完整枚举，不能据此生成可靠的缓存键。
+            if (param is SqlMapper.IDynamicParameters)
+                throw new NotSupportedException("Dynamic parameters require an explicit cacheKey or a custom ICacheKeyBuilder.");
 
-            var builder = new StringBuilder();
-            builder.AppendFormat("{0}:", sql);
+            IEnumerable<KeyValuePair<string, object>> values = Array.Empty<KeyValuePair<string, object>>();
+            if (param is IEnumerable<KeyValuePair<string, object>> dictionary)
+                values = dictionary;
+            else if (param != null)
+                values = ParamProperties.GetOrAdd(param.GetType(), type => type.GetProperties()
+                        .Where(p => p.CanRead && p.GetIndexParameters().Length == 0).ToArray())
+                    .Select(p => new KeyValuePair<string, object>(p.Name, p.GetValue(param)));
 
-            if (param == null)
-                return
-                    $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{HashCacheKey(builder.ToString().TrimEnd(':'))}";
-
-            if (param.GetType().FullName == "Dapper.DynamicParameters")
-            {
-                if (param is DynamicParameters dynamicParameters)
-                    foreach (var paramName in dynamicParameters.ParameterNames)
-                    {
-                        var value = dynamicParameters.Get<object>(paramName);
-                        builder.AppendFormat("{0}={1}&", paramName,
-                            value is IEnumerable ? JsonConvert.SerializeObject(value) : value);
-                    }
-            }
-            else
-            {
-                var prop = GetProperties(param);
-                foreach (var item in prop)
-                {
-                    var value = item.GetValue(param);
-                    builder.AppendFormat("{0}={1}&", item.Name,
-                        value is IEnumerable ? JsonConvert.SerializeObject(value) : value);
-                }
-            }
-
-            if (pageIndex.HasValue)
-            {
-                builder.AppendFormat("pageindex={0}&", pageIndex.Value);
-            }
-
-            if (pageSize.HasValue)
-            {
-                builder.AppendFormat("pagesize={0}&", pageSize.Value);
-            }
-
-            return
-                $"{CacheConfiguration.KeyPrefix}{(string.IsNullOrWhiteSpace(CacheConfiguration.KeyPrefix) ? "" : ":")}{HashCacheKey(builder.ToString().TrimEnd('&'))}";
+            var parameters = values.OrderBy(p => p.Key, StringComparer.Ordinal)
+                .Select(p => new { p.Key, Type = p.Value?.GetType().AssemblyQualifiedName, p.Value }).ToArray();
+            return prefix + Hash(JsonConvert.SerializeObject(new { sql, parameters, pageIndex, pageSize },
+                new JsonSerializerSettings { DateFormatString = "O", Culture = System.Globalization.CultureInfo.InvariantCulture }));
         }
 
-        private static IEnumerable<PropertyInfo> GetProperties(object param)
+        internal static string Hash(string value)
         {
-            return ParamProperties.GetOrAdd(param.GetType(),
-                key => { return key.GetProperties().Where(p => p.CanRead).ToList(); });
-        }
-
-        private static string HashCacheKey(string source)
-        {
-            if (string.IsNullOrWhiteSpace(source))
-                return string.Empty;
-
-            _md5Hasher ??= MD5.Create();
-            var bytes = Encoding.UTF8.GetBytes(source);
-            var hash = _md5Hasher.ComputeHash(bytes);
-            return ToString(hash);
-        }
-
-        private static string ToString(byte[] bytes)
-        {
-            const int byteLen = 2;
-            var chars = new char[byteLen * bytes.Length];
-            var index = 0;
-            foreach (var item in bytes)
-            {
-                chars[index] = Digitals[item >> 4 /* byte high */];
-                ++index;
-                chars[index] = Digitals[item & 15 /* byte low  */];
-                ++index;
-            }
-
-            return new string(chars);
+            using var hash = SHA256.Create();
+            return BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(value))).Replace("-", "");
         }
 
         public void Dispose()
         {
-            _md5Hasher?.Dispose();
         }
     }
 }

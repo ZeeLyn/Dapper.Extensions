@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System;
 using System.Linq;
 using Dapper.Extensions;
@@ -22,7 +23,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void Query()
+        public async Task Query()
         {
             var result1 = await Dapper.QueryAsync<Contact>("select * from Contact;", enableCache: true);
             Assert.True(result1.Count > 0);
@@ -40,7 +41,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void QueryMultiMappingWith2()
+        public async Task QueryMultiMappingWith2()
         {
             var result1 = await Dapper.QueryAsync<Contact, Passport, Contact>(
                 "select Contact.id,Contact.name,Passport.PassportNumber from Contact,Passport where Passport.ContactId=Contact.id;",
@@ -70,7 +71,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void QueryFirstOrDefault()
+        public async Task QueryFirstOrDefault()
         {
             var result1 = await Dapper.QueryFirstOrDefaultAsync<Contact>(
                 "select Contact.name,Contact.id,Passport.PassportNumber from Contact,Passport where Passport.ContactId=Contact.id and Contact.id=@id;",
@@ -100,7 +101,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void QuerySingleOrDefault()
+        public async Task QuerySingleOrDefault()
         {
             var result1 = await Dapper
                 .QuerySingleOrDefaultAsync<Contact>("select id from Contact where id=@id;", new { id = 1 });
@@ -126,7 +127,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void QueryMultiple()
+        public async Task QueryMultiple()
         {
             Dapper.QueryMultiple("select * from Contact;select * from Passport;", async (reader) =>
             {
@@ -178,7 +179,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void ExecuteReader()
+        public async Task ExecuteReader()
         {
             using var reader1 = Dapper.ExecuteReader("select * from Contact;");
             while (reader1.Read())
@@ -194,7 +195,7 @@ namespace XUnitTest
         }
 
         [Fact]
-        public async void QueryPage()
+        public async Task QueryPage()
         {
             var result1 = Dapper.QueryPage("select count(*) from contact;",
                 "select * from contact limit @Take OFFSET @Skip;", 1, 1);

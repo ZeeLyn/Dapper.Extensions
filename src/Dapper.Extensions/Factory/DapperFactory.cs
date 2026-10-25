@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dapper.Extensions.Factory
 {
+    [Obsolete("The Autofac-backed static factory is deprecated. Use IServiceCollection, IServiceScopeFactory and IDapperResolver instead.", false)]
     public static class DapperFactory
     {
         private static ExtensionBuilder Builder { get; set; }
@@ -49,7 +50,6 @@ namespace Dapper.Extensions.Factory
             Builder.Service.AddLogging();
             Builder.ContainerBuilder.RegisterType<ResolveContext>().As<IResolveContext>().InstancePerLifetimeScope();
             Builder.ContainerBuilder.Populate(Builder.Service);
-            Builder.ServiceProvider = Builder.Service.BuildServiceProvider();
             Builder.Container = Builder.ContainerBuilder.Build();
         }
 

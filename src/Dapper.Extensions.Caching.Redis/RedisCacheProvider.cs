@@ -17,7 +17,9 @@ namespace Dapper.Extensions.Caching.Redis
 
         public bool TrySet<TResult>(string key, TResult result, TimeSpan? expired = null)
         {
-            Client.Set(key, Serializer.Serialize(new CacheValue<TResult>(result)), expired.HasValue ? (int)expired.Value.TotalSeconds : 0);
+            if (expired.HasValue && expired.Value < TimeSpan.FromMilliseconds(1))
+                throw new ArgumentOutOfRangeException(nameof(expired), "Expiration must be at least one millisecond, or null for no expiration.");
+            Client.Set(key, Serializer.Serialize(new CacheValue<TResult>(result)), expired ?? TimeSpan.Zero);
             return true;
         }
 

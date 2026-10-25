@@ -27,8 +27,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SourceGear.sqlite3" Version="3.53.3" />
-		<PackageReference Include="System.Data.SQLite" Version="2.0.3" />
+		<PackageReference Include="SourceGear.sqlite3" Version="3.53.4" />
+		<PackageReference Include="System.Data.SQLite" Version="2.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
