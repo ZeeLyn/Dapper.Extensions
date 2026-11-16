@@ -12,6 +12,17 @@ A Dapper extension library for .NET applications.
 
 This guide describes the current repository APIs. The new Microsoft DI overloads and `FromDapperAttribute` are available in this source tree and require a package release containing these changes.
 
+All ten library projects include a `net11.0` target alongside their existing frameworks. The console example, web example and test project target both .NET 10 and .NET 11. Building this repository requires .NET SDK 11.0.100 or a later patch in the same feature band, as configured in `global.json`. Existing target frameworks remain available to package consumers.
+
+```shell
+dotnet build Dapper.Extensions.sln -c Release
+dotnet test XUnitTest/XUnitTest.csproj -c Release
+dotnet run --project ConsoleApp/ConsoleApp.csproj --framework net11.0
+dotnet run --project Example/Example.csproj --framework net11.0
+```
+
+Select `--framework net10.0` to run either example on .NET 10. The web example's folder publish profile targets .NET 11.
+
 - [Getting started](#getting-started)
 - [Connections and Microsoft DI](#connections-and-microsoft-di)
 - [Queries and paging](#queries-and-paging)
